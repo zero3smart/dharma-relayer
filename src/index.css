@@ -1,5 +1,7 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+@import './common/styles/optimize.css';
+@import './common/styles/default.css';
+
+.wrapper {
+  height: 100%;
 }
+

@@ -1,0 +1,29 @@
+.app {
+  height: 100%;
+  color: #ffffff;
+  background-color:#1e1916;
+  padding-top:40px;
+  padding-bottom: 40px;
+}
+
+.app__container{
+  background-color: #222222;
+  height: 100%;
+  display:flex;
+  justify-content: space-around;
+}
+
+.app__content-left{
+  flex-grow: 1;
+  margin-left:32px;
+}
+.app__content-center{
+  flex-grow: 3;
+  margin-left:32px;
+  margin-right:32px;
+}
+.app__content-right{
+  flex-grow: 1;
+  margin-right:32px;
+}
+
