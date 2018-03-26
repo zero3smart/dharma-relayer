@@ -1,6 +1,7 @@
 .wallet-info{
-  padding: 10px 20px;
+  padding: 20px 30px;
   line-height: 18px;
+  font-weight: 600;
 }
 
 .wallet-info__address{
@@ -14,7 +15,6 @@
 }
 .wallet-info__balance{
   font-size: 18px;
-  font-weight: 600;
   flex-basis: 60%;
 }
 .wallet-info__currency-container{
@@ -27,5 +27,5 @@
   text-transform: uppercase;
 }
 .wallet-info__currency_active{
-  font-weight: 600;
+  font-weight: 800;
 }

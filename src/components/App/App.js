@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from '../../reducers';
 import './App.css';
-import WalletInfoContainer from '../../containers/wallet-info-container/wallet-info-container';
+import UserInfo from '../user-info/user-info.js';
 import LoanRequests from '../loan-requests/loan-requests';
 
 const store = createStore(
@@ -20,9 +20,7 @@ class App extends Component {
         <div className="app">
           <div className="app__container">
             <div className="app__content-left">
-              <div className="app__wallet-info">
-                <WalletInfoContainer />
-              </div>
+              <UserInfo />
             </div>
             <div className="app__content-center">
               <LoanRequests />

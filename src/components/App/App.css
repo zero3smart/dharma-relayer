@@ -1,5 +1,5 @@
 .app {
-  height: 100%;
+  min-height: 100%;
   color: #ffffff;
   background-color:#1e1916;
   padding-top:40px;
@@ -14,16 +14,18 @@
 }
 
 .app__content-left{
-  flex-basis: 20%;
+  flex-basis: 18%;
   margin-left:32px;
 }
+
 .app__content-center{
-  flex-basis: 60%;
+  flex-basis: 64%;
   margin-left:32px;
   margin-right:32px;
 }
+
 .app__content-right{
-  flex-basis: 20%;
+  flex-basis: 18%;
   margin-right:32px;
 }
 

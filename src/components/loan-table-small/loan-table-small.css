@@ -1,0 +1,29 @@
+.loan-table-small{
+  max-height: 400px;
+}
+
+.loan-table-small__header{
+  font-size: 18px;
+  font-weight: 600;
+  padding-left:16px;
+}
+
+.loan-table-small__table{
+  text-align:center;
+}
+
+.loan-table-small__table-headers{
+  background-color:#1e1916;
+}
+
+.loan-table-small__table-header{
+  padding: 8px;
+  text-align:left;
+}
+
+.loan-table-small__table-cell{
+  padding: 5px;
+  font-size: 12px;
+  color: #d7cec0;
+  text-align:left;
+}
