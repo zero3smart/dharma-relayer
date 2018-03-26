@@ -1,0 +1,27 @@
+.wallet-info{
+  padding: 10px 20px;
+  line-height: 18px;
+}
+
+.wallet-info__address{
+  font-size: 10px;
+  padding-left: 8px;
+}
+.wallet-info__balance-info{
+  display:flex;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+.wallet-info__balance{
+  font-size: 18px;
+  font-weight: 600;
+  flex-basis: 60%;
+}
+.wallet-info__currency-container{
+  flex-basis: 40%;
+  display:flex;
+}
+.wallet-info__currency{
+  margin: 0 8px;
+  cursor: pointer;
+}
