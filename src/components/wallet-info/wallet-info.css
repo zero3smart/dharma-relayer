@@ -24,4 +24,8 @@
 .wallet-info__currency{
   margin: 0 8px;
   cursor: pointer;
+  text-transform: uppercase;
+}
+.wallet-info__currency_active{
+  font-weight: 600;
 }
