@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './loan-requests.css';
 
-export default class LoanRequests extends Component{
+class LoanRequests extends Component{
   render(){
     return (
       <div>
@@ -11,4 +11,4 @@ export default class LoanRequests extends Component{
   }
 }
 
-
+export default LoanRequests;

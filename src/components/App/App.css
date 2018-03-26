@@ -14,16 +14,16 @@
 }
 
 .app__content-left{
-  flex-grow: 1;
+  flex-basis: 20%;
   margin-left:32px;
 }
 .app__content-center{
-  flex-grow: 3;
+  flex-basis: 60%;
   margin-left:32px;
   margin-right:32px;
 }
 .app__content-right{
-  flex-grow: 1;
+  flex-basis: 20%;
   margin-right:32px;
 }
 
