@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import {reducer as formReducer} from 'redux-form';
 import * as CurrencyCodes from '../common/currencyCodes.js';
 import {SELECT_CURRENCY} from '../actions';
 
@@ -16,7 +17,8 @@ function walletInfoReducer(state = {
 }
 
 const rootReducer = combineReducers({
-  walletInfo: walletInfoReducer
+  walletInfo: walletInfoReducer,
+  form: formReducer
 });
 
 export default rootReducer;
