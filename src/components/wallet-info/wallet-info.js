@@ -6,6 +6,8 @@ class WalletInfo extends Component{
   constructor(props){
     super(props);
 
+    this.props.getWalletBalance();
+
     this.renderCurrencyItem = this.renderCurrencyItem.bind(this);
   }
 
@@ -35,7 +37,7 @@ class WalletInfo extends Component{
           Tokens Balance
           <div className="wallet-info__balance-info">
             <div className="wallet-info__balance">
-              {amount} $
+              {(amount && amount.toString()) || 0} $
             </div>
             <div className="wallet-info__currency-container">
               {this.renderCurrencyItem(CurrencyCodes.ETH, selectedCurrency === CurrencyCodes.ETH)}

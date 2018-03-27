@@ -1,3 +1,9 @@
 export const ETH='ETH';
 export const USD='USD';
 export const EUR='EUR';
+export const EOS='EOS';
+export const QTUM='QTUM';
+export const OMG='OMG';
+export const MKR='MKR';
+export const DAI='DAI';
+export const REP='REP';

@@ -59,3 +59,7 @@
   height: 32px;
   width: 200px;
 }
+.loan-request-form_disabled{
+  background-color: #ababab;
+  cursor: not-allowed;
+}

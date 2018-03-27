@@ -2,36 +2,65 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector } from 'redux-form';
 import './place-loan-request.css';
-import {allowCollateral} from '../../actions';
+import {allowCollateral, placeLoanRequest} from '../../actions';
+import * as CurrencyCodes from '../../common/currencyCodes';
+
+const amortizationValues = {
+  end: 'End Of Loan Term',
+  daily: 'Daily',
+  weekly: 'Weekly',
+  monthly: 'Monthly'
+}
 
 const termValues = {
-  30: '30 days',
-  60: '60 days',
-  90: '90 days'
+  1: {name: '1 day', amortizationFrequencies: [amortizationValues.end]},
+  7: {name: '7 days', amortizationFrequencies: [amortizationValues.daily, amortizationValues.end]},
+  30: {name: '30 days', amortizationFrequencies: [amortizationValues.weekly, amortizationValues.end]},
+  90: {name: '90 days', amortizationFrequencies: [amortizationValues.monthly, amortizationValues.end]},
+  180: {name: '180 days', amortizationFrequencies: [amortizationValues.monthly, amortizationValues.end]},
+  360: {name: '360 days', amortizationFrequencies: [amortizationValues.monthly, amortizationValues.end]}
 };
 
-const numberOnly = (value) => {
-  let parsed = Number.parseInt(value);
-  return isNaN(parsed) ? null : parsed;
-};
 const floatOnly = (value) => {
-  //let parsed = Number.parseFloat(value);
-  //return isNaN(parsed) ? null : (value.endsWith('.') ? value : parsed) ;
-
   if (value === null || value === '' || value === undefined) { return '' }
   let v = value.toString().replace(/[^\d.]/g, '')
-  v = v.slice(0, v.indexOf('.') >= 0 ? v.indexOf('.') + 3 : undefined)
+  v = v.slice(0, v.indexOf('.') >= 0 ? v.indexOf('.') + 6 : undefined)
   return v
 };
 const required = value => (value ? false : true);
 
 class PlaceLoanRequest extends Component{
-  allowCollateralUseClick(amount){
-    this.props.allowCollateral(amount);
+  allowCollateralUseClick({amount}){
+    this.props.allowCollateral(1.5 * amount);
+  }
+
+  placeLoanRequestClick(values){
+    //if(!this.props.collateralAllowed){
+    //  alert('You should Allow Collateral use');
+    //  return;
+    //}
+    this.props.placeLoanRequest(values);
+  }
+
+  renderAmortizationFrequencySelect(selectedTerm){
+    let selected = true;
+    return (
+      <Field name="amortizationFrequency" className="loan-request-form__select" component="select">
+        {
+          termValues[selectedTerm].amortizationFrequencies.map(freq => {
+            if(selected){
+              selected = false;
+              return (<option selected value={freq}>{freq}</option>);
+            }
+            return (<option value={freq}>{freq}</option>);
+          })
+        }
+      </Field>
+    );
   }
 
   render(){
-    const { handleSubmit } = this.props;
+    const { handleSubmit, valid, collateralAllowed, term } = this.props;
 
     return (
       <div className="loan-request-form">
@@ -43,12 +72,17 @@ class PlaceLoanRequest extends Component{
               placeholder="Amount"
               component="input"
               validate={required}
-              normalize={numberOnly}/>
+              normalize={floatOnly}/>
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="currency" className="loan-request-form__select" component="select">
-              <option>ETH</option>
-              <option>USD</option>
+              <option value={CurrencyCodes.ETH}>{CurrencyCodes.ETH}</option>
+              <option value={CurrencyCodes.EOS}>{CurrencyCodes.EOS}</option>
+              <option value={CurrencyCodes.QTUM}>{CurrencyCodes.QTUM}</option>
+              <option value={CurrencyCodes.OMG}>{CurrencyCodes.OMG}</option>
+              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
+              <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
+              <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
             </Field>
           </div>
         </div>
@@ -58,9 +92,12 @@ class PlaceLoanRequest extends Component{
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="term" className="loan-request-form__select" component="select">
-              <option value="30" selected>{termValues['30']}</option>
-              <option value="60">{termValues['60']}</option>
-              <option value="90">{termValues['90']}</option>
+              <option value="1">{termValues['1'].name}</option>
+              <option value="7">{termValues['7'].name}</option>
+              <option value="30">{termValues['30'].name}</option>
+              <option value="90">{termValues['90'].name}</option>
+              <option value="180">{termValues['180'].name}</option>
+              <option value="360">{termValues['360'].name}</option>
             </Field>
           </div>
         </div>
@@ -69,15 +106,10 @@ class PlaceLoanRequest extends Component{
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
-            {this.props.term ? termValues[this.props.term] : termValues['30']} loan
+            {term ? termValues[term].name : termValues['30'].name} loan
           </div>
           <div className="loan-request-form__select-wrapper">
-            <select className="loan-request-form__select">
-               <option>monthly</option>
-               <option>weekly</option>
-               <option>daily</option>
-            </select>
-
+            {term && this.renderAmortizationFrequencySelect(term)}
           </div>
         </div>
         <div className="loan-request-form__row">
@@ -95,11 +127,15 @@ class PlaceLoanRequest extends Component{
             Collateral type
           </div>
           <div className="loan-request-form__select-wrapper">
-            <select className="loan-request-form__select">
-              <option>ETH</option>
-              <option>EUR</option>
-              <option>USD</option>
-            </select>
+            <Field name="collateralType" className="loan-request-form__select" component="select">
+              <option value={CurrencyCodes.ETH}>{CurrencyCodes.ETH}</option>
+              <option value={CurrencyCodes.EOS}>{CurrencyCodes.EOS}</option>
+              <option value={CurrencyCodes.QTUM}>{CurrencyCodes.QTUM}</option>
+              <option value={CurrencyCodes.OMG}>{CurrencyCodes.OMG}</option>
+              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
+              <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
+              <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
+            </Field>
           </div>
         </div>
         <div className="loan-request-form__row">
@@ -108,9 +144,8 @@ class PlaceLoanRequest extends Component{
           </div>
           <div className="loan-request-form__collateral-input-wrapper">
             <button
-              value="Allow Collateral use"
-              className="loan-request-form__collateral-btn"
-              onClick={handleSubmit(({amount}) => this.allowCollateralUseClick(amount))}>
+              className={"loan-request-form__collateral-btn " + (valid ? "" : "loan-request-form_disabled")}
+              onClick={handleSubmit(this.allowCollateralUseClick.bind(this))}>
               Allow collateral use
             </button>
           </div>
@@ -119,7 +154,9 @@ class PlaceLoanRequest extends Component{
           <span>Relayer fee 0.00%</span>
         </div>
         <div className="loan-request-form__place-btn-wrapper">
-          <button className="loan-request-form__place-btn">
+          <button
+            className={"loan-request-form__place-btn " + (valid && collateralAllowed ? "" : "loan-request-form_disabled")}
+            onClick={handleSubmit(this.placeLoanRequestClick.bind(this))}>
             PLACE LOAN REQUEST
           </button>
         </div>
@@ -132,9 +169,18 @@ const selector = formValueSelector('LoanRequestForm');
 
 let mapStateToProps = state => ({
   amount: selector(state, 'amount'),
-  term: selector(state, 'term')
+  term: selector(state, 'term'),
+  amortizationFrequency: selector(state, 'amortizationFrequency'),
+  collateralAllowed: state.collateralAllowed
 });
 
-let mapDispatchToProps = {allowCollateral};
+let mapDispatchToProps = {allowCollateral, placeLoanRequest};
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({form: 'LoanRequestForm'})(PlaceLoanRequest));
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+  form: 'LoanRequestForm',
+  initialValues:{
+    term: 7,
+    currency: CurrencyCodes.ETH,
+    collateralType:CurrencyCodes.ETH
+  }
+})(PlaceLoanRequest));
