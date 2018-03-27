@@ -5,7 +5,8 @@ import thunkMiddleware from 'redux-thunk';
 import rootReducer from '../../reducers';
 import './App.css';
 import UserInfo from '../user-info/user-info.js';
-import LoanRequests from '../loan-requests/loan-requests';
+import LoanRequests from '../../containers/loan-requests/loan-requests';
+import IssuedLoans from '../../containers/issued-loans/issued-loans';
 
 const store = createStore(
   rootReducer,
@@ -25,7 +26,9 @@ class App extends Component {
             <div className="app__content-center">
               <LoanRequests />
             </div>
-            <div className="app__content-right">right</div>
+            <div className="app__content-right">
+              <IssuedLoans />
+            </div>
           </div>
         </div>
       </Provider>

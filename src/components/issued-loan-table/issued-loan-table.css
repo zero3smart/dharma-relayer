@@ -1,0 +1,14 @@
+.loan-table-header {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0 10px;
+}
+
+.loan-table-headers {
+    background-color: #474747;
+}
+
+.loan-table-stripe tbody tr:nth-of-type(odd) {
+    background-color: #1e1916;
+}
