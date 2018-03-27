@@ -8,6 +8,15 @@
   display: flex;
   margin-bottom: 5px;
 }
+.loan-request-form__label-wrapper{
+  flex-basis: 70%;
+  background-color: #d7cec0;
+  height: 32.8px;
+  color: #000000;
+  padding: 8px;
+  font-weight: 600;
+
+}
 .loan-request-form__input-wrapper{
   flex-basis: 70%;
 }
