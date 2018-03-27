@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import WalletInfoContainer from '../../containers/wallet-info-container/wallet-info-container';
-import LoanRequests from '../loan-requests/loan-requests';
 import PlaceLoanRequest from '../place-loan-request/place-loan-request.js';
 import OpenLoanRequests from '../../containers/open-loan-requests/open-loan-requests';
 import OutstandingLoans from '../../containers/outstanding-loans/outstanding-loans';
