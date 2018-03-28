@@ -9,23 +9,23 @@
 .app__container{
   background-color: #222222;
   height: 100%;
-  display:flex;
-  justify-content: space-around;
+  /*display:flex;*/
+  /*justify-content: space-around;*/
 }
 
 .app__content-left{
-  flex-basis: 18%;
-  margin-left:32px;
+  /*flex-basis: 18%;*/
+  /*margin-left:32px;*/
 }
 
 .app__content-center{
-  flex-basis: 64%;
-  margin-left:32px;
-  margin-right:32px;
+  /*flex-basis: 64%;*/
+  /*margin-left:32px;*/
+  /*margin-right:32px;*/
 }
 
 .app__content-right{
-  flex-basis: 18%;
-  margin-right:32px;
+  /*flex-basis: 18%;*/
+  /*margin-right:32px;*/
 }
 

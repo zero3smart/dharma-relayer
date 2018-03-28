@@ -19,15 +19,17 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="app">
-          <div className="app__container">
-            <div className="app__content-left">
-              <UserInfo />
-            </div>
-            <div className="app__content-center">
-              <LoanRequests />
-            </div>
-            <div className="app__content-right">
-              <IssuedLoans />
+          <div className="app__container container-fluid">
+            <div class="row flex-sm-nowrap">
+              <div className="app__content-left col-sm">
+                <UserInfo />
+              </div>
+              <div className="app__content-center col-sm">
+                <LoanRequests />
+              </div>
+              <div className="app__content-right col-sm">
+                <IssuedLoans />
+              </div>
             </div>
           </div>
         </div>

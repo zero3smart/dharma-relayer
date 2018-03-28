@@ -1,5 +1,12 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
+import {getLoansRequests} from '../../actions';
 import LoanRequestsTable from '../../components/loan-request-table/loan-request-table';
+
+const propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    data: PropTypes.number.isRequired
+};
 
 let data = [
     {
@@ -89,12 +96,30 @@ let data = [
     }
 ];
 
-class LoanRequests extends Component{
-  render(){
-    return (
-      <LoanRequestsTable header="Loan Requests" rows={data}/>
-    );
-  }
+class LoanRequests extends Component {
+    constructor(props) {
+        super(props);
+
+        this.fundClick = this.fundClick.bind(this);
+    }
+
+    fundClick() {
+        this.props.dispatch();
+    }
+
+    render() {
+        return (
+            <LoanRequestsTable header="Loan Requests" rows={data}/>
+        );
+    }
 }
 
-export default LoanRequests;
+LoanRequests.propTypes = propTypes;
+
+function mapStateToProps(state) {
+    const data = state.loans;
+
+    return data;
+}
+
+export default connect(mapStateToProps, getLoansRequests)(LoanRequests);
