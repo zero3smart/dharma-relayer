@@ -11,7 +11,7 @@ import contract from 'truffle-contract';
 export default async function(amount, token){
   let provider = web3.currentProvider;
   let tokenSource = getTokenSource(token);
-  if(tokenSource){
+  if(!tokenSource){
     throw new Error(`Configuration for token ${token} wasn't found`);
   }
 
