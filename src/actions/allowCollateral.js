@@ -4,14 +4,14 @@ export const ALLOW_COLLATERAL = 'ALLOW_COLLATERAL';
 export const ALLOW_COLLATERAL_SUCCESS = 'ALLOW_COLLATERAL_SUCCESS';
 export const ALLOW_COLLATERAL_FAIL = 'ALLOW_COLLATERAL_FAIL';
 
-export function allowCollateral (amount){
+export function allowCollateral (amount, token){
   return dispatch => {
     dispatch({
       type: ALLOW_COLLATERAL,
       amount: amount
     });
 
-    return allowCollateralUse(amount)
+    return allowCollateralUse(amount, token)
       .then(() => {
         dispatch({
           type: ALLOW_COLLATERAL_SUCCESS,

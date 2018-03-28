@@ -30,8 +30,8 @@ const floatOnly = (value) => {
 const required = value => (value ? false : true);
 
 class PlaceLoanRequest extends Component{
-  allowCollateralUseClick({amount}){
-    this.props.allowCollateral(1.5 * amount);
+  allowCollateralUseClick({amount, collateralType}){
+    this.props.allowCollateral(1.5 * amount, collateralType);
   }
 
   placeLoanRequestClick(values){
@@ -128,13 +128,10 @@ class PlaceLoanRequest extends Component{
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="collateralType" className="loan-request-form__select" component="select">
-              <option value={CurrencyCodes.ETH}>{CurrencyCodes.ETH}</option>
-              <option value={CurrencyCodes.EOS}>{CurrencyCodes.EOS}</option>
-              <option value={CurrencyCodes.QTUM}>{CurrencyCodes.QTUM}</option>
-              <option value={CurrencyCodes.OMG}>{CurrencyCodes.OMG}</option>
-              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
               <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
               <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
+              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
+              <option value={CurrencyCodes.ZRX}>{CurrencyCodes.ZRX}</option>
             </Field>
           </div>
         </div>
@@ -181,6 +178,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   initialValues:{
     term: 7,
     currency: CurrencyCodes.ETH,
-    collateralType:CurrencyCodes.ETH
+    collateralType:CurrencyCodes.DAI
   }
 })(PlaceLoanRequest));
