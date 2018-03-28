@@ -1,63 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {getLoansRequests} from '../../actions';
+import { getLoanRequests } from '../../actions';
 import LoanRequestsTable from '../../components/loan-request-table/loan-request-table';
-
-const propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    data: PropTypes.number.isRequired
-};
 
 let data = [
     {
-        date: '2018-03-21/2018-04/21',
-        amount: '100',
-        token: 'ETH',
-        term: '30',
-        interest: '24',
-        colAmount: '150',
-        colToken: 'ETH',
-        amortization: '30',
-        repayment: '102',
-        underwriter: 'N/A',
-        score: 'N/A',
-    }, {
-        date: '2018-03-21/2018-04/21',
-        amount: '100',
-        token: 'ETH',
-        term: '30',
-        interest: '24',
-        colAmount: '150',
-        colToken: 'ETH',
-        amortization: '30',
-        repayment: '102',
-        underwriter: 'N/A',
-        score: 'N/A',
-    }, {
-        date: '2018-03-21/2018-04/21',
-        amount: '100',
-        token: 'ETH',
-        term: '30',
-        interest: '24',
-        colAmount: '150',
-        colToken: 'ETH',
-        amortization: '30',
-        repayment: '102',
-        underwriter: 'N/A',
-        score: 'N/A',
-    }, {
-        date: '2018-03-21/2018-04/21',
-        amount: '100',
-        token: 'ETH',
-        term: '30',
-        interest: '24',
-        colAmount: '150',
-        colToken: 'ETH',
-        amortization: '30',
-        repayment: '102',
-        underwriter: 'N/A',
-        score: 'N/A',
-    }, {
         date: '2018-03-21/2018-04/21',
         amount: '100',
         token: 'ETH',
@@ -97,29 +44,23 @@ let data = [
 ];
 
 class LoanRequests extends Component {
-    constructor(props) {
-        super(props);
-
-        this.fundClick = this.fundClick.bind(this);
-    }
-
-    fundClick() {
-        this.props.dispatch();
+    componentDidMount(){
+        this.props.getLoanRequests();
     }
 
     render() {
+        let {loanRequests} = this.props;
+        
         return (
-            <LoanRequestsTable header="Loan Requests" rows={data}/>
+            <LoanRequestsTable header="Loan Requests" rows={loanRequests}/>
         );
     }
 }
 
-LoanRequests.propTypes = propTypes;
+let mapStateToProps = ({loanRequests}) => ({
+    loanRequests
+});
 
-function mapStateToProps(state) {
-    const data = state.loans;
+let mapDispatchToProps = { getLoanRequests };
 
-    return data;
-}
-
-export default connect(mapStateToProps, getLoansRequests)(LoanRequests);
+export default connect(mapStateToProps, mapDispatchToProps)(LoanRequests);

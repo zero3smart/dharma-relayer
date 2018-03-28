@@ -3,7 +3,7 @@ import {reducer as formReducer} from 'redux-form';
 import * as CurrencyCodes from '../common/currencyCodes.js';
 import {SELECT_CURRENCY, ALLOW_COLLATERAL_SUCCESS, GET_WALLET_BALANCE_SUCCESS, FETCH_OPEN_LOAN_REQUESTS_SUCCESS} from '../actions';
 import web3 from '../common/services/web3Service';
-import loansRequestReducer from "./loansRequestReducer";
+import loanRequestReducer from './loanRequestReducer';
 
 function walletInfoReducer(state = {
     address: web3.eth.defaultAccount,
@@ -46,7 +46,7 @@ function openLoanRequestsReducer(state = [], action){
 const rootReducer = combineReducers({
     walletInfo: walletInfoReducer,
     collateralAllowed: collateralAllowedReducer,
-    loans: loansRequestReducer,
+    loanRequests: loanRequestReducer,
     openLoanRequests: openLoanRequestsReducer,
     form: formReducer
 });

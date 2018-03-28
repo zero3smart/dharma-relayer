@@ -19,7 +19,7 @@ export function fetchOpenLoanRequests(){
   return dispatch => {
     dispatch(fetchOpenLoanRequestsStart());
 
-    return debtsApi.getAll(web3.eth.defaultAccount, loanStatuses.SIGNED_BY_DEBTOR)
+    return debtsApi.getAll(loanStatuses.SIGNED_BY_DEBTOR, web3.eth.defaultAccount)
       .then(debts => {dispatch(fetchOpenLoanRequestsSuccess(debts))});
   }
 }

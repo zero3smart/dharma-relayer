@@ -1,53 +1,30 @@
 import debtsApi from '../common/api/debts';
 import * as loanStatuses from '../common/loanStatuses';
-import web3 from '../common/services/web3Service';
 
-export const GET_LOAN_REQUESTS = 'GET_LOANS';
-export const GET_LOAN_REQUESTS_SUCCESS = 'GET_LOANS_SUCCESS';
-export const GET_LOAN_REQUESTS_FAIL = 'GET_LOANS_FAIL';
+export const GET_LOAN_REQUESTS = 'GET_LOAN_REQUESTS';
+export const GET_LOAN_REQUESTS_SUCCESS = 'GET_LOAN_REQUESTS_SUCCESS';
+export const GET_LOAN_REQUESTS_FAIL = 'GET_LOAN_REQUESTS_FAIL';
 
 const getLoanRequestsStart = () => ({
     type: GET_LOAN_REQUESTS
 });
 
-const getLoanRequestsSuccess = (debts) => ({
+const getLoanRequestsSuccess = (loans) => ({
     type: GET_LOAN_REQUESTS_SUCCESS,
     loans
 });
 
-const getLoanRequestsSuccess = (debts) => ({
-    type: GET_LOAN_REQUESTS_SUCCESS,
-    loans
+const getLoanRequestsFail = (error) => ({
+    type: GET_LOAN_REQUESTS_FAIL,
+    error
 });
 
 export function getLoanRequests(){
     return dispatch => {
         dispatch(getLoanRequestsStart());
 
-        return debtsApi.getAll(web3.eth.defaultAccount, loanStatuses.SIGNED_BY_DEBTOR)
+        return debtsApi.getAll(loanStatuses.SIGNED_BY_DEBTOR)
             .then(loans => {dispatch(getLoanRequestsSuccess(loans))})
-            .catch(err => {dispatch()});
+            .catch(err => {dispatch(getLoanRequestsFail(err))});
     }
-}
-
-export function fetchLoanRequests (){
-  return dispatch => {
-    dispatch({
-      type: GET_LOANS
-    });
-
-    return getLoans()
-      .then(loans => {
-        dispatch({
-          type: GET_LOANS_SUCCESS,
-          loans: loans
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: GET_LOANS_FAIL
-        });
-        Promise.reject(err);
-      });
-  };
 }
