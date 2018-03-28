@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './loan-table-small.css';
 
 
 function renderRows(rows){
+  let i=0;
   return rows.map(row => {
     return (
-        <tr>
+        <tr key={i++}>
           <td className="loan-table-small__table-cell">{row.date}</td>
           <td className="loan-table-small__table-cell">{row.amount}</td>
           <td className="loan-table-small__table-cell">{row.term}</td>

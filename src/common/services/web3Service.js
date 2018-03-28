@@ -9,3 +9,17 @@ if (typeof window.web3 !== 'undefined') {
 }
 
 export default window.web3;
+
+export function getWalletBalance(){
+  return new Promise((resolve, reject) => {
+    resolve(new window.web3.BigNumber('1000'));
+    //window.web3.eth.getBalance(window.web3.eth.defaultAccount, (err, balance) => {
+    //  if(err){
+    //    reject(err);
+    //  }
+    //  else{
+    //    resolve(balance);
+    //  }
+    //});
+  });
+}

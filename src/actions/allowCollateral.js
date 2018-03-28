@@ -11,9 +11,7 @@ export function allowCollateral (amount){
       amount: amount
     });
 
-    let spender = '0x16d32B7855654B71356a63135A886E7EF345d9f8';
-
-    return allowCollateralUse(spender, amount)
+    return allowCollateralUse(amount)
       .then(() => {
         dispatch({
           type: ALLOW_COLLATERAL_SUCCESS,
