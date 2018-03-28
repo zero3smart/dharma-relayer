@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dharmaprotocol/dharma.js": "0.0.29",
+    "@dharmaprotocol/dharma.js": "0.0.14",
     "axios": "^0.18.0",
+    "bignumber.js": "^5.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
@@ -12,6 +13,7 @@
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
     "redux-thunk": "^2.2.0",
+    "tiny-promisify": "^1.0.0",
     "truffle-contract": "^3.0.4"
   },
   "scripts": {
