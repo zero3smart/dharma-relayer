@@ -7,3 +7,4 @@ export const OMG='OMG';
 export const MKR='MKR';
 export const DAI='DAI';
 export const REP='REP';
+export const ZRX='ZRX';

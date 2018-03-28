@@ -12,14 +12,25 @@ export default window.web3;
 
 export function getWalletBalance(){
   return new Promise((resolve, reject) => {
-    resolve(new window.web3.BigNumber('1000'));
-    //window.web3.eth.getBalance(window.web3.eth.defaultAccount, (err, balance) => {
-    //  if(err){
-    //    reject(err);
-    //  }
-    //  else{
-    //    resolve(balance);
-    //  }
-    //});
+    //resolve(new window.web3.BigNumber('1000'));
+    window.web3.eth.getBalance(window.web3.eth.defaultAccount, (err, balance) => {
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve(window.web3.fromWei(balance));
+      }
+    });
+  });
+}
+
+export function getNetwork(){
+  return new Promise((resolve, reject) => {
+    window.web3.version.getNetwork((err, netId) => {
+      if(err){
+        reject(err);
+      }
+      resolve(netId);
+    });
   });
 }

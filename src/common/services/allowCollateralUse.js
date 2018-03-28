@@ -1,23 +1,40 @@
-import web3 from './web3Service';
-import data from '../DummyToken.json';
+import web3, {getNetwork} from './web3Service';
+//import data from '../DummyToken.json';
+import DAI from '../tokenJson/DAI.json';
+import MKR from '../tokenJson/MKR.json';
+import REP from '../tokenJson/REP.json';
+import ZRX from '../tokenJson/ZRX.json';
+import * as currencyCodes from '../currencyCodes';
+
 import contract from 'truffle-contract';
 
-export default async function(amount){
-  var provider = web3.currentProvider;
-  var MyContract = contract(data);
+export default async function(amount, token){
+  let provider = web3.currentProvider;
+  let tokenSource = getTokenSource(token);
+  if(tokenSource){
+    throw new Error(`Configuration for token ${token} wasn't found`);
+  }
+
+  let MyContract = contract(tokenSource);
   MyContract.setProvider(provider);
-
   let deployedContract = await MyContract.deployed();
+  let currentNetwork = await getNetwork();
 
-  let currentNetwork = await new Promise((resolve, reject) => {
-    web3.version.getNetwork((err, netId) => {
-      if(err){
-        reject(err);
-      }
-      resolve(netId);
-    });
-  });
-  //let spender = '0x16d32B7855654B71356a63135A886E7EF345d9f8';
-  let spender = data.networks[currentNetwork].address;
+  let spender = tokenSource.networks[currentNetwork].address;
   await deployedContract.approve(spender, amount);
+}
+
+function getTokenSource(token){
+  switch(token){
+    case currencyCodes.DAI:
+      return DAI;
+    case currencyCodes.MKR:
+      return MKR;
+    case currencyCodes.REP:
+      return REP;
+    case currencyCodes.ZRX:
+      return ZRX;
+    default:
+      return null;
+  }
 }
