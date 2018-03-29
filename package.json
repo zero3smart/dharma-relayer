@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dharmaprotocol/dharma.js": "0.0.30",
-    "abi-decoder": "^1.1.0",
+    "@dharmaprotocol/dharma.js": "0.0.32",
     "axios": "^0.18.0",
     "bootstrap": "^4.0.0",
     "bignumber.js": "^5.0.0",
