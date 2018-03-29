@@ -120,6 +120,7 @@ class PlaceLoanRequest extends Component{
               className="loan-request-form__input"
               placeholder="Max interest rate (annual)"
               component="input"
+              validate={required}
               normalize={floatOnly}/>
           </div>
         </div>

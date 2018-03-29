@@ -1,7 +1,14 @@
 import { combineReducers } from 'redux';
 import {reducer as formReducer} from 'redux-form';
 import * as CurrencyCodes from '../common/currencyCodes.js';
-import {SELECT_CURRENCY, ALLOW_COLLATERAL_SUCCESS, GET_WALLET_BALANCE_SUCCESS, FETCH_OPEN_LOAN_REQUESTS_SUCCESS} from '../actions';
+import {
+  SELECT_CURRENCY,
+  ALLOW_COLLATERAL_SUCCESS,
+  GET_WALLET_BALANCE_SUCCESS,
+  FETCH_SIGNED_BY_DEBTOR_SUCCESS,
+  FETCH_FILLED_DEBTS_SUCCESS
+
+} from '../actions';
 import web3 from '../common/services/web3Service';
 
 function walletInfoReducer(state = {
@@ -28,15 +35,19 @@ function collateralAllowedReducer(state = false, action){
   }
 }
 
-function openLoanRequestsReducer(state = [], action){
+function signedByDebtorReducer(state = [], action){
   switch(action.type){
-    case FETCH_OPEN_LOAN_REQUESTS_SUCCESS:
-      return action.debts.map(debt => ({
-        amount: debt.principalAmount,
-        date: '2018-03-24 17:59:59',
-        term: '90 day',
-        interest: '10%'
-      }));
+    case FETCH_SIGNED_BY_DEBTOR_SUCCESS:
+      return action.debts;
+    default:
+      return state;
+  }
+}
+
+function filledDebtsReducer(state = [], action){
+  switch(action.type){
+    case FETCH_FILLED_DEBTS_SUCCESS:
+      return action.debts;
     default:
       return state;
   }
@@ -45,7 +56,8 @@ function openLoanRequestsReducer(state = [], action){
 const rootReducer = combineReducers({
   walletInfo: walletInfoReducer,
   collateralAllowed: collateralAllowedReducer,
-  openLoanRequests: openLoanRequestsReducer,
+  signedByDebtor: signedByDebtorReducer,
+  filledDebts: filledDebtsReducer,
   form: formReducer
 });
 
