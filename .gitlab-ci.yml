@@ -21,6 +21,6 @@ Deploy:
   services:
     - docker:dind
   environment:
-    name: production
+    name: prod
   script:
     - source deployment/deploy.sh
