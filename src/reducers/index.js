@@ -11,6 +11,7 @@ import {
 } from '../actions';
 import web3 from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
+import loanIssuedReducer from './loanIssuedReducer';
 
 function walletInfoReducer(state = {
     address: web3.eth.defaultAccount,
@@ -59,9 +60,10 @@ function filledDebtsReducer(state = [], action){
 const rootReducer = combineReducers({
     walletInfo: walletInfoReducer,
     collateralAllowed: collateralAllowedReducer,
-  signedByDebtor: signedByDebtorReducer,
+    signedByDebtor: signedByDebtorReducer,
     loanRequests: loanRequestReducer,
-  filledDebts: filledDebtsReducer,
+    loanIssued: loanIssuedReducer,
+    filledDebts: filledDebtsReducer,
     form: formReducer
 });
 

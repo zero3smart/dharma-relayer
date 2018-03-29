@@ -4,8 +4,9 @@
   "private": true,
   "dependencies": {
     "@dharmaprotocol/dharma.js": "0.0.30",
-    "bootstrap": "^4.0.0",
+    "abi-decoder": "^1.1.0",
     "axios": "^0.18.0",
+    "bootstrap": "^4.0.0",
     "bignumber.js": "^5.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

@@ -142,5 +142,21 @@ export async function fromDebtOrder(debtOrder){
     expirationTimestampInSec: new BigNumber((new Date(debtOrder.expirationTime).getTime()) / 1000)
   };
 
-  return await dharma.adapters.simpleInterestLoan.fromDebtOrder(mapped);
+  let dharmaDebtOrder = {
+      kernelVersion: debtOrder.kernelAddress,
+      issuanceVersion: debtOrder.repaymentRouterAddress,
+      principalAmount: debtOrder.principalAmount && new BigNumber(debtOrder.principalAmount),
+      principalToken: debtOrder.principalTokenAddress,
+      debtor: debtOrder.debtorAddress,
+      debtorFee: debtOrder.debtorFee && new BigNumber(debtOrder.debtorFee),
+      termsContract: debtOrder.termsContractAddress,
+      termsContractParameters: debtOrder.termsContractParameters,
+      expirationTimestampInSec: new BigNumber(new Date(debtOrder.expirationTime).getTime() / 1000),
+      salt: new BigNumber(debtOrder.salt),
+      debtorSignature: web3.fromAscii(debtOrder.debtorSignature),
+      relayer: debtOrder.relayerAddress,
+      relayerFee: new BigNumber(debtOrder.relayerFee)
+  };
+
+  return await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
 }
