@@ -32,6 +32,7 @@
 }
 .loan-request-form__collateral-input-wrapper{
   flex-basis: 50%;
+  font-size: 12px;
 }
 .loan-request-form__repayment-frequency{
   padding-top: 6px;

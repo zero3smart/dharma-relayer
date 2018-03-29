@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
 import './place-loan-request.css';
-import {allowCollateral, placeLoanRequest} from '../../actions';
+import {allowCollateral, placeLoanRequest, resetLoanForm} from '../../actions';
 import * as CurrencyCodes from '../../common/currencyCodes';
 
 const amortizationValues = {
@@ -31,6 +31,11 @@ const required = value => (value ? false : true);
 
 class PlaceLoanRequest extends Component{
 
+  constructor(props){
+    super(props);
+    this.resetForm = this.resetForm.bind(this);
+  }
+
   allowCollateralUseClick({amount, collateralType}){
     this.props.allowCollateral(1.5 * amount, collateralType);
   }
@@ -40,10 +45,16 @@ class PlaceLoanRequest extends Component{
     //  alert('You should Allow Collateral use');
     //  return;
     //}
-    this.props.placeLoanRequest({
+    let {placeLoanRequest, term} = this.props;
+    placeLoanRequest({
       ...values,
-      amortizationFrequency: values.amortizationFrequency || termValues[this.props.term].amortizationFrequencies[0]
-    });
+      amortizationFrequency: values.amortizationFrequency || termValues[term].amortizationFrequencies[0]
+    }, this.resetForm);
+  }
+
+  resetForm(){
+    this.props.reset();
+    this.props.resetLoanForm();
   }
 
   renderAmortizationFrequencySelect(selectedTerm){
@@ -176,11 +187,14 @@ let mapDispatchToProps = (dispatch) => ({
   allowCollateral(amount, token){
     dispatch(allowCollateral(amount, token))
   },
-  placeLoanRequest(order){
-    dispatch(placeLoanRequest(order))
+  placeLoanRequest(order, callback){
+    dispatch(placeLoanRequest(order, callback))
   },
   changeAmortizationFrequency(value){
     dispatch(changeForm('LoanRequestForm', 'amortizationFrequency', value))
+  },
+  resetLoanForm(){
+    dispatch(resetLoanForm());
   }
 });
 
