@@ -24,3 +24,5 @@ Deploy:
     name: prod
   script:
     - source deployment/deploy.sh
+  only:
+    - master
