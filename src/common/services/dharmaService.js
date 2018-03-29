@@ -122,13 +122,28 @@ export async function createDebtOrder(debtOrderInfo){
   console.log(result);
   return result;
 }
+window.createDebtOrder = createDebtOrder;
 
 export async function fromDebtOrder(debtOrder){
   if(!dharma){
     await instantiateDharma();
   }
 
-  let result = await dharma.adapters.simpleInterestLoan.fromDebtOrder(debtOrder);
+  let mapped = {
+    principalAmount: debtOrder.principalAmount && new BigNumber(debtOrder.principalAmount),
+    principalToken: debtOrder.principalTokenAddress,
+    debtor: debtOrder.debtorAddress,
+    debtorFee: debtOrder.debtorFee && new BigNumber(debtOrder.debtorFee),
+    creditor: debtOrder.creditorAddress,
+    //creditorFee: debtOrder.creditorFee && new BigNumber(debtOrder.creditorFee),
+    relayer: debtOrder.relayerAddress,
+    relayerFee: debtOrder.relayerFee && new BigNumber(debtOrder.relayerFee),
+    termsContract: debtOrder.termsContractAddress,
+    termsContractParameters: debtOrder.termsContractParameters,
+    expirationTimestampInSec: (new Date(debtOrder.expirationTime).getTime()) / 1000
+  };
+
+  let result = await dharma.adapters.simpleInterestLoan.fromDebtOrder(mapped);
   console.log(result);
   return result;
 }

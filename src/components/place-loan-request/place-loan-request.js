@@ -10,7 +10,7 @@ const amortizationValues = {
   daily: 'Daily',
   weekly: 'Weekly',
   monthly: 'Monthly'
-}
+};
 
 const termValues = {
   1: {name: '1 day', amortizationFrequencies: [amortizationValues.end]},
@@ -51,7 +51,7 @@ class PlaceLoanRequest extends Component{
       <Field name="amortizationFrequency" className="loan-request-form__select" component="select">
         {
           termValues[selectedTerm].amortizationFrequencies.map(freq => {
-            return (<option value={freq}>{freq}</option>);
+            return (<option key={freq} value={freq}>{freq}</option>);
           })
         }
       </Field>
@@ -138,7 +138,7 @@ class PlaceLoanRequest extends Component{
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__collateral-input-wrapper">
-            <input value="Collateral value 150%" className="loan-request-form__input"/>
+            <input defaultValue="Collateral value 150%" className="loan-request-form__input"/>
           </div>
           <div className="loan-request-form__collateral-input-wrapper">
             <button
@@ -172,11 +172,11 @@ let mapStateToProps = state => ({
   collateralAllowed: state.collateralAllowed
 });
 let mapDispatchToProps = (dispatch) => ({
-  allowCollateral(){
-    dispatch(allowCollateral())
+  allowCollateral(amount, token){
+    dispatch(allowCollateral(amount, token))
   },
-  placeLoanRequest(){
-    dispatch(placeLoanRequest())
+  placeLoanRequest(order){
+    dispatch(placeLoanRequest(order))
   },
   changeAmortizationFrequency(value){
     dispatch(changeForm('LoanRequestForm', 'amortizationFrequency', value))
