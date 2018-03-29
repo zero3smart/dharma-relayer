@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Field, reduxForm, formValueSelector } from 'redux-form';
+import {Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
 import './place-loan-request.css';
 import {allowCollateral, placeLoanRequest} from '../../actions';
 import * as CurrencyCodes from '../../common/currencyCodes';
@@ -30,6 +30,7 @@ const floatOnly = (value) => {
 const required = value => (value ? false : true);
 
 class PlaceLoanRequest extends Component{
+
   allowCollateralUseClick({amount, collateralType}){
     this.props.allowCollateral(1.5 * amount, collateralType);
   }
@@ -39,24 +40,27 @@ class PlaceLoanRequest extends Component{
     //  alert('You should Allow Collateral use');
     //  return;
     //}
-    this.props.placeLoanRequest(values);
+    this.props.placeLoanRequest({
+      ...values,
+      amortizationFrequency: values.amortizationFrequency || termValues[this.props.term].amortizationFrequencies[0]
+    });
   }
 
   renderAmortizationFrequencySelect(selectedTerm){
-    let selected = true;
     return (
       <Field name="amortizationFrequency" className="loan-request-form__select" component="select">
         {
           termValues[selectedTerm].amortizationFrequencies.map(freq => {
-            if(selected){
-              selected = false;
-              return (<option selected value={freq}>{freq}</option>);
-            }
             return (<option value={freq}>{freq}</option>);
           })
         }
       </Field>
     );
+  }
+
+  termChange(event, newValue){
+    let newSelectedFrequency = termValues[newValue].amortizationFrequencies[0];
+    this.props.changeAmortizationFrequency(newSelectedFrequency);
   }
 
   render(){
@@ -76,13 +80,10 @@ class PlaceLoanRequest extends Component{
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="currency" className="loan-request-form__select" component="select">
-              <option value={CurrencyCodes.ETH}>{CurrencyCodes.ETH}</option>
-              <option value={CurrencyCodes.EOS}>{CurrencyCodes.EOS}</option>
-              <option value={CurrencyCodes.QTUM}>{CurrencyCodes.QTUM}</option>
-              <option value={CurrencyCodes.OMG}>{CurrencyCodes.OMG}</option>
-              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
               <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
               <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
+              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
+              <option value={CurrencyCodes.ZRX}>{CurrencyCodes.ZRX}</option>
             </Field>
           </div>
         </div>
@@ -91,7 +92,7 @@ class PlaceLoanRequest extends Component{
             Term
           </div>
           <div className="loan-request-form__select-wrapper">
-            <Field name="term" className="loan-request-form__select" component="select">
+            <Field name="term" className="loan-request-form__select" component="select" onChange={this.termChange.bind(this)}>
               <option value="1">{termValues['1'].name}</option>
               <option value="7">{termValues['7'].name}</option>
               <option value="30">{termValues['30'].name}</option>
@@ -170,14 +171,24 @@ let mapStateToProps = state => ({
   amortizationFrequency: selector(state, 'amortizationFrequency'),
   collateralAllowed: state.collateralAllowed
 });
+let mapDispatchToProps = (dispatch) => ({
+  allowCollateral(){
+    dispatch(allowCollateral())
+  },
+  placeLoanRequest(){
+    dispatch(placeLoanRequest())
+  },
+  changeAmortizationFrequency(value){
+    dispatch(changeForm('LoanRequestForm', 'amortizationFrequency', value))
+  }
+});
 
-let mapDispatchToProps = {allowCollateral, placeLoanRequest};
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'LoanRequestForm',
   initialValues:{
     term: 7,
-    currency: CurrencyCodes.ETH,
+    currency: CurrencyCodes.DAI,
     collateralType:CurrencyCodes.DAI
   }
 })(PlaceLoanRequest));
