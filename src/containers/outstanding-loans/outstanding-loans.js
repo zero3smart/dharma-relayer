@@ -3,25 +3,25 @@ import {connect} from 'react-redux';
 import {fetchFilledDebts} from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 
-let data = [
-  {
-    date: '2018-03-24 17:59:59',
-    amount: '120 ETH',
-    term: '90 day',
-    interest: '20%'
-  },
-  {
-    date: '2018-03-24 17:59:59',
-    amount: '120 ETH',
-    term: '90 day',
-    interest: '10%'
-  }
-];
+let destroyTimer = null;
+
+let startTimer = (func) => {
+  destroyTimer = setTimeout(() => {
+    func();
+    startTimer(func);
+  }, 5000)
+};
 
 class OutstandingLoans extends Component{
 
   componentDidMount(){
-    this.props.fetchFilledDebts();
+    let {fetchFilledDebts} = this.props;
+    fetchFilledDebts();
+    startTimer(fetchFilledDebts);
+  }
+
+  componentWillUnmount(){
+    destroyTimer && destroyTimer();
   }
 
   render(){

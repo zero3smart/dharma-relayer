@@ -5,7 +5,7 @@ export const PLACE_LOAN = 'PLACE_LOAN';
 export const PLACE_LOAN_SUCCESS = 'PLACE_LOAN_SUCCESS';
 export const PLACE_LOAN_FAIL = 'PLACE_LOAN_FAIL';
 
-export function placeLoanRequest({amount, currency, maxInterest, term}){
+export function placeLoanRequest({amount, currency, maxInterest, term}, callback){
   return dispatch => {
     dispatch({
       type: PLACE_LOAN
@@ -28,7 +28,8 @@ export function placeLoanRequest({amount, currency, maxInterest, term}){
     return createDebtOrder(debtOrderInfo)
       .then(debtOrder => debtsApi.post(debtOrder))
       .then(resp => {
-        alert('place loan success');
+        alert('Placed successfully!');
+        callback();
         dispatch({
           type: PLACE_LOAN_SUCCESS
         });

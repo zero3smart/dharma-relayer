@@ -6,3 +6,4 @@ export * from './fetchSignedByDebtor';
 export * from './fetchFilledDebts';
 export * from './getLoanRequests';
 export * from './getLoanIssued';
+export * from './resetLoanForm';
