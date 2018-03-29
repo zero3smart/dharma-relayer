@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {fetchFilledDebts} from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 
 let data = [
@@ -17,11 +19,23 @@ let data = [
 ];
 
 class OutstandingLoans extends Component{
+
+  componentDidMount(){
+    this.props.fetchFilledDebts();
+  }
+
   render(){
+    let {filledDebts} = this.props;
     return (
-      <LoanTableSmall header="My outstading loans" rows={data}/>
+      <LoanTableSmall header="My outstading loans" rows={filledDebts}/>
     );
   }
 }
 
-export default OutstandingLoans;
+let mapStateToProps = ({filledDebts}) => ({
+  filledDebts
+});
+
+let mapDispatchToProps = {fetchFilledDebts};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OutstandingLoans);

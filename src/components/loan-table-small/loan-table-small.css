@@ -1,5 +1,5 @@
 .loan-table-small{
-  max-height: 400px;
+  /*max-height: 400px;*/
 }
 
 .loan-table-small__header{
@@ -10,6 +10,7 @@
 
 .loan-table-small__table{
   text-align:center;
+  /*display:block;*/
 }
 
 .loan-table-small__table-headers{
@@ -22,6 +23,12 @@
   max-width: 80px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.loan-table-small__table-body{
+  /*display:block;*/
+  /*max-height:400px;*/
+  /*overflow-y:auto;*/
 }
 
 .loan-table-small__table-cell{
