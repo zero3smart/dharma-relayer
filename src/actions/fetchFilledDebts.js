@@ -22,7 +22,7 @@ export function fetchFilledDebts(){
 
     let defaultAccount = getDefaultAccount();
     if(defaultAccount){
-      return debtsApi.getAll(defaultAccount, loanStatuses.FILLED)
+      return debtsApi.getAll(loanStatuses.FILLED, defaultAccount)
         .then(async(debts) => {
           let mappedDebts = [];
           for(var i=0; i<debts.length; i++){

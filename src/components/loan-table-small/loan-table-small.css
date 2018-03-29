@@ -20,6 +20,9 @@
 .loan-table-small__table-header{
   padding: 8px;
   text-align:left;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .loan-table-small__table-body{

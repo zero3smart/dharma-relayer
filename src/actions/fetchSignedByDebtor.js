@@ -20,7 +20,7 @@ export function fetchSignedByDebtor(){
   return dispatch => {
     dispatch(fetchSignedByDebtorStart());
 
-    return debtsApi.getAll(web3.eth.defaultAccount, loanStatuses.SIGNED_BY_DEBTOR)
+    return debtsApi.getAll(loanStatuses.SIGNED_BY_DEBTOR, web3.eth.defaultAccount)
       .then(async(debts) => {
         let mappedDebts = [];
         for(var i=0; i<debts.length; i++){
