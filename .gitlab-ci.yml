@@ -1,0 +1,26 @@
+image: docker:latest
+
+services:
+- docker:dind
+
+stages:
+- build
+- deploy
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+
+Build:
+  stage: build
+  script:
+    - docker build --pull -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+
+Deploy:
+  stage: deploy
+  services:
+    - docker:dind
+  environment:
+    name: production
+  script:
+    - source deployment/deploy.sh
