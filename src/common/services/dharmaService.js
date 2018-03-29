@@ -122,7 +122,6 @@ export async function createDebtOrder(debtOrderInfo){
   console.log(result);
   return result;
 }
-window.createDebtOrder = createDebtOrder;
 
 export async function fromDebtOrder(debtOrder){
   if(!dharma){
