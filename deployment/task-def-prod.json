@@ -15,9 +15,9 @@
         },
         "portMappings": [
           {
-            "hostPort": 5000,
+            "hostPort": 80,
             "protocol": "tcp",
-            "containerPort": 5000
+            "containerPort": 80
           }
         ],
         "cpu": 0,
