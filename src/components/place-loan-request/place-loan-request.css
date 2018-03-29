@@ -22,6 +22,7 @@
 }
 .loan-request-form__input{
   width: 100%;
+  line-height: 18px; /*quick hack to avoid bootstrap side-effects*/
 }
 .loan-request-form__select-wrapper{
   flex-basis: 30%;
@@ -32,6 +33,7 @@
 }
 .loan-request-form__collateral-input-wrapper{
   flex-basis: 50%;
+  font-size: 12px;
 }
 .loan-request-form__repayment-frequency{
   padding-top: 6px;

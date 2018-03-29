@@ -37,12 +37,12 @@ class WalletInfo extends Component{
           Tokens Balance
           <div className="wallet-info__balance-info">
             <div className="wallet-info__balance">
-              {(amount && amount.toString()) || 0} $
+              {(amount && amount.toString()) || 0}
             </div>
             <div className="wallet-info__currency-container">
               {this.renderCurrencyItem(CurrencyCodes.ETH, selectedCurrency === CurrencyCodes.ETH)}
-              {this.renderCurrencyItem(CurrencyCodes.USD, selectedCurrency === CurrencyCodes.USD)}
-              {this.renderCurrencyItem(CurrencyCodes.EUR, selectedCurrency === CurrencyCodes.EUR)}
+              {/* this.renderCurrencyItem(CurrencyCodes.USD, selectedCurrency === CurrencyCodes.USD) */}
+              {/* this.renderCurrencyItem(CurrencyCodes.EUR, selectedCurrency === CurrencyCodes.EUR) */}
             </div>
           </div>
         </div>

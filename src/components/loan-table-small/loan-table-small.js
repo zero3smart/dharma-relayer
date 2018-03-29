@@ -5,13 +5,14 @@ import './loan-table-small.css';
 function renderRows(rows){
   let i=0;
   return rows.map(row => {
+    let date = new Date(row.expirationTimestampInSec.toNumber() * 1000);
     return (
-        <tr key={i++}>
-          <td className="loan-table-small__table-cell">{row.date}</td>
-          <td className="loan-table-small__table-cell">{row.amount}</td>
-          <td className="loan-table-small__table-cell">{row.term}</td>
-          <td className="loan-table-small__table-cell">{row.interest}</td>
-        </tr>
+      <tr key={i++}>
+        <td className="loan-table-small__table-cell">{date.toLocaleDateString()} <br /> {date.toLocaleTimeString()}</td>
+        <td className="loan-table-small__table-cell">{`${row.principalAmount.toNumber()} ${row.principalTokenSymbol}`}</td>
+        <td className="loan-table-small__table-cell">{`${row.termLength.toNumber()} ${row.amortizationUnit}`}</td>
+        <td className="loan-table-small__table-cell">{row.interestRate + ' %'}</td>
+      </tr>
     );
   });
 }
@@ -31,7 +32,7 @@ function LoanTableSmall(props){
             <th className="loan-table-small__table-header">Interest rate</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="loan-table-small__table-body">
           {renderRows(props.rows)}
         </tbody>
       </table>
