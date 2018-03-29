@@ -1,52 +1,26 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { getIssuedLoans } from '../../actions';
 import IssuedLoanTable from '../../components/issued-loan-table/issued-loan-table.js';
 
-let data = [
-    {
-        date: '2018-03-21 17:35:50',
-        amount: '20',
-        token: 'ETH',
-        term: '30',
-        interest: '150'
-    },{
-        date: '2018-03-21 17:35:50',
-        amount: '20',
-        token: 'ETH',
-        term: '30',
-        interest: '150'
-    },{
-        date: '2018-03-21 17:35:50',
-        amount: '20',
-        token: 'ETH',
-        term: '30',
-        interest: '150'
-    },{
-        date: '2018-03-21 17:35:50',
-        amount: '20',
-        token: 'ETH',
-        term: '30',
-        interest: '150'
-    },{
-        date: '2018-03-21 17:35:50',
-        amount: '20',
-        token: 'ETH',
-        term: '30',
-        interest: '150'
-    },{
-        date: '2018-03-21 17:35:50',
-        amount: '20',
-        token: 'ETH',
-        term: '30',
-        interest: '150'
+class IssuedLoans extends Component {
+    componentDidMount(){
+        this.props.getIssuedLoans();
     }
-];
 
-class IssuedLoans extends Component{
-  render(){
-    return (
-      <IssuedLoanTable header="Issued Loans" rows={data}/>
-    );
-  }
+    render() {
+        let {loanIssued} = this.props;
+
+        return (
+            <IssuedLoanTable header="Issued Loans" rows={loanIssued}/>
+        );
+    }
 }
 
-export default IssuedLoans;
+let mapStateToProps = ({loanIssued}) => ({
+    loanIssued
+});
+
+let mapDispatchToProps = { getIssuedLoans };
+
+export default connect(mapStateToProps, mapDispatchToProps)(IssuedLoans);

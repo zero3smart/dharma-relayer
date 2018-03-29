@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@dharmaprotocol/dharma.js": "0.0.30",
+    "abi-decoder": "^1.1.0",
     "axios": "^0.18.0",
     "bignumber.js": "^5.0.0",
     "react": "^16.2.0",
@@ -13,6 +14,7 @@
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
     "redux-thunk": "^2.2.0",
+    "save": "^2.3.2",
     "tiny-promisify": "^1.0.0",
     "truffle-contract": "^3.0.4"
   },

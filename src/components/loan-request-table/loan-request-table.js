@@ -9,13 +9,11 @@ function renderRows(rows) {
             <tr key={i++}>
                 <td className="loan-table-small__table-cell">{row.date}</td>
                 <td className="loan-table-small__table-cell">{row.amount} {row.token}</td>
-                <td className="loan-table-small__table-cell">{row.interest}%</td>
+                <td className="loan-table-small__table-cell">{row.interest}</td>
                 <td className="loan-table-small__table-cell">{row.term}</td>
-                <td className="loan-table-small__table-cell">{row.colAmount} {row.colToken}</td>
-                <td className="loan-table-small__table-cell">{row.amortization} days</td>
+                <td className="loan-table-small__table-cell">N/A</td>
+                <td className="loan-table-small__table-cell">{row.amortization}</td>
                 <td className="loan-table-small__table-cell">{row.repayment} {row.token}</td>
-                <td className="loan-table-small__table-cell">{row.underwriter}</td>
-                <td className="loan-table-small__table-cell">{row.score}</td>
                 <td className="loan-table-small__table-cell">
                     <button className="loan-request-fund">FUND</button>
                 </td>
@@ -40,8 +38,6 @@ function LoanRequestsTable(props) {
                     <th className="loan-table-small__table-header">Collateral name and amount</th>
                     <th className="loan-table-small__table-header">Amortization frequency</th>
                     <th className="loan-table-small__table-header">Repayment amount</th>
-                    <th className="loan-table-small__table-header">Underwriter name/address (if any)</th>
-                    <th className="loan-table-small__table-header">Assigned repayment score</th>
                     <th className="loan-table-small__table-header"></th>
                 </tr>
                 </thead>
