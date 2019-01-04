@@ -1,0 +1,24 @@
+{
+  "kernelVersion": "0x8075270f08026769873536e71103638fb90054bc",
+  "issuanceVersion": "0x490e0a2558bea2c2ba69e9fe74017875362f843c",
+  "principalAmount": "33",
+  "principalToken": "0xd0bb419fa74d4edb7a63e6d3b1380c012df07139",
+  "debtor": "0x001d51cdc8f4b378e136642ddb95dfc4ff6a4b72",
+  "debtorFee": "1",
+  "termsContract": "0x17bb660b1f85c2345ec7d84551b657e02354a1a5",
+  "termsContractParameters": "0x030000000000000000000000210027100000c000000000000000000000000000",
+  "expirationTimestampInSec": "1524868770",
+  "salt": "0",
+  "debtorSignature": {
+    "v": 27,
+    "r": "0xa81ecd15faed4eb3013ce71a20e4b45d86d6e5a5296d5001ef67e16dce02f3dc",
+    "s": "0x3ff9c6ee316d6894252a9d15da3e4a1f38972fc0d3c5b19840ce47e53b27e5ef"
+  },
+  "relayer": "0x001d51cdc8f4b378e136642ddb95dfc4ff6a4b72",
+  "relayerFee": "1",
+  "principalTokenSymbol": "DAI",
+  "interestRate": "1",
+  "termLength": "12",
+  "amortizationUnit": "hours",
+  "creditor": "0x878368019cec9498d22e28b41fe59ab3deb0673c"
+}

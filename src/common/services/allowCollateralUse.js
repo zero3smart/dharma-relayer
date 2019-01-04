@@ -21,7 +21,7 @@ export default async function(amount, token){
   let currentNetwork = await getNetwork();
 
   let spender = tokenSource.networks[currentNetwork].address;
-  await deployedContract.approve(spender, amount);
+  // await deployedContract.approve(spender, amount);
 }
 
 function getTokenSource(token){

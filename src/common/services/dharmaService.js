@@ -116,7 +116,7 @@ export async function createDebtOrder(debtOrderInfo){
     termsContractParameters: dharmaDebtOrder.termsContractParameters,
     expirationTime: new Date(dharmaDebtOrder.expirationTimestampInSec.toNumber() * 1000).toISOString(),
     salt: dharmaDebtOrder.salt.toString(),
-    debtorSignature:web3.toHex(dharmaDebtOrder.debtorSignature)
+    debtorSignature:JSON.stringify(dharmaDebtOrder.debtorSignature)
   };
 
   console.log(result);
@@ -153,7 +153,7 @@ export async function fromDebtOrder(debtOrder){
       termsContractParameters: debtOrder.termsContractParameters,
       expirationTimestampInSec: new BigNumber(new Date(debtOrder.expirationTime).getTime() / 1000),
       salt: new BigNumber(debtOrder.salt),
-      debtorSignature: JSON.parse(web3.toAscii(debtOrder.debtorSignature)),
+      debtorSignature: JSON.parse(debtOrder.debtorSignature),
       relayer: debtOrder.relayerAddress,
       relayerFee: new BigNumber(debtOrder.relayerFee)
   };
@@ -169,14 +169,14 @@ export async function fillDebtOrder(debtOrder) {
     const accounts = await promisify(web3.eth.getAccounts)();
     const creditor = accounts[0];
 
-    console.log(debtOrder);
-
     let tx = await dharma.token.setUnlimitedProxyAllowanceAsync(debtOrder.principalTokenAddress);
     await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
 
     debtOrder.dharmaDebtOrder.creditor = creditor;
+    // debtOrder.dharmaDebtOrder.debtorSignature = web3.toAscii;
 
-    console.log(debtOrder.dharmaDebtOrder.debtorSignature);
+    console.log(debtOrder.dharmaDebtOrder);
+    console.log(JSON.stringify(debtOrder.dharmaDebtOrder));
     const txHash = await dharma.order.fillAsync(debtOrder.dharmaDebtOrder, { from: creditor });
     const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
 
