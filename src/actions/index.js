@@ -7,3 +7,4 @@ export * from './fetchFilledDebts';
 export * from './getLoanRequests';
 export * from './getLoanIssued';
 export * from './resetLoanForm';
+export * from './fillLoanRequest';

@@ -128,19 +128,19 @@ export async function fromDebtOrder(debtOrder){
     await instantiateDharma();
   }
 
-  let mapped = {
-    principalAmount: debtOrder.principalAmount && new BigNumber(debtOrder.principalAmount),
-    principalToken: debtOrder.principalTokenAddress,
-    debtor: debtOrder.debtorAddress,
-    debtorFee: debtOrder.debtorFee && new BigNumber(debtOrder.debtorFee),
-    //creditor: debtOrder.creditorAddress,
-    //creditorFee: debtOrder.creditorFee && new BigNumber(debtOrder.creditorFee),
-    relayer: debtOrder.relayerAddress,
-    relayerFee: debtOrder.relayerFee && new BigNumber(debtOrder.relayerFee),
-    termsContract: debtOrder.termsContractAddress,
-    termsContractParameters: debtOrder.termsContractParameters,
-    expirationTimestampInSec: new BigNumber((new Date(debtOrder.expirationTime).getTime()) / 1000)
-  };
+  // let mapped = {
+  //   principalAmount: debtOrder.principalAmount && new BigNumber(debtOrder.principalAmount),
+  //   principalToken: debtOrder.principalTokenAddress,
+  //   debtor: debtOrder.debtorAddress,
+  //   debtorFee: debtOrder.debtorFee && new BigNumber(debtOrder.debtorFee),
+  //   //creditor: debtOrder.creditorAddress,
+  //   //creditorFee: debtOrder.creditorFee && new BigNumber(debtOrder.creditorFee),
+  //   relayer: debtOrder.relayerAddress,
+  //   relayerFee: debtOrder.relayerFee && new BigNumber(debtOrder.relayerFee),
+  //   termsContract: debtOrder.termsContractAddress,
+  //   termsContractParameters: debtOrder.termsContractParameters,
+  //   expirationTimestampInSec: new BigNumber((new Date(debtOrder.expirationTime).getTime()) / 1000)
+  // };
 
   let dharmaDebtOrder = {
       kernelVersion: debtOrder.kernelAddress,
@@ -153,10 +153,37 @@ export async function fromDebtOrder(debtOrder){
       termsContractParameters: debtOrder.termsContractParameters,
       expirationTimestampInSec: new BigNumber(new Date(debtOrder.expirationTime).getTime() / 1000),
       salt: new BigNumber(debtOrder.salt),
-      debtorSignature: web3.fromAscii(debtOrder.debtorSignature),
+      debtorSignature: JSON.parse(web3.toAscii(debtOrder.debtorSignature)),
       relayer: debtOrder.relayerAddress,
       relayerFee: new BigNumber(debtOrder.relayerFee)
   };
 
   return await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
+}
+
+export async function fillDebtOrder(debtOrder) {
+    if (!dharma) {
+        await instantiateDharma();
+    }
+
+    const accounts = await promisify(web3.eth.getAccounts)();
+    const creditor = accounts[0];
+
+    console.log(debtOrder);
+
+    let tx = await dharma.token.setUnlimitedProxyAllowanceAsync(debtOrder.principalTokenAddress);
+    await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
+
+    debtOrder.dharmaDebtOrder.creditor = creditor;
+
+    console.log(debtOrder.dharmaDebtOrder.debtorSignature);
+    const txHash = await dharma.order.fillAsync(debtOrder.dharmaDebtOrder, { from: creditor });
+    const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
+
+    debtOrder.txHash = txHash;
+
+    console.log(receipt);
+
+    return debtOrder;
+
 }

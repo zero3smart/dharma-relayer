@@ -1,20 +1,19 @@
-import { GET_LOAN_REQUESTS_SUCCESS } from '../actions';
+import { GET_LOAN_REQUESTS_SUCCESS, FILL_LOAN } from '../actions';
 
 export default function (state = [], action) {
     switch(action.type){
         case GET_LOAN_REQUESTS_SUCCESS:
             return action.loans.map(loan => {
-                const date = new Date(loan.creationTime);
                 return {
-                    amount: loan.principalAmount,
-                    token: loan.dharmaDebtOrder.principalTokenSymbol,
-                    date: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
-                    term: loan.dharmaDebtOrder.termLength.toNumber(),
-                    interest: loan.dharmaDebtOrder.interestRate.toNumber() + '%',
-                    amortization: loan.dharmaDebtOrder.termLength.toNumber() + " " + loan.dharmaDebtOrder.amortizationUnit,
-                    repayment: loan.dharmaDebtOrder.principalAmount.toNumber() * (1 + loan.dharmaDebtOrder.interestRate.toNumber() * loan.dharmaDebtOrder.termLength.toNumber())
+                    ...loan,
+                    isProcessing: false
                 }
             });
+        case FILL_LOAN:
+            return state.map(loan => ({
+                ...loan,
+                isProcessing: loan.id === action.debtOrder.id ? true : loan.isProcessing
+            }));
         default:
             return state;
     }

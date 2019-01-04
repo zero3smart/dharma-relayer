@@ -11,5 +11,10 @@ export default {
     let url = `${API_URL}/Debts`;
 
     return axios.post(url, debtOrder, {'Access-Control-Allow-Origin': '*'});
+  },
+  put(id, debtOrder){
+    let url = `${API_URL}/Debts/${id}`;
+
+    return axios.put(url, debtOrder);
   }
 }

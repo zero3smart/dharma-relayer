@@ -1,12 +1,11 @@
 import React from 'react';
 import './loan-request-table.css';
 
-
-function renderRows(rows) {
+function renderRows(rows, loans, fundFunction) {
     let i = 0;
     return rows.map(row => {
         return (
-            <tr key={i++}>
+            <tr key={i}>
                 <td className="loan-table-small__table-cell">{row.date}</td>
                 <td className="loan-table-small__table-cell">{row.amount} {row.token}</td>
                 <td className="loan-table-small__table-cell">{row.interest}</td>
@@ -15,7 +14,7 @@ function renderRows(rows) {
                 <td className="loan-table-small__table-cell">{row.amortization}</td>
                 <td className="loan-table-small__table-cell">{row.repayment} {row.token}</td>
                 <td className="loan-table-small__table-cell">
-                    <button className="loan-request-fund">FUND</button>
+                    <button className="loan-request-fund" disabled={row.isProcessing} onClick={fundFunction.bind(this, loans[i++])}>FUND</button>
                 </td>
             </tr>
         );
@@ -42,7 +41,7 @@ function LoanRequestsTable(props) {
                 </tr>
                 </thead>
                 <tbody>
-                    {renderRows(props.rows)}
+                    {renderRows(props.rows, props.loans, props.fundFunction)}
                 </tbody>
             </table>
         </div>
