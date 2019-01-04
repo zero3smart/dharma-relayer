@@ -3,14 +3,13 @@ import {connect} from 'react-redux';
 import {fetchSignedByDebtor} from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 
-
 let destroyTimer = null;
 
 let startTimer = (func) => {
   destroyTimer = setTimeout(() => {
     func();
     startTimer(func);
-  }, 5000)
+  }, 10000)
 };
 
 class OpenLoanRequests extends Component{

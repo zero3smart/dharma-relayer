@@ -3,6 +3,15 @@ import { connect } from 'react-redux';
 import { getLoanRequests, fillLoanRequest } from '../../actions';
 import LoanRequestsTable from '../../components/loan-request-table/loan-request-table';
 
+let destroyTimer = null;
+
+let startTimer = (func) => {
+    destroyTimer = setTimeout(() => {
+        func();
+        startTimer(func);
+    }, 10000)
+};
+
 class LoanRequests extends Component {
 
     constructor(props){
@@ -10,7 +19,13 @@ class LoanRequests extends Component {
     }
 
     componentDidMount(){
-        this.props.getLoanRequests();
+        let {getLoanRequests} = this.props;
+        getLoanRequests();
+        startTimer(getLoanRequests);
+    }
+
+    componentWillUnmount(){
+        destroyTimer && destroyTimer();
     }
 
     render() {

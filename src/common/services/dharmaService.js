@@ -128,19 +128,11 @@ export async function fromDebtOrder(debtOrder){
     await instantiateDharma();
   }
 
-  // let mapped = {
-  //   principalAmount: debtOrder.principalAmount && new BigNumber(debtOrder.principalAmount),
-  //   principalToken: debtOrder.principalTokenAddress,
-  //   debtor: debtOrder.debtorAddress,
-  //   debtorFee: debtOrder.debtorFee && new BigNumber(debtOrder.debtorFee),
-  //   //creditor: debtOrder.creditorAddress,
-  //   //creditorFee: debtOrder.creditorFee && new BigNumber(debtOrder.creditorFee),
-  //   relayer: debtOrder.relayerAddress,
-  //   relayerFee: debtOrder.relayerFee && new BigNumber(debtOrder.relayerFee),
-  //   termsContract: debtOrder.termsContractAddress,
-  //   termsContractParameters: debtOrder.termsContractParameters,
-  //   expirationTimestampInSec: new BigNumber((new Date(debtOrder.expirationTime).getTime()) / 1000)
-  // };
+  try {
+      JSON.parse(debtOrder.debtorSignature)
+  } catch(e) {
+      throw 'not valid JSON'
+  }
 
   let dharmaDebtOrder = {
       kernelVersion: debtOrder.kernelAddress,
@@ -173,7 +165,6 @@ export async function fillDebtOrder(debtOrder) {
     await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
 
     debtOrder.dharmaDebtOrder.creditor = creditor;
-    // debtOrder.dharmaDebtOrder.debtorSignature = web3.toAscii;
 
     console.log(debtOrder.dharmaDebtOrder);
     console.log(JSON.stringify(debtOrder.dharmaDebtOrder));

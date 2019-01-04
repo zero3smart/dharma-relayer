@@ -9,7 +9,7 @@ let startTimer = (func) => {
   destroyTimer = setTimeout(() => {
     func();
     startTimer(func);
-  }, 5000)
+  }, 10000)
 };
 
 class OutstandingLoans extends Component{
