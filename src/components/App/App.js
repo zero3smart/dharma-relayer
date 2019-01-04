@@ -34,7 +34,7 @@ class App extends Component {
             </div>
           </div>
           <div className="app__demo-link">
-            <a href={`${HOST_URL}/swagger/`} target="_blank">API Demo</a>
+            <a href={`${HOST_URL}/swagger/`} target="_blank">API Documentation</a>
           </div>
         </div>
       </Provider>
