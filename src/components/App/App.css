@@ -3,7 +3,7 @@
   color: #ffffff;
   background-color:#1e1916;
   padding-top:40px;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
 .app__container{
@@ -29,3 +29,9 @@
   /*margin-right:32px;*/
 }
 
+.app__demo-link{
+  padding-top: 10px;
+  padding-right: 100px;
+  font-size:16px;
+  text-align: right;
+}
