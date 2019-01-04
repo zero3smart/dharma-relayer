@@ -10,12 +10,14 @@ RUN npm install -g serve
 CMD serve -s build -p 80
 EXPOSE 80
 
-# Install all dependencies of the current project.
+# Install all dependencies of the current project with yarn.
 COPY package*.json ./
-RUN npm install
+COPY yarn.lock .
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.5.1
+RUN yarn
 
 # Copy all local files into the image.
 COPY . .
 
 # Build for production.
-RUN npm run build --production
+RUN yarn build --production
