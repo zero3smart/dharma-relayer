@@ -14,6 +14,7 @@
 }
 
 .app__content-left{
+  max-width:400px;
   /*flex-basis: 18%;*/
   /*margin-left:32px;*/
 }
@@ -25,6 +26,7 @@
 }
 
 .app__content-right{
+  max-width:400px;
   /*flex-basis: 18%;*/
   /*margin-right:32px;*/
 }
