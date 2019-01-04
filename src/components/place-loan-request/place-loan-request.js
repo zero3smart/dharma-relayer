@@ -4,21 +4,15 @@ import {Field, reduxForm, formValueSelector, change as changeForm } from 'redux-
 import './place-loan-request.css';
 import {allowCollateral, placeLoanRequest, resetLoanForm} from '../../actions';
 import * as CurrencyCodes from '../../common/currencyCodes';
-
-const amortizationValues = {
-  end: 'End Of Loan Term',
-  daily: 'Daily',
-  weekly: 'Weekly',
-  monthly: 'Monthly'
-};
+import * as amortizationValues from '../../common/amortizationFrequencies';
 
 const termValues = {
-  1: {name: '1 day', amortizationFrequencies: [amortizationValues.end]},
-  7: {name: '7 days', amortizationFrequencies: [amortizationValues.daily, amortizationValues.end]},
-  30: {name: '30 days', amortizationFrequencies: [amortizationValues.weekly, amortizationValues.end]},
-  90: {name: '90 days', amortizationFrequencies: [amortizationValues.monthly, amortizationValues.end]},
-  180: {name: '180 days', amortizationFrequencies: [amortizationValues.monthly, amortizationValues.end]},
-  360: {name: '360 days', amortizationFrequencies: [amortizationValues.monthly, amortizationValues.end]}
+  1: {name: '1 day', amortizationFrequencies: [amortizationValues.END]},
+  7: {name: '7 days', amortizationFrequencies: [amortizationValues.DAILY, amortizationValues.END]},
+  28: {name: '28 days', amortizationFrequencies: [amortizationValues.WEEKLY, amortizationValues.END]},
+  90: {name: '90 days', amortizationFrequencies: [amortizationValues.MONTHLY, amortizationValues.END]},
+  180: {name: '180 days', amortizationFrequencies: [amortizationValues.MONTHLY, amortizationValues.END]},
+  360: {name: '360 days', amortizationFrequencies: [amortizationValues.MONTHLY, amortizationValues.END]}
 };
 
 const floatOnly = (value) => {
@@ -106,7 +100,7 @@ class PlaceLoanRequest extends Component{
             <Field name="term" className="loan-request-form__select" component="select" onChange={this.termChange.bind(this)}>
               <option value="1">{termValues['1'].name}</option>
               <option value="7">{termValues['7'].name}</option>
-              <option value="30">{termValues['30'].name}</option>
+              <option value="28">{termValues['28'].name}</option>
               <option value="90">{termValues['90'].name}</option>
               <option value="180">{termValues['180'].name}</option>
               <option value="360">{termValues['360'].name}</option>
@@ -118,7 +112,7 @@ class PlaceLoanRequest extends Component{
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
-            {term ? termValues[term].name : termValues['30'].name} loan
+            {term ? termValues[term].name : termValues['28'].name} loan
           </div>
           <div className="loan-request-form__select-wrapper">
             {term && this.renderAmortizationFrequencySelect(term)}
@@ -152,7 +146,7 @@ class PlaceLoanRequest extends Component{
           <div className="loan-request-form__collateral-input-wrapper">
             <input defaultValue="Collateral value 150%" className="loan-request-form__input"/>
           </div>
-          <div className="loan-request-form__collateral-input-wrapper">
+          <div className="loan-request-form__collateral-btn-wrapper">
             <button
               className={"loan-request-form__collateral-btn " + (valid ? "" : "loan-request-form_disabled")}
               onClick={handleSubmit(this.allowCollateralUseClick.bind(this))}>
