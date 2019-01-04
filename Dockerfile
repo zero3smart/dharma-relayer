@@ -16,4 +16,4 @@ RUN yarn
 COPY . .
 
 # Build for production.
-RUN yarn start
+CMD yarn start
