@@ -12,8 +12,8 @@ export class Modal extends Component{
 
     this._render(this.props);
 
-    window.$(this.modalTarget).modal({show: this.props.show});
-    window.$(this.modalTarget).on('hidden.bs.modal', () => this.props.onModalClosed && this.props.onModalClosed());
+    $(this.modalTarget).modal({show: this.props.show});
+    $(this.modalTarget).on('hidden.bs.modal', () => this.props.onModalClosed && this.props.onModalClosed());
   }
 
   _render(props){
@@ -32,7 +32,7 @@ export class Modal extends Component{
 
 
   componentWillReceiveProps(nextProps){
-    window.$(this.modalTarget).modal(nextProps.show ? 'show' : 'hide');
+    $(this.modalTarget).modal(nextProps.show ? 'show' : 'hide');
   }
 
   shouldComponentUpdate(newProps) {
@@ -47,7 +47,7 @@ export class Modal extends Component{
 
   componentWillUnmount(){
     ReactDOM.unmountComponentAtNode(this.modalTarget);
-    window.$(this.modalTarget).off();
+    $(this.modalTarget).off();
     document.body.removeChild(this.modalTarget);
   }
 
