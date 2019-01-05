@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './confirm-loan-request.css';
-import {calculateNumberOfPayments, calculateRepaymentAmount} from '../../common/services/utilities';
+import {calculateNumberOfPayments, calculateRepaymentAmount, calculateTotalPaymentAmount} from '../../common/services/utilities';
 
 class ConfirmLoanRequest extends Component{
   render(){
@@ -8,7 +8,8 @@ class ConfirmLoanRequest extends Component{
     let {amount, currency, term, maxInterest, amortizationFrequency, collateralAmount, collateralType} = values;
 
     let numberOfPayments = calculateNumberOfPayments(amortizationFrequency, term);
-    let repaymentAmount = calculateRepaymentAmount(amount, maxInterest, numberOfPayments);
+    let repaymentAmount = calculateRepaymentAmount(amount, maxInterest);
+    let totalPaymentAmount = calculateTotalPaymentAmount(repaymentAmount, numberOfPayments);
 
     return (
       <div className="confirm-loan">
@@ -38,7 +39,7 @@ class ConfirmLoanRequest extends Component{
           Payment frequency: {amortizationFrequency}
         </div>
         <div className="confirm-loan__row">
-          Payment amount: xxx DAI
+          Payment amount: {totalPaymentAmount} {currency}
         </div>
         <br/>
         <div className="confirm-loan__row">
