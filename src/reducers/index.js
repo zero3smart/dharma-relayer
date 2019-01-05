@@ -7,7 +7,8 @@ import {
   GET_WALLET_BALANCE_SUCCESS,
   FETCH_SIGNED_BY_DEBTOR_SUCCESS,
   FETCH_FILLED_DEBTS_SUCCESS,
-  RESET_LOAN_FORM
+  RESET_LOAN_FORM,
+  HIDE_LOAN_CONFIRMATION
 } from '../actions';
 import web3 from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
@@ -29,14 +30,14 @@ function walletInfoReducer(state = {
 }
 
 function collateralAllowedReducer(state = false, action) {
-    switch (action.type) {
-        case ALLOW_COLLATERAL_SUCCESS:
-            return true;
-    case RESET_LOAN_FORM:
-      return false;
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case ALLOW_COLLATERAL_SUCCESS:
+      return true;
+  case RESET_LOAN_FORM:
+    return false;
+      default:
+          return state;
+  }
 }
 
 function signedByDebtorReducer(state = [], action){
@@ -57,14 +58,28 @@ function filledDebtsReducer(state = [], action){
   }
 }
 
+function debtOrderConfirmationReducer(state = {
+  modalVisible:false
+}, action){
+  switch(action.type){
+    case HIDE_LOAN_CONFIRMATION:
+      return {...state, modalVisible: false};
+    case ALLOW_COLLATERAL_SUCCESS:
+      return {...state, modalVisible: true, ...action.debtOrder};
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
-    walletInfo: walletInfoReducer,
-    collateralAllowed: collateralAllowedReducer,
-    signedByDebtor: signedByDebtorReducer,
-    loanRequests: loanRequestReducer,
-    loanIssued: loanIssuedReducer,
-    filledDebts: filledDebtsReducer,
-    form: formReducer
+  walletInfo: walletInfoReducer,
+  collateralAllowed: collateralAllowedReducer,
+  signedByDebtor: signedByDebtorReducer,
+  loanRequests: loanRequestReducer,
+  loanIssued: loanIssuedReducer,
+  filledDebts: filledDebtsReducer,
+  debtOrderConfirmation: debtOrderConfirmationReducer,
+  form: formReducer
 });
 
 export default rootReducer;

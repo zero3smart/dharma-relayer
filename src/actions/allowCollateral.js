@@ -4,24 +4,24 @@ export const ALLOW_COLLATERAL = 'ALLOW_COLLATERAL';
 export const ALLOW_COLLATERAL_SUCCESS = 'ALLOW_COLLATERAL_SUCCESS';
 export const ALLOW_COLLATERAL_FAIL = 'ALLOW_COLLATERAL_FAIL';
 
-export function allowCollateral (amount, token){
+export function allowCollateral (debtOrder){
   return dispatch => {
     dispatch({
       type: ALLOW_COLLATERAL,
-      amount: amount
+      debtOrder
     });
 
-    return allowCollateralUse(amount, token)
+    return allowCollateralUse(debtOrder.collateralAmount, debtOrder.collateralType)
       .then(() => {
         dispatch({
           type: ALLOW_COLLATERAL_SUCCESS,
-          amount: amount
+          debtOrder
         });
       })
       .catch(err => {
         dispatch({
           type: ALLOW_COLLATERAL_FAIL,
-          amount: amount
+          debtOrder
         });
         Promise.reject(err);
       });

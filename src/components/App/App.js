@@ -9,7 +9,7 @@ import LoanRequests from '../../containers/loan-requests/loan-requests';
 import IssuedLoans from '../../containers/issued-loans/issued-loans';
 import {HOST_URL} from '../../common/api/urls'
 
-const store = createStore(
+export const store = createStore(
   rootReducer,
   applyMiddleware(
     thunkMiddleware

@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
 import './place-loan-request.css';
-import {allowCollateral, placeLoanRequest, resetLoanForm} from '../../actions';
+import {allowCollateral, placeLoanRequest, resetLoanForm, hideLoanConfirmation} from '../../actions';
 import * as CurrencyCodes from '../../common/currencyCodes';
 import * as amortizationValues from '../../common/amortizationFrequencies';
+import {Modal, ModalBody} from '../modal/modal';
+import ConfirmLoanRequest from '../confirm-loan-request/confirm-loan-request';
+import {calculateCollateralAmount} from '../../common/services/utilities';
 
 const termValues = {
   1: {name: '1 day', amortizationFrequencies: [amortizationValues.END]},
@@ -27,26 +30,30 @@ class PlaceLoanRequest extends Component{
 
   constructor(props){
     super(props);
-    this.resetForm = this.resetForm.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
-  allowCollateralUseClick({amount, collateralType}){
-    this.props.allowCollateral(1.5 * amount, collateralType);
-  }
-
-  placeLoanRequestClick(values){
-    //if(!this.props.collateralAllowed){
-    //  alert('You should Allow Collateral use');
-    //  return;
-    //}
-    let {placeLoanRequest, term} = this.props;
-    placeLoanRequest({
+  allowCollateralUseClick(values){
+    //this.props.allowCollateral(calculateCollateralAmount(amount), collateralType);
+    this.props.allowCollateral({
       ...values,
-      amortizationFrequency: values.amortizationFrequency || termValues[term].amortizationFrequencies[0]
-    }, this.resetForm);
+      amortizationFrequency: values.amortizationFrequency || termValues[values.term].amortizationFrequencies[0],
+      collateralAmount: calculateCollateralAmount(values.amount)
+    });
+
   }
 
-  resetForm(){
+  placeLoanRequestHandler(values){
+    let {placeLoanRequest} = this.props;
+    placeLoanRequest(values, this.cancelLoanRequest);
+  }
+
+  cancelLoanRequest(){
+    this.reset();
+    this.props.hideLoanConfirmation();
+  }
+
+  reset(){
     this.props.reset();
     this.props.resetLoanForm();
   }
@@ -68,8 +75,9 @@ class PlaceLoanRequest extends Component{
     this.props.changeAmortizationFrequency(newSelectedFrequency);
   }
 
+
   render(){
-    const { handleSubmit, valid, collateralAllowed, term } = this.props;
+    const { handleSubmit, valid, collateralAllowed, term, debtOrderConfirmation } = this.props;
 
     return (
       <div className="loan-request-form">
@@ -127,7 +135,7 @@ class PlaceLoanRequest extends Component{
             <Field
               name="maxInterest"
               className="loan-request-form__input"
-              placeholder="Max interest rate (annual)"
+              placeholder="Max interest rate (per period)"
               component="input"
               validate={required}
               normalize={floatOnly}/>
@@ -160,16 +168,12 @@ class PlaceLoanRequest extends Component{
             </button>
           </div>
         </div>
-        <div className="loan-request-form__relayer-fee">
-          <span>Relayer fee 0.00%</span>
-        </div>
-        <div className="loan-request-form__place-btn-wrapper">
-          <button
-            className={"loan-request-form__place-btn " + (valid && collateralAllowed ? "" : "loan-request-form_disabled")}
-            onClick={handleSubmit(this.placeLoanRequestClick.bind(this))}>
-            PLACE LOAN REQUEST
-          </button>
-        </div>
+        <Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={this.props.hideLoanConfirmation}>
+          <ModalBody>
+            <ConfirmLoanRequest {...debtOrderConfirmation} onCancel={this.cancelLoanRequest.bind(this)} onConfirm={this.placeLoanRequestHandler.bind(this)} />
+          </ModalBody>
+        </Modal>
+
       </div>
     );
   }
@@ -181,7 +185,8 @@ let mapStateToProps = state => ({
   amount: selector(state, 'amount'),
   term: selector(state, 'term'),
   amortizationFrequency: selector(state, 'amortizationFrequency'),
-  collateralAllowed: state.collateralAllowed
+  collateralAllowed: state.collateralAllowed,
+  debtOrderConfirmation: state.debtOrderConfirmation
 });
 let mapDispatchToProps = (dispatch) => ({
   allowCollateral(amount, token){
@@ -195,6 +200,9 @@ let mapDispatchToProps = (dispatch) => ({
   },
   resetLoanForm(){
     dispatch(resetLoanForm());
+  },
+  hideLoanConfirmation(){
+    dispatch(hideLoanConfirmation());
   }
 });
 
