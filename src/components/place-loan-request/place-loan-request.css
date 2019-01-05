@@ -17,6 +17,10 @@
   font-weight: 600;
 
 }
+.loan-request-form__label{
+  line-height:16px;
+  vertical-align:super;
+}
 .loan-request-form__input-wrapper{
   flex-basis: 50%;
 }

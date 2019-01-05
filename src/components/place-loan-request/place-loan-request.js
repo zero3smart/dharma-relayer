@@ -94,7 +94,9 @@ class PlaceLoanRequest extends Component{
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
-            Term
+            <span className="loan-request-form__label">
+              Term
+            </span>
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="term" className="loan-request-form__select" component="select" onChange={this.termChange.bind(this)}>
@@ -112,7 +114,9 @@ class PlaceLoanRequest extends Component{
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
-            {term ? termValues[term].name : termValues['28'].name} loan
+            <span className="loan-request-form__label">
+               {term ? termValues[term].name : termValues['28'].name} loan
+            </span>
           </div>
           <div className="loan-request-form__select-wrapper">
             {term && this.renderAmortizationFrequencySelect(term)}
@@ -131,7 +135,9 @@ class PlaceLoanRequest extends Component{
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
-            Collateral type
+            <span className="loan-request-form__label">
+               Collateral type
+            </span>
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="collateralType" className="loan-request-form__select" component="select">
