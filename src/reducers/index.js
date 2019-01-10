@@ -13,6 +13,7 @@ import {
 import web3 from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
 import loanIssuedReducer from './loanIssuedReducer';
+import fundConfirmationReducer from './fundConfirmationReducer';
 
 function walletInfoReducer(state = {
     address: web3.eth.defaultAccount,
@@ -79,6 +80,7 @@ const rootReducer = combineReducers({
   loanIssued: loanIssuedReducer,
   filledDebts: filledDebtsReducer,
   debtOrderConfirmation: debtOrderConfirmationReducer,
+  fundConfirmation: fundConfirmationReducer,
   form: formReducer
 });
 

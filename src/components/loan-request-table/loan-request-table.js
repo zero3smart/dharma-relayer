@@ -41,7 +41,7 @@ function LoanRequestsTable(props) {
                 </tr>
                 </thead>
                 <tbody>
-                    {renderRows(props.rows, props.loans, props.fundFunction)}
+                    {renderRows(props.rows, props.loans, props.onFundClick)}
                 </tbody>
             </table>
         </div>

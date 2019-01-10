@@ -9,3 +9,5 @@ export * from './getLoanIssued';
 export * from './resetLoanForm';
 export * from './fillLoanRequest';
 export * from './hideLoanConfirmation';
+export * from './showFundConfirmation';
+export * from './hideFundConfirmation';

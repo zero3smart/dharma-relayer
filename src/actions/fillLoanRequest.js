@@ -20,7 +20,7 @@ export function fillLoanRequest(debtOrder) {
                     creditorAddress: debtOrder.dharmaDebtOrder.creditor,
                     txHash: debtOrder.txHash
                 };
-                debtsApi.put(debtOrder.id, obj);
+                return debtsApi.put(debtOrder.id, obj);
             })
             .then(res => {
                 dispatch({

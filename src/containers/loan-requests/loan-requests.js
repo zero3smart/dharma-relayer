@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { getLoanRequests, fillLoanRequest } from '../../actions';
+import { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation } from '../../actions';
 import LoanRequestsTable from '../../components/loan-request-table/loan-request-table';
+import {Modal, ModalBody} from '../../components/modal/modal';
+import ConfirmFund from '../../components/confirm-fund/confirm-fund';
 
 let destroyTimer = null;
 
@@ -29,9 +31,9 @@ class LoanRequests extends Component {
     }
 
     render() {
-        let {loanRequests, fillLoanRequest} = this.props;
+        let {loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoanRequest} = this.props;
 
-        let rows = this.props.loanRequests.map(loan => {
+        let rows = loanRequests.map(loan => {
             const date = new Date(loan.creationTime);
             return {
                 amount: loan.principalAmount,
@@ -46,15 +48,26 @@ class LoanRequests extends Component {
         });
 
         return (
-            <LoanRequestsTable header="Loan Requests" rows={rows} loans={loanRequests} fundFunction={fillLoanRequest}/>
+            <div>
+                <LoanRequestsTable header="Loan Requests" rows={rows} loans={loanRequests} onFundClick={showFundConfirmation}/>
+                <Modal show={fundConfirmation.modalVisible} size="md" onModalClosed={hideFundConfirmation}>
+                    <ModalBody>
+                        {
+                            fundConfirmation.modalVisible && fundConfirmation.loanRequest &&
+                            <ConfirmFund loanRequest={fundConfirmation.loanRequest} onCancel={hideFundConfirmation} onConfirm={fillLoanRequest} />
+                        }
+                    </ModalBody>
+                </Modal>
+            </div>
         );
     }
 }
 
-let mapStateToProps = ({loanRequests}) => ({
-    loanRequests
+let mapStateToProps = ({loanRequests, fundConfirmation}) => ({
+    loanRequests,
+    fundConfirmation
 });
 
-let mapDispatchToProps = { getLoanRequests, fillLoanRequest };
+let mapDispatchToProps = { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoanRequests);

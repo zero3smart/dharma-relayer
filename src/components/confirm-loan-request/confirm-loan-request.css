@@ -1,35 +1,35 @@
-.confirm-loan{
+.confirm{
   padding: 20px;
 }
 
-.confirm-loan__row{
+.confirm__row{
   margin: 5px;
 }
 
-.confirm-loan__header{
+.confirm__header{
   font-size: 20px;
   font-weight: 600;
 }
 
-.confirm-loan__buttons{
+.confirm__buttons{
   margin-top: 10px;
 }
 
-.confirm-loan__btn-wrapper{
+.confirm__btn-wrapper{
   display: flex;
   justify-content: space-between;
 }
 
-.confirm-loan__btn{
+.confirm__btn{
   color: white;
   height: 32px;
   width: 200px;
 }
 
-.confirm-loan__btn_confirm{
+.confirm__btn_confirm{
   background-color: #23a85b;
 }
 
-.confirm-loan__btn_cancel{
+.confirm__btn_cancel{
   background-color: #ff281f;;
 }
