@@ -9,6 +9,7 @@ import TokenTransferProxy from '../protocolJson/TokenTransferProxy.json';
 import TokenRegistry from '../protocolJson/TokenRegistry.json';
 import DebtToken from '../protocolJson/DebtToken.json';
 import SimpleInterestTermsContract from '../protocolJson/SimpleInterestTermsContract.json';
+import { RELAYER_ADDRESS, RELAYER_FEE } from '../api/config.js';
 
 let dharma = null;
 let defaultAccount = null;
@@ -54,6 +55,7 @@ export async function createDebtOrder(debtOrderInfo) {
   const principalToken = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
 
   const simpleInterestLoan = {
+    ...defaultDebtOrderParams,
     principalToken,
     principalTokenSymbol: debtOrderInfo.principalTokenSymbol,
     principalAmount: new BigNumber(debtOrderInfo.principalAmount),
@@ -61,14 +63,15 @@ export async function createDebtOrder(debtOrderInfo) {
     amortizationUnit: debtOrderInfo.amortizationUnit,
     termLength: new BigNumber(debtOrderInfo.termLength),
     debtor: defaultAccount,
-    debtorFee: new BigNumber(1),
+    debtorFee: new BigNumber(0),
     creditorFee: new BigNumber(0),
+    salt: BigNumber.random().mul('1e9').floor()
   };
 
   const dharmaDebtOrder = await dharma.adapters.simpleInterestLoan.toDebtOrder(simpleInterestLoan);
-  dharmaDebtOrder.debtorSignature = await dharma.sign.asDebtor(dharmaDebtOrder);
+  dharmaDebtOrder.debtorSignature = await dharma.sign.asDebtor(dharmaDebtOrder, true);
 
-  console.log(`Dharma debt order: ${dharmaDebtOrder}`);
+  console.log(`Dharma debt order: ${JSON.stringify(dharmaDebtOrder)}`);
   let result = {
     kernelAddress: (await dharma.contracts.loadDebtKernelAsync()).address,
     repaymentRouterAddress: (await dharma.contracts.loadRepaymentRouterAsync()).address,
@@ -82,7 +85,11 @@ export async function createDebtOrder(debtOrderInfo) {
     termsContractParameters: dharmaDebtOrder.termsContractParameters,
     expirationTime: new Date(dharmaDebtOrder.expirationTimestampInSec.toNumber() * 1000).toISOString(),
     salt: dharmaDebtOrder.salt.toString(),
-    debtorSignature: JSON.stringify(dharmaDebtOrder.debtorSignature)
+    debtorSignature: JSON.stringify(dharmaDebtOrder.debtorSignature),
+    underwriterAddress: dharmaDebtOrder.underwriter,
+    underwriterRiskRating: dharmaDebtOrder.underwriterRiskRating,
+    underwriterFee: dharmaDebtOrder.underwriterFee,
+    underwriterSignature: JSON.stringify(dharmaDebtOrder.underwriterSignature)
   };
 
   return result;
@@ -112,7 +119,11 @@ export async function fromDebtOrder(debtOrder) {
     salt: new BigNumber(debtOrder.salt),
     debtorSignature: JSON.parse(debtOrder.debtorSignature),
     relayer: debtOrder.relayerAddress,
-    relayerFee: new BigNumber(debtOrder.relayerFee)
+    relayerFee: new BigNumber(debtOrder.relayerFee),
+    underwriter: debtOrder.underwriterAddress || defaultDebtOrderParams.underwriter,
+    underwriterRiskRating: new BigNumber(debtOrder.underwriterRiskRating || defaultDebtOrderParams.underwriterRiskRating),
+    underwriterFee: new BigNumber(debtOrder.underwriterFee || defaultDebtOrderParams.underwriterFee),
+    underwriterSignature: debtOrder.underwriterSignature ? JSON.parse(debtOrder.underwriterSignature) : defaultDebtOrderParams.underwriterSignature,
   };
 
   return await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
@@ -142,4 +153,17 @@ export async function fillDebtOrder(debtOrder) {
 
   return debtOrder;
 
+}
+
+const defaultDebtOrderParams = {
+  relayer: RELAYER_ADDRESS,
+  relayerFee: RELAYER_FEE,
+  underwriter: '0x0000000000000000000000000000000000000000',
+  underwriterRiskRating: new BigNumber(0),
+  underwriterFee: new BigNumber(0),
+  underwriterSignature: {
+    "r": "",
+    "s": "",
+    "v": 0
+  },
 }
