@@ -5,7 +5,7 @@ import './loan-table-small.css';
 function renderRows(rows){
   let i=0;
   return rows.map(row => {
-    let date = new Date(row.expirationTimestampInSec.toNumber() * 1000);
+    let date = new Date(row.creationTime);
     return (
       <tr key={i++}>
         <td className="loan-table-small__table-cell">{date.toLocaleDateString()} <br /> {date.toLocaleTimeString()}</td>

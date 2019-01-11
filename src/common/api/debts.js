@@ -2,10 +2,10 @@ import axios from 'axios';
 import {API_URL} from './urls';
 
 export default {
-  getAll(status, address, offset, limit){
+  getAll(status, debtorAddress, offset, limit){
     let url = `${API_URL}/Debts`;
 
-    return axios.get(url, {params: {status, address, offset, limit}}).then(resp => resp.data);
+    return axios.get(url, {params: {status, debtorAddress, offset, limit}}).then(resp => resp.data);
   },
   post(debtOrder){
     let url = `${API_URL}/Debts`;

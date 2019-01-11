@@ -4,12 +4,13 @@ html, body {
   font-size: 14px;
   font-weight: 400;
   color: #000;
+  background: #1e1916;
   font-family: sans-serif;
   margin:0;
   padding:0;
 }
 select{
-  -webkit-appearance:none; /* !* remove the strong OSX influence from Webkit *!*/
+  appearance: none;
   border-radius:0;
   background: url("../assets/icons8-sort-down-filled-50.png") no-repeat 90% 50%;
   background-size: 14px;

@@ -30,7 +30,9 @@ class PlaceLoanRequest extends Component{
 
   constructor(props){
     super(props);
+
     this.reset = this.reset.bind(this);
+    this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
   }
 
   allowCollateralUseClick(values){

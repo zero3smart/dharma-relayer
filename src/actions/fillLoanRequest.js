@@ -26,6 +26,11 @@ export function fillLoanRequest(debtOrder) {
                 dispatch({
                     type: FILL_LOAN_SUCCESS
                 });
+            })
+            .catch(err => {
+                alert(err);
+                dispatch({type: FILL_LOAN_FAIL});
+                return Promise.reject(err);
             });
     };
 }

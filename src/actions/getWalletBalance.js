@@ -21,7 +21,7 @@ export function getWalletBalance (){
         dispatch({
           type: GET_WALLET_BALANCE_FAIL
         });
-        Promise.reject(err);
+        return Promise.reject(err);
       });
   };
 }

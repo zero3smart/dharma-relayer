@@ -23,7 +23,7 @@ export function allowCollateral (debtOrder){
           type: ALLOW_COLLATERAL_FAIL,
           debtOrder
         });
-        Promise.reject(err);
+        return Promise.reject(err);
       });
   };
 }

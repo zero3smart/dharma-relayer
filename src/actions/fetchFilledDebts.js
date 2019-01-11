@@ -26,7 +26,8 @@ export function fetchFilledDebts(){
         .then(async(debts) => {
           let mappedDebts = [];
           for(var i=0; i<debts.length; i++){
-            mappedDebts.push(await fromDebtOrder(debts[i]));
+            let dharmaDebt = await fromDebtOrder(debts[i]);
+            mappedDebts.push({...dharmaDebt, creationTime: debts[i].creationTime});
           }
           dispatch(fetchFilledDebtsSuccess(mappedDebts));
         });
