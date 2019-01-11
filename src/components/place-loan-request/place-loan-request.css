@@ -35,6 +35,7 @@
   padding-left: 2px;
 }
 .loan-request-form__select{
+  height: 100%;
   width: 100%;
 }
 .loan-request-form__collateral-input-wrapper{
