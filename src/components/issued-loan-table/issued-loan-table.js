@@ -26,7 +26,7 @@ function IssuedLoanTable(props) {
                 <thead>
                 <tr className="loan-table-headers">
                     <th className="loan-table-small__table-header">Loan amount and token name</th>
-                    <th className="loan-table-small__table-header">Term (days)</th>
+                    <th className="loan-table-small__table-header">Term</th>
                     <th className="loan-table-small__table-header">% (annual)</th>
                     <th className="loan-table-small__table-header">Date and time filled</th>
                 </tr>

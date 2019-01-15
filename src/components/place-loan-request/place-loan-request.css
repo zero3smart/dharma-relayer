@@ -24,6 +24,9 @@
 .loan-request-form__input-wrapper{
   flex-basis: 50%;
 }
+.loan-request-form__large-input-wrapper{
+  flex-basis: 100%;
+}
 .loan-request-form__input{
   width: 100%;
   height: 32px;
