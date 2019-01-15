@@ -34,19 +34,19 @@ class LoanRequests extends Component {
     render() {
         let {loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoanRequest, runTablesUpdate} = this.props;
 
-        let rows = loanRequests.map(loan => {
-            const date = new Date(loan.creationTime);
-            return {
+        let rows = loanRequests
+            .map(loan => ({...loan, creationTime: new Date(loan.creationTime)}))
+            .sort((a,b) => a.creationTime < b.creationTime ? 1 : (-1))
+            .map(loan => ({
                 amount: loan.principalAmount,
                 token: loan.dharmaDebtOrder.principalTokenSymbol,
-                date: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
+                date: loan.creationTime.toLocaleDateString() + " " + loan.creationTime.toLocaleTimeString(),
                 term: loan.dharmaDebtOrder.termLength.toNumber(),
                 interest: loan.dharmaDebtOrder.interestRate.toNumber() + '%',
                 amortization: loan.dharmaDebtOrder.termLength.toNumber() + " " + loan.dharmaDebtOrder.amortizationUnit,
                 repayment: calculateRepaymentAmount(loan.dharmaDebtOrder.principalAmount.toNumber(), loan.dharmaDebtOrder.interestRate.toNumber()),
                 isProcessing: loan.isProcessing
-            }
-        });
+            }));
 
         return (
             <div>

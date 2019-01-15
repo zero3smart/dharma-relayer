@@ -4,17 +4,19 @@ import './loan-table-small.css';
 
 function renderRows(rows){
   let i=0;
-  return rows.map(row => {
-    let date = new Date(row.creationTime);
-    return (
-      <tr key={i++}>
-        <td className="loan-table-small__table-cell">{date.toLocaleDateString()} <br /> {date.toLocaleTimeString()}</td>
-        <td className="loan-table-small__table-cell">{`${row.principalAmount.toNumber()} ${row.principalTokenSymbol}`}</td>
-        <td className="loan-table-small__table-cell">{`${row.termLength.toNumber()} ${row.amortizationUnit}`}</td>
-        <td className="loan-table-small__table-cell">{row.interestRate + ' %'}</td>
-      </tr>
-    );
-  });
+  return rows
+    .map(row => ({...row, creationTime: new Date(row.creationTime)}))
+    .sort((a,b) => a.creationTime < b.creationTime ? 1 : (-1))
+    .map(row => {
+      return (
+        <tr key={i++}>
+          <td className="loan-table-small__table-cell">{row.creationTime.toLocaleDateString()} <br /> {row.creationTime.toLocaleTimeString()}</td>
+          <td className="loan-table-small__table-cell">{`${row.principalAmount.toNumber()} ${row.principalTokenSymbol}`}</td>
+          <td className="loan-table-small__table-cell">{`${row.termLength.toNumber()} ${row.amortizationUnit}`}</td>
+          <td className="loan-table-small__table-cell">{row.interestRate + ' %'}</td>
+        </tr>
+      );
+    });
 }
 
 function LoanTableSmall(props){
