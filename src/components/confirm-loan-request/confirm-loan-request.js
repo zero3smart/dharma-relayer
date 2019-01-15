@@ -28,9 +28,11 @@ class ConfirmLoanRequest extends Component{
         <div className="confirm__row">
           Maximum interest rate willing to pay: {maxInterest} %
         </div>
-        <div className="confirm__row">
-          Collateral amount: {collateralAmount} {collateralType}
-        </div>
+        {/*
+          <div className="confirm__row">
+            Collateral amount: {collateralAmount} {collateralType}
+          </div>
+        */}
         <div className="confirm__row">
           Total loan repayment amount: {repaymentAmount} {currency}
         </div>

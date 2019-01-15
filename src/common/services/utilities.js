@@ -16,5 +16,5 @@ export const calculateNumberOfPayments = (amortizationFrequency, termInDays) => 
 };
 
 
-export const calculateRepaymentAmount = (amount, interestRate, termLengthInAmortizationUnits) => amount * (1 + (interestRate/100));
+export const calculateRepaymentAmount = (amount, interestRate) => amount * (1 + (interestRate/100));
 export const calculateTotalPaymentAmount = (repaymentAmount, termLengthInAmortizationUnits) => repaymentAmount / termLengthInAmortizationUnits;

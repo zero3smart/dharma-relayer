@@ -12,7 +12,7 @@ function renderRows(rows, loans, fundFunction) {
                 <td className="loan-table-small__table-cell">{row.term}</td>
                 <td className="loan-table-small__table-cell">N/A</td>
                 <td className="loan-table-small__table-cell">{row.amortization}</td>
-                <td className="loan-table-small__table-cell">{row.repayment} {row.token}</td>
+                <td className="loan-table-small__table-cell">{row.repayment.toFixed(2)} {row.token}</td>
                 <td className="loan-table-small__table-cell">
                     <button className="loan-request-fund" disabled={row.isProcessing} onClick={fundFunction.bind(this, loans[i++])}>FUND</button>
                 </td>

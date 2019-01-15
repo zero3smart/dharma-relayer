@@ -8,7 +8,8 @@ import {
   FETCH_SIGNED_BY_DEBTOR_SUCCESS,
   FETCH_FILLED_DEBTS_SUCCESS,
   RESET_LOAN_FORM,
-  HIDE_LOAN_CONFIRMATION
+  HIDE_LOAN_CONFIRMATION,
+  SHOW_LOAN_CONFIRMATION
 } from '../actions';
 import web3 from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
@@ -63,6 +64,8 @@ function debtOrderConfirmationReducer(state = {
   modalVisible:false
 }, action){
   switch(action.type){
+    case SHOW_LOAN_CONFIRMATION:
+      return {...state, modalVisible:true, ...action.debtOrder};
     case HIDE_LOAN_CONFIRMATION:
       return {...state, modalVisible: false};
     case ALLOW_COLLATERAL_SUCCESS:

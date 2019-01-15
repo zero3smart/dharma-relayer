@@ -4,6 +4,7 @@ import { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirm
 import LoanRequestsTable from '../../components/loan-request-table/loan-request-table';
 import {Modal, ModalBody} from '../../components/modal/modal';
 import ConfirmFund from '../../components/confirm-fund/confirm-fund';
+import {calculateRepaymentAmount} from '../../common/services/utilities';
 
 let destroyTimer = null;
 
@@ -42,7 +43,7 @@ class LoanRequests extends Component {
                 term: loan.dharmaDebtOrder.termLength.toNumber(),
                 interest: loan.dharmaDebtOrder.interestRate.toNumber() + '%',
                 amortization: loan.dharmaDebtOrder.termLength.toNumber() + " " + loan.dharmaDebtOrder.amortizationUnit,
-                repayment: loan.dharmaDebtOrder.principalAmount.toNumber() * (1 + loan.dharmaDebtOrder.interestRate.toNumber() * loan.dharmaDebtOrder.termLength.toNumber()),
+                repayment: calculateRepaymentAmount(loan.dharmaDebtOrder.principalAmount.toNumber(), loan.dharmaDebtOrder.interestRate.toNumber()),
                 isProcessing: loan.isProcessing
             }
         });

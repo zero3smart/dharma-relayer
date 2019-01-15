@@ -62,6 +62,16 @@
 .loan-request-form__relayer-fee{
   padding: 6px;
 }
+.loan-request-form__place-btn-wrapper{
+  display: flex;
+  justify-content: center;
+}
+.loan-request-form__place-btn{
+  background-color: #23a85b;
+  color: white;
+  height: 32px;
+  width: 200px;
+}
 .loan-request-form_disabled{
   background-color: #ababab;
   cursor: not-allowed;

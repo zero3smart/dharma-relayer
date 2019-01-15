@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
 import './place-loan-request.css';
-import {allowCollateral, placeLoanRequest, resetLoanForm, hideLoanConfirmation} from '../../actions';
+import {allowCollateral, placeLoanRequest, resetLoanForm, hideLoanConfirmation, showLoanConfirmation} from '../../actions';
 import * as CurrencyCodes from '../../common/currencyCodes';
 import * as amortizationValues from '../../common/amortizationFrequencies';
 import {Modal, ModalBody} from '../modal/modal';
@@ -35,14 +35,20 @@ class PlaceLoanRequest extends Component{
     this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
   }
 
-  allowCollateralUseClick(values){
-    //this.props.allowCollateral(calculateCollateralAmount(amount), collateralType);
-    this.props.allowCollateral({
-      ...values,
-      amortizationFrequency: values.amortizationFrequency || termValues[values.term].amortizationFrequencies[0],
-      collateralAmount: calculateCollateralAmount(values.amount)
-    });
+  //uncomment when decide to return "collateral" functionality
+  //allowCollateralUseClick(values){
+  //  this.props.allowCollateral({
+  //    ...values,
+  //    amortizationFrequency: values.amortizationFrequency || termValues[values.term].amortizationFrequencies[0],
+  //    collateralAmount: calculateCollateralAmount(values.amount)
+  //  });
+  //}
 
+  placeLoanRequestClick(values){
+    this.props.showLoanConfirmation({
+      ...values,
+      amortizationFrequency: values.amortizationFrequency || termValues[values.term].amortizationFrequencies[0]
+    });
   }
 
   placeLoanRequestHandler(values){
@@ -143,6 +149,7 @@ class PlaceLoanRequest extends Component{
               normalize={floatOnly}/>
           </div>
         </div>
+        {/*
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
             <span className="loan-request-form__label">
@@ -169,6 +176,14 @@ class PlaceLoanRequest extends Component{
               Allow collateral use
             </button>
           </div>
+        </div>
+        */}
+        <div className="loan-request-form__place-btn-wrapper">
+          <button
+            className={"loan-request-form__place-btn " + (valid ? "" : "loan-request-form_disabled")}
+            onClick={handleSubmit(this.placeLoanRequestClick.bind(this))}>
+            PLACE LOAN REQUEST
+          </button>
         </div>
         <Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={this.props.hideLoanConfirmation}>
           <ModalBody>
@@ -205,6 +220,9 @@ let mapDispatchToProps = (dispatch) => ({
   },
   hideLoanConfirmation(){
     dispatch(hideLoanConfirmation());
+  },
+  showLoanConfirmation(debtOrder){
+    dispatch(showLoanConfirmation(debtOrder));
   }
 });
 
