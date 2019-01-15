@@ -95,7 +95,7 @@ class PlaceLoanRequest extends Component{
 
 
   render(){
-    const { handleSubmit, valid, collateralAllowed, term, debtOrderConfirmation } = this.props;
+    const { handleSubmit, valid, collateralAllowed, term, debtOrderConfirmation, placeLoan } = this.props;
 
     return (
       <div className="loan-request-form">
@@ -149,7 +149,7 @@ class PlaceLoanRequest extends Component{
           </div>
         </div>
         <div className="loan-request-form__row">
-          <div className="loan-request-form__input-wrapper">
+          <div className="loan-request-form__large-input-wrapper">
             <Field
               name="maxInterest"
               className="loan-request-form__input"
@@ -197,7 +197,7 @@ class PlaceLoanRequest extends Component{
         </div>
         <Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={this.props.hideLoanConfirmation}>
           <ModalBody>
-            <ConfirmLoanRequest {...debtOrderConfirmation} onCancel={this.cancelLoanRequest.bind(this)} onConfirm={this.placeLoanRequestHandler.bind(this)} />
+            <ConfirmLoanRequest {...debtOrderConfirmation} onCancel={this.cancelLoanRequest.bind(this)} onConfirm={this.placeLoanRequestHandler.bind(this)} isLoading={placeLoan.isLoading} />
           </ModalBody>
         </Modal>
 
@@ -213,7 +213,8 @@ let mapStateToProps = state => ({
   term: selector(state, 'term'),
   amortizationFrequency: selector(state, 'amortizationFrequency'),
   collateralAllowed: state.collateralAllowed,
-  debtOrderConfirmation: state.debtOrderConfirmation
+  debtOrderConfirmation: state.debtOrderConfirmation,
+  placeLoan: state.placeLoan
 });
 let mapDispatchToProps = (dispatch) => ({
   allowCollateral(amount, token){

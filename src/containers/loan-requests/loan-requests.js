@@ -32,7 +32,7 @@ class LoanRequests extends Component {
     }
 
     render() {
-        let {loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoanRequest, runTablesUpdate} = this.props;
+        let {loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoan, fillLoanRequest, runTablesUpdate} = this.props;
 
         let rows = loanRequests
             .map(loan => ({...loan, creationTime: new Date(loan.creationTime)}))
@@ -45,7 +45,7 @@ class LoanRequests extends Component {
                 interest: loan.dharmaDebtOrder.interestRate.toNumber() + '%',
                 amortization: loan.dharmaDebtOrder.termLength.toNumber() + " " + loan.dharmaDebtOrder.amortizationUnit,
                 repayment: calculateRepaymentAmount(loan.dharmaDebtOrder.principalAmount.toNumber(), loan.dharmaDebtOrder.interestRate.toNumber()),
-                isProcessing: loan.isProcessing
+                isLoading: loan.isLoading
             }));
 
         return (
@@ -55,7 +55,7 @@ class LoanRequests extends Component {
                     <ModalBody>
                         {
                             fundConfirmation.modalVisible && fundConfirmation.loanRequest &&
-                            <ConfirmFund loanRequest={fundConfirmation.loanRequest} onCancel={hideFundConfirmation} onConfirm={(debtOrder) => fillLoanRequest(debtOrder, runTablesUpdate)} />
+                            <ConfirmFund loanRequest={fundConfirmation.loanRequest} onCancel={hideFundConfirmation} onConfirm={(debtOrder) => fillLoanRequest(debtOrder, runTablesUpdate)} isLoading={fillLoan.isLoading}/>
                         }
                     </ModalBody>
                 </Modal>
@@ -64,9 +64,10 @@ class LoanRequests extends Component {
     }
 }
 
-let mapStateToProps = ({loanRequests, fundConfirmation}) => ({
+let mapStateToProps = ({loanRequests, fundConfirmation, fillLoan}) => ({
     loanRequests,
-    fundConfirmation
+    fundConfirmation,
+    fillLoan
 });
 
 let mapDispatchToProps = { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation, runTablesUpdate };
