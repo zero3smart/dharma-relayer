@@ -7,7 +7,7 @@ import {RELAYER_AMORTIZATION_FREQUENCIES, DHARMA_AMORTIZATION_UNITS} from '../..
 
 class ConfirmFund extends Component{
   render(){
-    let {onConfirm, onCancel, loanRequest} = this.props;
+    let {onConfirm, onCancel, isLoading, loanRequest} = this.props;
 
     let amount = loanRequest.principalAmount;
     let token = loanRequest.dharmaDebtOrder.principalTokenSymbol;
@@ -47,16 +47,17 @@ class ConfirmFund extends Component{
         confirmText="FUND"
         cancelText="CANCEL"
         onConfirm={() => onConfirm(loanRequest)}
-        onCancel={onCancel}>
+        onCancel={onCancel}
+        isLoading = {isLoading}>
 
         <div className="confirm__row">
-          Loan amount: {amount} {token}
+          <b>Loan amount: </b>{amount} {token}
         </div>
         <div className="confirm__row">
-          Loan term: {termInDays} days
+          <b>Loan term: </b>{termInDays} days
         </div>
         <div className="confirm__row">
-          Maximum interest rate willing to pay: {interest} %
+          <b>Maximum interest rate willing to pay: </b>{interest} %
         </div>
         {/*
          <div className="confirm__row">
@@ -64,19 +65,17 @@ class ConfirmFund extends Component{
          </div>
         */}
         <div className="confirm__row">
-          Total loan repayment amount: {repaymentAmount} {token}
+          <b>Total loan repayment amount: </b>{repaymentAmount} {token}
         </div>
         <div className="confirm__row">
-          Number of payments: {termLength}
+          <b>Number of payments: </b>{termLength}
         </div>
         <div className="confirm__row">
-          Payment frequency: {amortizationFrequency}
+          <b>Payment frequency: </b>{amortizationFrequency}
         </div>
         <div className="confirm__row">
-          Payment amount: {totalPaymentAmount} {token}
+          <b>Payment amount: </b>{totalPaymentAmount} {token}
         </div>
-        <br/>
-        <hr/>
       </Confirm>
     );
   }

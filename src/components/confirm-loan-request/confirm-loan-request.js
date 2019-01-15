@@ -4,7 +4,7 @@ import Confirm from '../confirm/confirm';
 
 class ConfirmLoanRequest extends Component{
   render(){
-    let {onConfirm, onCancel, ...values} = this.props;
+    let {onConfirm, onCancel, isLoading, ...values} = this.props;
     let {amount, currency, term, maxInterest, amortizationFrequency, collateralAmount, collateralType} = values;
 
     let numberOfPayments = calculateNumberOfPayments(amortizationFrequency, term);
@@ -17,16 +17,17 @@ class ConfirmLoanRequest extends Component{
         confirmText="PLACE LOAN REQUEST"
         cancelText="CANCEL LOAN REQUEST"
         onConfirm={() => onConfirm(values)}
-        onCancel={onCancel}>
+        onCancel={onCancel}
+        isLoading={isLoading}>
 
         <div className="confirm__row">
-          Loan amount: {amount} {currency}
+          <b>Loan amount: </b>{amount} {currency}
         </div>
         <div className="confirm__row">
-          Loan term: {term} days
+          <b>Loan term: </b>{term} days
         </div>
         <div className="confirm__row">
-          Maximum interest rate willing to pay: {maxInterest} %
+          <b>Maximum interest rate willing to pay: </b>{maxInterest} %
         </div>
         {/*
           <div className="confirm__row">
@@ -34,20 +35,20 @@ class ConfirmLoanRequest extends Component{
           </div>
         */}
         <div className="confirm__row">
-          Total loan repayment amount: {repaymentAmount} {currency}
+          <b>Total loan repayment amount: </b>{repaymentAmount} {currency}
         </div>
         <div className="confirm__row">
-          Number of payments: {numberOfPayments}
+          <b>Number of payments: </b>{numberOfPayments}
         </div>
         <div className="confirm__row">
-          Payment frequency: {amortizationFrequency}
+          <b>Payment frequency: </b>{amortizationFrequency}
         </div>
         <div className="confirm__row">
-          Payment amount: {totalPaymentAmount} {currency}
+          <b>Payment amount: </b>{totalPaymentAmount} {currency}
         </div>
         <br/>
         <div className="confirm__row">
-          Relayer fees: 0.00%
+          <b>Relayer fees: </b>0.00%
         </div>
         <hr/>
       </Confirm>
