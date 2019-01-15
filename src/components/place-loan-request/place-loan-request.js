@@ -4,18 +4,18 @@ import {Field, reduxForm, formValueSelector, change as changeForm } from 'redux-
 import './place-loan-request.css';
 import {allowCollateral, placeLoanRequest, resetLoanForm, hideLoanConfirmation, showLoanConfirmation} from '../../actions';
 import * as CurrencyCodes from '../../common/currencyCodes';
-import * as amortizationValues from '../../common/amortizationFrequencies';
+import {RELAYER_AMORTIZATION_FREQUENCIES} from '../../common/amortizationFrequencies';
 import {Modal, ModalBody} from '../modal/modal';
 import ConfirmLoanRequest from '../confirm-loan-request/confirm-loan-request';
 import {calculateCollateralAmount} from '../../common/services/utilities';
 
 const termValues = {
-  1: {name: '1 day', amortizationFrequencies: [amortizationValues.END]},
-  7: {name: '7 days', amortizationFrequencies: [amortizationValues.DAILY, amortizationValues.END]},
-  28: {name: '28 days', amortizationFrequencies: [amortizationValues.WEEKLY, amortizationValues.END]},
-  90: {name: '90 days', amortizationFrequencies: [amortizationValues.MONTHLY, amortizationValues.END]},
-  180: {name: '180 days', amortizationFrequencies: [amortizationValues.MONTHLY, amortizationValues.END]},
-  360: {name: '360 days', amortizationFrequencies: [amortizationValues.MONTHLY, amortizationValues.END]}
+  1: {name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.END]},
+  7: {name: '7 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY, RELAYER_AMORTIZATION_FREQUENCIES.END]},
+  28: {name: '28 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.WEEKLY, RELAYER_AMORTIZATION_FREQUENCIES.END]},
+  90: {name: '90 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY, RELAYER_AMORTIZATION_FREQUENCIES.END]},
+  180: {name: '180 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY, RELAYER_AMORTIZATION_FREQUENCIES.END]},
+  360: {name: '360 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY, RELAYER_AMORTIZATION_FREQUENCIES.END]}
 };
 
 const floatOnly = (value) => {

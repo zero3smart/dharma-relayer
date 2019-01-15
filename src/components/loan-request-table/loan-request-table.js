@@ -10,8 +10,8 @@ function renderRows(rows, loans, fundFunction) {
                 <td className="loan-table-small__table-cell">{row.amount} {row.token}</td>
                 <td className="loan-table-small__table-cell">{row.interest}</td>
                 <td className="loan-table-small__table-cell">{row.term}</td>
-                <td className="loan-table-small__table-cell">N/A</td>
-                <td className="loan-table-small__table-cell">{row.amortization}</td>
+                {/*<td className="loan-table-small__table-cell">N/A</td>*/}
+              <td className="loan-table-small__table-cell">{row.amortization}</td>
                 <td className="loan-table-small__table-cell">{row.repayment.toFixed(2)} {row.token}</td>
                 <td className="loan-table-small__table-cell">
                     <button className="loan-request-fund" disabled={row.isProcessing} onClick={fundFunction.bind(this, loans[i++])}>FUND</button>
@@ -34,7 +34,7 @@ function LoanRequestsTable(props) {
                     <th className="loan-table-small__table-header">Principal loan amount</th>
                     <th className="loan-table-small__table-header">Interest rate (annual)</th>
                     <th className="loan-table-small__table-header">Term (days)</th>
-                    <th className="loan-table-small__table-header">Collateral name and amount</th>
+                    {/*<th className="loan-table-small__table-header">Collateral name and amount</th>*/}
                     <th className="loan-table-small__table-header">Amortization frequency</th>
                     <th className="loan-table-small__table-header">Repayment amount</th>
                     <th className="loan-table-small__table-header"></th>
