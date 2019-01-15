@@ -1,4 +1,4 @@
-import { GET_LOAN_REQUESTS_SUCCESS, FILL_LOAN } from '../actions';
+import { GET_LOAN_REQUESTS_SUCCESS, FILL_LOAN, FILL_LOAN_SUCCESS, FILL_LOAN_FAIL } from '../actions';
 
 export default function (state = [], action) {
     switch(action.type){
@@ -6,13 +6,23 @@ export default function (state = [], action) {
             return action.loans.map(loan => {
                 return {
                     ...loan,
-                    isProcessing: false
+                    isLoading: false
                 }
             });
         case FILL_LOAN:
             return state.map(loan => ({
                 ...loan,
-                isProcessing: loan.id === action.debtOrder.id ? true : loan.isProcessing
+                isLoading: loan.id === action.debtOrder.id ? true : loan.isLoading
+            }));
+        case FILL_LOAN_SUCCESS:
+            return state.map(loan => ({
+                ...loan,
+                isLoading: false
+            }));
+        case FILL_LOAN_FAIL:
+            return state.map(loan => ({
+                ...loan,
+                isLoading: false
             }));
         default:
             return state;

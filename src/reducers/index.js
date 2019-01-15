@@ -16,6 +16,8 @@ import loanIssuedReducer from './loanIssuedReducer';
 import fundConfirmationReducer from './fundConfirmationReducer';
 import myOpenLoanRequestsReducer from './myOpenLoanRequestsReducer';
 import myFundedLoansReducer from './myFundedLoansReducer';
+import placeLoanReducer from './placeLoanReducer';
+import fillLoanReducer from './fillLoanReducer';
 
 function walletInfoReducer(state = {
     address: web3.eth.defaultAccount,
@@ -77,6 +79,8 @@ const rootReducer = combineReducers({
   myOutstandingLoans: myOutstandingLoansReducer,
   debtOrderConfirmation: debtOrderConfirmationReducer,
   fundConfirmation: fundConfirmationReducer,
+  placeLoan: placeLoanReducer,
+  fillLoan: fillLoanReducer,
   form: formReducer
 });
 
