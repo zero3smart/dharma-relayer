@@ -89,7 +89,9 @@ export async function createDebtOrder(debtOrderInfo) {
     underwriterAddress: dharmaDebtOrder.underwriter,
     underwriterRiskRating: dharmaDebtOrder.underwriterRiskRating,
     underwriterFee: dharmaDebtOrder.underwriterFee,
-    underwriterSignature: JSON.stringify(dharmaDebtOrder.underwriterSignature)
+    underwriterSignature: JSON.stringify(dharmaDebtOrder.underwriterSignature),
+    relayerAddress: dharmaDebtOrder.relayer,
+    relayerFee: dharmaDebtOrder.relayerFee
   };
 
   return result;
