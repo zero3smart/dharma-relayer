@@ -2,7 +2,14 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
 import './place-loan-request.css';
-import {allowCollateral, placeLoanRequest, resetLoanForm, hideLoanConfirmation, showLoanConfirmation} from '../../actions';
+import {
+  allowCollateral,
+  placeLoanRequest,
+  resetLoanForm,
+  hideLoanConfirmation,
+  showLoanConfirmation,
+  runTablesUpdate
+} from '../../actions';
 import * as CurrencyCodes from '../../common/currencyCodes';
 import {RELAYER_AMORTIZATION_FREQUENCIES} from '../../common/amortizationFrequencies';
 import {Modal, ModalBody} from '../modal/modal';
@@ -52,8 +59,11 @@ class PlaceLoanRequest extends Component{
   }
 
   placeLoanRequestHandler(values){
-    let {placeLoanRequest} = this.props;
-    placeLoanRequest(values, this.cancelLoanRequest);
+    let {placeLoanRequest, runTablesUpdate} = this.props;
+    placeLoanRequest(values, () => {
+      this.cancelLoanRequest();
+      runTablesUpdate();
+    });
   }
 
   cancelLoanRequest(){
@@ -223,6 +233,9 @@ let mapDispatchToProps = (dispatch) => ({
   },
   showLoanConfirmation(debtOrder){
     dispatch(showLoanConfirmation(debtOrder));
+  },
+  runTablesUpdate(){
+    dispatch(runTablesUpdate());
   }
 });
 

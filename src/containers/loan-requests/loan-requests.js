@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation } from '../../actions';
+import { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation, runTablesUpdate } from '../../actions';
 import LoanRequestsTable from '../../components/loan-request-table/loan-request-table';
 import {Modal, ModalBody} from '../../components/modal/modal';
 import ConfirmFund from '../../components/confirm-fund/confirm-fund';
@@ -32,7 +32,7 @@ class LoanRequests extends Component {
     }
 
     render() {
-        let {loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoanRequest} = this.props;
+        let {loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoanRequest, runTablesUpdate} = this.props;
 
         let rows = loanRequests.map(loan => {
             const date = new Date(loan.creationTime);
@@ -55,7 +55,7 @@ class LoanRequests extends Component {
                     <ModalBody>
                         {
                             fundConfirmation.modalVisible && fundConfirmation.loanRequest &&
-                            <ConfirmFund loanRequest={fundConfirmation.loanRequest} onCancel={hideFundConfirmation} onConfirm={fillLoanRequest} />
+                            <ConfirmFund loanRequest={fundConfirmation.loanRequest} onCancel={hideFundConfirmation} onConfirm={() => fillLoanRequest(runTablesUpdate)} />
                         }
                     </ModalBody>
                 </Modal>
@@ -69,6 +69,6 @@ let mapStateToProps = ({loanRequests, fundConfirmation}) => ({
     fundConfirmation
 });
 
-let mapDispatchToProps = { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation };
+let mapDispatchToProps = { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation, runTablesUpdate };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoanRequests);

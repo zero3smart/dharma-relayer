@@ -41,11 +41,11 @@ export function placeLoanRequest({amount, currency, maxInterest, term, amortizat
     return createDebtOrder(debtOrderInfo)
       .then(debtOrder => debtsApi.post(debtOrder))
       .then(resp => {
-        alert('Placed successfully!');
-        callback();
         dispatch({
           type: PLACE_LOAN_SUCCESS
         });
+        callback();
+        alert('Placed successfully!');
       });
   };
 }

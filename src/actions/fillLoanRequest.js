@@ -6,7 +6,7 @@ export const FILL_LOAN = 'FILL_LOAN';
 export const FILL_LOAN_SUCCESS = 'FILL_LOAN_SUCCESS';
 export const FILL_LOAN_FAIL = 'FILL_LOAN_FAIL';
 
-export function fillLoanRequest(debtOrder) {
+export function fillLoanRequest(debtOrder, callback) {
     return dispatch => {
         dispatch({
             type: FILL_LOAN,
@@ -26,6 +26,7 @@ export function fillLoanRequest(debtOrder) {
                 dispatch({
                     type: FILL_LOAN_SUCCESS
                 });
+                callback();
             })
             .catch(err => {
                 alert(err);
