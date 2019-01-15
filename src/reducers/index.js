@@ -5,8 +5,7 @@ import {
   SELECT_CURRENCY,
   ALLOW_COLLATERAL_SUCCESS,
   GET_WALLET_BALANCE_SUCCESS,
-  FETCH_SIGNED_BY_DEBTOR_SUCCESS,
-  FETCH_FILLED_DEBTS_SUCCESS,
+  FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
   RESET_LOAN_FORM,
   HIDE_LOAN_CONFIRMATION,
   SHOW_LOAN_CONFIRMATION
@@ -15,6 +14,8 @@ import web3 from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
 import loanIssuedReducer from './loanIssuedReducer';
 import fundConfirmationReducer from './fundConfirmationReducer';
+import myOpenLoanRequestsReducer from './myOpenLoanRequestsReducer';
+import myFundedLoansReducer from './myFundedLoansReducer';
 
 function walletInfoReducer(state = {
     address: web3.eth.defaultAccount,
@@ -42,18 +43,9 @@ function collateralAllowedReducer(state = false, action) {
   }
 }
 
-function signedByDebtorReducer(state = [], action){
+function myOutstandingLoansReducer(state = [], action){
   switch(action.type){
-    case FETCH_SIGNED_BY_DEBTOR_SUCCESS:
-      return action.debts;
-    default:
-      return state;
-  }
-}
-
-function filledDebtsReducer(state = [], action){
-  switch(action.type){
-    case FETCH_FILLED_DEBTS_SUCCESS:
+    case FETCH_MY_OUTSTANDING_LOANS_SUCCESS:
       return action.debts;
     default:
       return state;
@@ -78,10 +70,11 @@ function debtOrderConfirmationReducer(state = {
 const rootReducer = combineReducers({
   walletInfo: walletInfoReducer,
   collateralAllowed: collateralAllowedReducer,
-  signedByDebtor: signedByDebtorReducer,
+  myOpenLoanRequests: myOpenLoanRequestsReducer,
+  myFundedLoans: myFundedLoansReducer,
   loanRequests: loanRequestReducer,
   loanIssued: loanIssuedReducer,
-  filledDebts: filledDebtsReducer,
+  myOutstandingLoans: myOutstandingLoansReducer,
   debtOrderConfirmation: debtOrderConfirmationReducer,
   fundConfirmation: fundConfirmationReducer,
   form: formReducer

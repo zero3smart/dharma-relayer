@@ -22,12 +22,9 @@ class UserInfo extends Component{
        <div className="user-info__small-table">
          <OutstandingLoans />
        </div>
-        {/*
-         <div className="user-info__small-table">
+       <div className="user-info__small-table">
          <FundedLoans />
-         </div>
-        */}
-
+       </div>
       </div>
     );
   }

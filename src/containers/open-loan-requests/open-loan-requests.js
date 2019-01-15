@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchSignedByDebtor} from '../../actions';
+import {fetchMyOpenedLoanRequests} from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 
 let destroyTimer = null;
@@ -14,9 +14,9 @@ let startTimer = (func) => {
 
 class OpenLoanRequests extends Component{
   componentDidMount(){
-    let {fetchSignedByDebtor} = this.props;
-    fetchSignedByDebtor();
-    startTimer(fetchSignedByDebtor);
+    let {fetchMyOpenedLoanRequests} = this.props;
+    fetchMyOpenedLoanRequests();
+    startTimer(fetchMyOpenedLoanRequests);
   }
 
   componentWillUnmount(){
@@ -24,18 +24,18 @@ class OpenLoanRequests extends Component{
   }
 
   render(){
-    let {signedByDebtor} = this.props;
+    let {myOpenLoanRequests} = this.props;
 
     return (
-      <LoanTableSmall header="My Open Loan Requests" rows={signedByDebtor}/>
+      <LoanTableSmall header="My Open Loan Requests" rows={myOpenLoanRequests}/>
     );
   }
 }
 
-let mapStateToProps = ({signedByDebtor}) => ({
-  signedByDebtor
+let mapStateToProps = ({myOpenLoanRequests}) => ({
+  myOpenLoanRequests
 });
 
-let mapDispatchToProps = {fetchSignedByDebtor};
+let mapDispatchToProps = {fetchMyOpenedLoanRequests};
 
 export default connect(mapStateToProps, mapDispatchToProps)(OpenLoanRequests);

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchFilledDebts} from '../../actions';
+import {fetchMyOutstandingLoans} from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 
 let destroyTimer = null;
@@ -15,9 +15,9 @@ let startTimer = (func) => {
 class OutstandingLoans extends Component{
 
   componentDidMount(){
-    let {fetchFilledDebts} = this.props;
-    fetchFilledDebts();
-    startTimer(fetchFilledDebts);
+    let {fetchMyOutstandingLoans} = this.props;
+    fetchMyOutstandingLoans();
+    startTimer(fetchMyOutstandingLoans);
   }
 
   componentWillUnmount(){
@@ -25,17 +25,17 @@ class OutstandingLoans extends Component{
   }
 
   render(){
-    let {filledDebts} = this.props;
+    let {myOutstandingLoans} = this.props;
     return (
-      <LoanTableSmall header="My outstading loans" rows={filledDebts}/>
+      <LoanTableSmall header="My outstading loans" rows={myOutstandingLoans}/>
     );
   }
 }
 
-let mapStateToProps = ({filledDebts}) => ({
-  filledDebts
+let mapStateToProps = ({myOutstandingLoans}) => ({
+  myOutstandingLoans
 });
 
-let mapDispatchToProps = {fetchFilledDebts};
+let mapDispatchToProps = {fetchMyOutstandingLoans};
 
 export default connect(mapStateToProps, mapDispatchToProps)(OutstandingLoans);
