@@ -1,5 +1,5 @@
 import {
-  getNetwork,
+  getNetworkAsync,
   getDefaultAccount
 } from './web3Service';
 import {
@@ -8,7 +8,7 @@ import {
 
 export default async function (amount, token) {
 
-  const currentNetwork = await getNetwork();
+  const currentNetwork = await getNetworkAsync();
   const tokenContract = await getTokenContractBySymbolAsync(token)
   const spender = tokenContract.address
 

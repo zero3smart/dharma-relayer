@@ -5,7 +5,7 @@ import MKR from '../tokenJson/MKR.json';
 import REP from '../tokenJson/REP.json';
 import ZRX from '../tokenJson/ZRX.json';
 import * as currencyCodes from '../currencyCodes';
-import web3 from './web3Service.js'
+import web3Provider from './web3Service.js'
 
 export async function convertToHumanReadable(amount, tokenSymbol) {
     const decimals = await getTokenDecimals(tokenSymbol);
@@ -21,7 +21,7 @@ export async function convertFromHumanReadable(amount, tokenSymbol) {
 
 export function getTokenContractBySymbolAsync(symbol) {
     const TokenContract = contract(getTokenSource(symbol));
-    TokenContract.setProvider(web3.currentProvider);
+    TokenContract.setProvider(web3Provider);
 
     return TokenContract.deployed();
 }
