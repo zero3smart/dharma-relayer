@@ -4,7 +4,6 @@ import { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirm
 import LoanRequestsTable from '../../components/loan-request-table/loan-request-table';
 import {Modal, ModalBody} from '../../components/modal/modal';
 import ConfirmFund from '../../components/confirm-fund/confirm-fund';
-import {calculateRepaymentAmount} from '../../common/services/utilities';
 
 let destroyTimer = null;
 
@@ -32,30 +31,16 @@ class LoanRequests extends Component {
     }
 
     render() {
-        let {loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoan, fillLoanRequest, runTablesUpdate} = this.props;
-
-        let rows = loanRequests
-            .map(loan => ({...loan, creationTime: new Date(loan.creationTime)}))
-            .sort((a,b) => a.creationTime < b.creationTime ? 1 : (-1))
-            .map(loan => ({
-                amount: loan.principalAmount,
-                token: loan.dharmaDebtOrder.principalTokenSymbol,
-                date: loan.creationTime.toLocaleDateString() + " " + loan.creationTime.toLocaleTimeString(),
-                term: loan.dharmaDebtOrder.termLength.toNumber(),
-                interest: loan.dharmaDebtOrder.interestRate.toNumber() + '%',
-                amortization: loan.dharmaDebtOrder.termLength.toNumber() + " " + loan.dharmaDebtOrder.amortizationUnit,
-                repayment: calculateRepaymentAmount(loan.dharmaDebtOrder.principalAmount.toNumber(), loan.dharmaDebtOrder.interestRate.toNumber()),
-                isLoading: loan.isLoading
-            }));
+        let {loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoanRequest, runTablesUpdate} = this.props;
 
         return (
             <div>
-                <LoanRequestsTable header="Loan Requests" rows={rows} loans={loanRequests} onFundClick={showFundConfirmation}/>
+                <LoanRequestsTable header="Loan Requests" rows={loanRequests} onFundClick={showFundConfirmation}/>
                 <Modal show={fundConfirmation.modalVisible} size="md" onModalClosed={hideFundConfirmation}>
                     <ModalBody>
                         {
                             fundConfirmation.modalVisible && fundConfirmation.loanRequest &&
-                            <ConfirmFund loanRequest={fundConfirmation.loanRequest} onCancel={hideFundConfirmation} onConfirm={(debtOrder) => fillLoanRequest(debtOrder, runTablesUpdate)} isLoading={fillLoan.isLoading}/>
+                            <ConfirmFund loanRequest={fundConfirmation.loanRequest} onCancel={hideFundConfirmation} onConfirm={(debtOrder) => fillLoanRequest(debtOrder, runTablesUpdate)} />
                         }
                     </ModalBody>
                 </Modal>
@@ -64,10 +49,9 @@ class LoanRequests extends Component {
     }
 }
 
-let mapStateToProps = ({loanRequests, fundConfirmation, fillLoan}) => ({
+let mapStateToProps = ({loanRequests, fundConfirmation}) => ({
     loanRequests,
-    fundConfirmation,
-    fillLoan
+    fundConfirmation
 });
 
 let mapDispatchToProps = { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation, runTablesUpdate };
