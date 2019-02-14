@@ -25,10 +25,10 @@ function IssuedLoanTable(props) {
             <table className="loan-table-small__table loan-table-stripe">
                 <thead>
                 <tr className="loan-table-headers">
-                    <th className="loan-table-small__table-header">Loan <br/> amount</th>
-                    <th className="loan-table-small__table-header">Loan term</th>
-                    <th className="loan-table-small__table-header">Interest rate</th>
-                    <th className="loan-table-small__table-header">Date loan issued</th>
+                    <th className="loan-table-small__table-header" title="Loan amount">Loan <br/> amount</th>
+                    <th className="loan-table-small__table-header" title="Loan amount (days)">Loan term</th>
+                    <th className="loan-table-small__table-header" title="Interest rate (per payment period)">Interest rate</th>
+                    <th className="loan-table-small__table-header" title="Date loan issued">Date loan issued</th>
                 </tr>
                 </thead>
                 <tbody>
