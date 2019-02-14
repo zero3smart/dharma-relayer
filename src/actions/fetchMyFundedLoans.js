@@ -1,7 +1,9 @@
 import debtsApi from '../common/api/debts';
 import * as loanStatuses from '../common/loanStatuses';
 import web3 from '../common/services/web3Service';
-import {fromDebtOrder} from '../common/services/dharmaService';
+import {
+  fromDebtOrder
+} from '../common/services/dharmaService';
 
 export const FETCH_MY_FUNDED_LOANS = 'FETCH_MY_FUNDED_LOANS';
 export const FETCH_MY_FUNDED_LOANS_SUCCESS = 'FETCH_MY_FUNDED_LOANS_SUCCESS';
@@ -16,16 +18,20 @@ const fetchMyFundedLoansSuccess = (debts) => ({
   debts
 });
 
-export function fetchMyFundedLoans(){
+export function fetchMyFundedLoans() {
   return dispatch => {
     dispatch(fetchMyFundedLoansStart());
 
     return debtsApi.getForCreditor(loanStatuses.FILLED, web3.eth.defaultAccount)
-      .then(async(debts) => {
+      .then(async (debts) => {
         let mappedDebts = [];
-        for(var i=0; i<debts.length; i++){
+        for (var i = 0; i < debts.length; i++) {
           let dharmaDebt = await fromDebtOrder(debts[i]);
-          mappedDebts.push({...dharmaDebt, creationTime: debts[i].creationTime});
+          mappedDebts.push({
+            ...dharmaDebt,
+            creationTime: debts[i].creationTime,
+            issuanceBlockTime: debts[i].issuanceBlockTime
+          });
         }
         dispatch(fetchMyFundedLoansSuccess(mappedDebts));
       });

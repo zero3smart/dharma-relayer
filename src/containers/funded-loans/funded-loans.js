@@ -24,9 +24,18 @@ class FundedLoans extends Component{
   }
 
   render(){
-    let {myFundedLoans} = this.props;
+
+    let rows = this.props.myFundedLoans.map(loan => ({
+      date: new Date(loan.issuanceBlockTime),
+      principalAmount: loan.principalAmount.toNumber(),
+      principalTokenSymbol: loan.principalTokenSymbol,
+      termLength: loan.termLength.toNumber(),
+      amortizationUnit: loan.amortizationUnit,
+      interestRate:loan.interestRate
+    }));
+
     return (
-      <LoanTableSmall header="My funded loans" rows={myFundedLoans}/>
+      <LoanTableSmall header="My funded loans" dateColumnHeader="Date loan issued" rows={rows}/>
     );
   }
 }

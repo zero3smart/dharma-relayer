@@ -5,20 +5,44 @@
     margin: 20px 0 10px;
 }
 
+.loan-table__table {
+    text-align: center;
+    border-spacing: 0;
+    width: 100%;
+}
+
 .loan-table-headers {
     background-color: #474747;
+}
+
+.loan-table__table-header {
+    padding: 8px;
+    text-align: left;
+    max-width: 80px;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.loan-table__table-cell {
+    padding: 5px;
+    font-size: 12px;
+    color: #d7cec0;
+    text-align: left;
 }
 
 .loan-table-stripe tbody tr:nth-of-type(odd) {
     background-color: #1e1916;
 }
-.loan-request-fund{
+
+.loan-request-fund {
     background-color: #ff281f;
     color: white;
     height: 25px;
     width: 50px;
 }
-.loan-request-fund_disabled{
+
+.loan-request-fund_disabled {
     background-color: #ababab;
     cursor: not-allowed;
 }

@@ -99,12 +99,15 @@ class PlaceLoanRequest extends Component{
 
     return (
       <div className="loan-request-form">
+        <div className="loan-request-form__header">
+          Loan Request Form
+        </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__input-wrapper">
             <Field
               name="amount"
               className="loan-request-form__input"
-              placeholder="Amount"
+              placeholder="Loan amount"
               component="input"
               validate={required}
               normalize={floatOnly}/>
@@ -121,7 +124,7 @@ class PlaceLoanRequest extends Component{
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
             <span className="loan-request-form__label">
-              Term
+              Loan term
             </span>
           </div>
           <div className="loan-request-form__select-wrapper">
@@ -153,7 +156,7 @@ class PlaceLoanRequest extends Component{
             <Field
               name="maxInterest"
               className="loan-request-form__input"
-              placeholder="Interest rate per each payment period"
+              placeholder="Interest rate per each payment period (%)"
               component="input"
               validate={required}
               normalize={floatOnly}/>

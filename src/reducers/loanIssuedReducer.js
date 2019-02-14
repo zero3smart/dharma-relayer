@@ -8,13 +8,13 @@ export default function (state = [], action) {
             return action.loans
                 .map(loan => ({
                     ...loan,
-                    creationTime: new Date(loan.creationTime)
+                    issuanceBlockTimeParsed: new Date(loan.issuanceBlockTime)
                 }))
-                .sort((a, b) => a.creationTime < b.creationTime ? 1 : (-1))
+                .sort((a, b) => a.issuanceBlockTimeParsed < b.issuanceBlockTimeParsed ? 1 : (-1))
                 .map(loan => ({
-                    amount: loan.dharmaDebtOrder.principalAmount.toNumber(),
+                    amount: loan.principalAmount,
                     token: loan.dharmaDebtOrder.principalTokenSymbol,
-                    date: loan.creationTime.toLocaleDateString() + " " + loan.creationTime.toLocaleTimeString(),
+                    date: loan.issuanceBlockTimeParsed.toLocaleDateString() + " " + loan.issuanceBlockTimeParsed.toLocaleTimeString(),
                     term: loan.dharmaDebtOrder.termLength.toNumber(),
                     interest: loan.dharmaDebtOrder.interestRate.toNumber() + '%'
                 }));
