@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import './issued-loan-table.css';
+import {isFloat} from '../../common/services/utilities';
 
 
 function renderRows(rows) {
     let i = 0;
     return rows.map(row => {
+        let amountString = isFloat(row.amount) ? row.amount.toFixed(2) : row.amount;
         return (
             <tr key={i++}>
-                <td className="issued-table__table-cell">{row.amount} {row.token}</td>
+                <td className="issued-table__table-cell">{amountString} {row.token}</td>
                 <td className="issued-table__table-cell">{row.term}</td>
                 <td className="issued-table__table-cell">{row.interest}</td>
                 <td className="issued-table__table-cell">{row.date}</td>

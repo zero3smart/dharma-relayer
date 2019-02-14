@@ -62,3 +62,7 @@ export const calculateTermInDays = (dharmaAmortizationUnits, terms) => {
   console.error(`Relayer units corresponding to ${dharmaAmortizationUnits} weren't found`);
   return null;
 };
+
+export const isFloat = (n) => {
+  return Number(n) === n && n % 1 !== 0;
+};

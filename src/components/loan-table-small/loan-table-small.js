@@ -1,7 +1,6 @@
 import React from 'react';
 import './loan-table-small.css';
-import {calculateTermInDays} from '../../common/services/utilities';
-
+import {calculateTermInDays, isFloat} from '../../common/services/utilities';
 
 function renderRows(rows){
   let i=0;
@@ -9,10 +8,12 @@ function renderRows(rows){
   return rows
     .sort((a,b) => a.date < b.date ? 1 : (-1))
     .map(row => {
+      let amountString = isFloat(row.principalAmount) ? row.principalAmount.toFixed(2) : row.principalAmount;
+
       return (
         <tr key={i++}>
           <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} <br /> {row.date.toLocaleTimeString()}</td>
-          <td className="loan-table-small__table-cell">{`${row.principalAmount} ${row.principalTokenSymbol}`}</td>
+          <td className="loan-table-small__table-cell">{`${amountString} ${row.principalTokenSymbol}`}</td>
           <td className="loan-table-small__table-cell">{calculateTermInDays(row.amortizationUnit, row.termLength)}</td>
           <td className="loan-table-small__table-cell">{row.interestRate + ' %'}</td>
         </tr>

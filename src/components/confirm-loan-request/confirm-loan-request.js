@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {calculateNumberOfPayments, calculateRepaymentAmount, calculateTotalPaymentAmount} from '../../common/services/utilities';
+import {calculateNumberOfPayments, calculateRepaymentAmount, calculateTotalPaymentAmount, isFloat} from '../../common/services/utilities';
 import Confirm from '../confirm/confirm';
 
 class ConfirmLoanRequest extends Component{
@@ -21,7 +21,7 @@ class ConfirmLoanRequest extends Component{
         isLoading={isLoading}>
 
         <div className="confirm__row">
-          <b>Loan amount: </b>{amount} {currency}
+          <b>Loan amount: </b>{isFloat(amount) ? amount.toFixed(5) : amount} {currency}
         </div>
         <div className="confirm__row">
           <b>Loan term: </b>{term} days
@@ -35,7 +35,7 @@ class ConfirmLoanRequest extends Component{
           </div>
         */}
         <div className="confirm__row">
-          <b>Total loan repayment amount: </b>{repaymentAmount} {currency}
+          <b>Total loan repayment amount: </b>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount} {currency}
         </div>
         <div className="confirm__row">
           <b>Number of payments: </b>{numberOfPayments}
@@ -44,7 +44,7 @@ class ConfirmLoanRequest extends Component{
           <b>Payment frequency: </b>{amortizationFrequency}
         </div>
         <div className="confirm__row">
-          <b>Payment amount: </b>{totalPaymentAmount} {currency}
+          <b>Payment amount: </b>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount} {currency}
         </div>
         <br/>
         <div className="confirm__row">

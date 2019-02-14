@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Confirm from '../confirm/confirm';
-import {calculateNumberOfPayments, calculateRepaymentAmount, calculateTotalPaymentAmount} from '../../common/services/utilities';
+import {calculateNumberOfPayments, calculateRepaymentAmount, calculateTotalPaymentAmount, isFloat} from '../../common/services/utilities';
 import {RELAYER_AMORTIZATION_FREQUENCIES, DHARMA_AMORTIZATION_UNITS} from '../../common/amortizationFrequencies';
 
 
@@ -51,7 +51,7 @@ class ConfirmFund extends Component{
         isLoading = {isLoading}>
 
         <div className="confirm__row">
-          <b>Loan amount: </b>{amount} {token}
+          <b>Loan amount: </b>{isFloat(amount) ? amount.toFixed(5) : amount} {token}
         </div>
         <div className="confirm__row">
           <b>Loan term: </b>{termInDays} days
@@ -65,7 +65,7 @@ class ConfirmFund extends Component{
          </div>
         */}
         <div className="confirm__row">
-          <b>Total loan repayment amount: </b>{repaymentAmount} {token}
+          <b>Total loan repayment amount: </b>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount} {token}
         </div>
         <div className="confirm__row">
           <b>Number of payments: </b>{termLength}
@@ -74,7 +74,7 @@ class ConfirmFund extends Component{
           <b>Payment frequency: </b>{amortizationFrequency}
         </div>
         <div className="confirm__row">
-          <b>Payment amount: </b>{totalPaymentAmount} {token}
+          <b>Payment amount: </b>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount} {token}
         </div>
       </Confirm>
     );
