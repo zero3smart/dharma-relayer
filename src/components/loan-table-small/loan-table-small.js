@@ -28,10 +28,10 @@ function renderRows(rows) {
 
       return (
         <tr key={i++}>
-          <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} <br /> {row.date.toLocaleTimeString()}</td>
+          <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
           {renderAmount(row)}
-          <td className="loan-table-small__table-cell">{calculateTermInDays(row.amortizationUnit, row.termLength)} days</td>
           <td className="loan-table-small__table-cell">{row.interestRate + ' %'}</td>
+          <td className="loan-table-small__table-cell">{calculateTermInDays(row.amortizationUnit, row.termLength)} days</td>
         </tr>
       );
     });
@@ -46,10 +46,10 @@ function LoanTableSmall(props) {
       <table className="loan-table-small__table">
         <thead>
           <tr className="loan-table-small__table-headers">
-            <th className="loan-table-small__table-header" title={props.dateColumnHeader}>{props.dateColumnHeader}</th>
-            <th className="loan-table-small__table-header" title="Loan amount">Loan amount</th>
-            <th className="loan-table-small__table-header" title="Loan term (days)">Loan term</th>
-            <th className="loan-table-small__table-header" title="Interest rate (per payment period)">Interest rate</th>
+            <th className="loan-table-small__table-header" title={props.dateColumnHeader}>Date</th>
+            <th className="loan-table-small__table-header" title="Loan amount">Amount</th>
+            <th className="loan-table-small__table-header" title="Interest rate (per payment period)">Interest</th>
+            <th className="loan-table-small__table-header" title="Loan term (days)">Term</th>
           </tr>
         </thead>
         <tbody className="loan-table-small__table-body scrollable-table__table-body scrollable">

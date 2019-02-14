@@ -100,14 +100,17 @@ class PlaceLoanRequest extends Component{
     return (
       <div className="loan-request-form">
         <div className="loan-request-form__header">
-          Loan Request Form
+          New loan request
         </div>
-        <div className="loan-request-form__row">
+        <div className="loan-request-form__row loan-request-amount">
+          <div className="loan-request-form__label-wrapper">
+            <label className="loan-request-form__label">Amount</label>
+          </div>
           <div className="loan-request-form__input-wrapper">
             <Field
               name="amount"
               className="loan-request-form__input"
-              placeholder="Loan amount"
+              placeholder="0"
               component="input"
               validate={required}
               normalize={floatOnly}/>
@@ -123,9 +126,7 @@ class PlaceLoanRequest extends Component{
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
-            <span className="loan-request-form__label">
-              Loan term
-            </span>
+            <label className="loan-request-form__label">Term</label>
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="term" className="loan-request-form__select" component="select" onChange={this.termChange.bind(this)}>
@@ -138,25 +139,28 @@ class PlaceLoanRequest extends Component{
             </Field>
           </div>
         </div>
-        <div className="loan-request-form__repayment-frequency">
-          <span>Payment period frequency</span>
-        </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
-            <span className="loan-request-form__label">
-               {term ? termValues[term].name : termValues['28'].name} loan
-            </span>
+            <label className="loan-request-form__label">Payment</label>
           </div>
+          {/*<div className="loan-request-form__label-wrapper">*/}
+            {/*<span className="loan-request-form__label">*/}
+               {/*{term ? termValues[term].name : termValues['28'].name} loan*/}
+            {/*</span>*/}
+          {/*</div>*/}
           <div className="loan-request-form__select-wrapper">
             {term && this.renderAmortizationFrequencySelect(term)}
           </div>
         </div>
         <div className="loan-request-form__row">
-          <div className="loan-request-form__large-input-wrapper">
+          <div className="loan-request-form__label-wrapper">
+            <label className="loan-request-form__label">Interest</label>
+          </div>
+          <div className="loan-request-form__input-wrapper">
             <Field
               name="maxInterest"
               className="loan-request-form__input"
-              placeholder="Interest rate per each payment period (%)"
+              placeholder="For each repayment, %"
               component="input"
               validate={required}
               normalize={floatOnly}/>

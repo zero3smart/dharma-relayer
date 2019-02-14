@@ -23,10 +23,10 @@ function renderRows(rows) {
     return rows.map(row => {
         return (
             <tr key={i++}>
-                {renderAmount(row)}
-                <td className="issued-table__table-cell">{row.term} days</td>
-                <td className="issued-table__table-cell">{row.interest}</td>
                 <td className="issued-table__table-cell">{row.date}</td>
+                {renderAmount(row)}
+                <td className="issued-table__table-cell">{row.interest}</td>
+                <td className="issued-table__table-cell">{row.term} days</td>
             </tr>
         );
     });
@@ -35,16 +35,16 @@ function renderRows(rows) {
 function IssuedLoanTable(props) {
     return (
         <div className="issued-table scrollable-table">
-            <div className="issued-table__header">
+            <div className="loan-table__header issued-table__header">
                 {props.header}
             </div>
             <table className="issued-table__table issued-table_stripe">
                 <thead>
                     <tr className="issued-table__headers">
-                        <th className="issued-table__table-header" title="Loan amount">Loan <br /> amount</th>
-                        <th className="issued-table__table-header" title="Loan amount (days)">Loan term</th>
-                        <th className="issued-table__table-header" title="Interest rate (per payment period)">Interest rate</th>
-                        <th className="issued-table__table-header" title="Date loan issued">Date loan issued</th>
+                        <th className="issued-table__table-header" title="Date loan issued">Date</th>
+                        <th className="issued-table__table-header" title="Loan amount">Amount</th>
+                        <th className="issued-table__table-header" title="Interest rate (per payment period)">Interest</th>
+                        <th className="issued-table__table-header" title="Loan amount (days)">Term</th>
                     </tr>
                 </thead>
                 <tbody className="issued-table__table-body scrollable-table__table-body scrollable">

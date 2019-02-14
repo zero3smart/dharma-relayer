@@ -1,31 +1,54 @@
-.wallet-info{
-  padding: 20px 30px;
-  line-height: 18px;
-  font-weight: 600;
+.wallet-info {
+  font-size: 11px;
+  padding: 28px 10px;
 }
 
-.wallet-info__address{
-  font-size: 10px;
-  padding-left: 8px;
+.wallet-info__logo {
+  background-image: url('../../common/assets/UserLogo.png');
+  background-size: 40px 40px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
 }
-.wallet-info__balance-info{
-  display:flex;
-  justify-content: space-between;
-  padding: 0 8px;
+
+.wallet-info__address {
+  margin-bottom: 20px;
 }
-.wallet-info__balance{
-  font-size: 18px;
-  flex-basis: 60%;
+
+.wallet-info__address span {
+  display: block;
+  color: #B3B7BF;
 }
-.wallet-info__currency-container{
-  flex-basis: 40%;
-  display:flex;
+
+.wallet-info__balance-info {}
+
+.wallet-info__balance {
+  font-size: 21px;
+  font-weight: bold;
 }
-.wallet-info__currency{
-  margin: 0 8px;
+
+.wallet-info__currency-container {
+  display: inline-block;
+  border: 1px solid #3F4A5F;
+  border-radius: 2px;
+  vertical-align: top;
+  margin: 2px 15px;
+}
+
+.wallet-info__currency {
+  display: inline-block;
   cursor: pointer;
   text-transform: uppercase;
+  font-size: 11px;
+  line-height: 1;
+  margin: 2px;
+  padding: 5px 7px;
+  color: #B3B7BF;
 }
-.wallet-info__currency_active{
-  font-weight: 800;
+
+.wallet-info__currency_active {
+  background: #3F4A5F;
+  color: #fff;
+  border-radius: 2px;
 }

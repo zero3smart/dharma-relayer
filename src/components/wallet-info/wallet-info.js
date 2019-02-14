@@ -27,22 +27,22 @@ class WalletInfo extends Component{
       <div className="wallet-info">
         <div className="wallet-info__logo">
         </div>
-        <div>
-          Ethereum address
-          <div className="wallet-info__address">
+        <div className="wallet-info__address">
+          <p>Ethereum address</p>
+          <span>
             {address}
-          </div>
+          </span>
         </div>
-        <div >
-          Balance
-          <div className="wallet-info__balance-info">
-            <div className="wallet-info__balance">
+        <div className="wallet-info__balance-info">
+          <p>Balance</p>
+          <div>
+            <b className="wallet-info__balance">
               {(amount && amount.toString()) || 0}
-            </div>
+            </b>
             <div className="wallet-info__currency-container">
               {this.renderCurrencyItem(CurrencyCodes.ETH, selectedCurrency === CurrencyCodes.ETH)}
-              {/* this.renderCurrencyItem(CurrencyCodes.USD, selectedCurrency === CurrencyCodes.USD) */}
-              {/* this.renderCurrencyItem(CurrencyCodes.EUR, selectedCurrency === CurrencyCodes.EUR) */}
+              {this.renderCurrencyItem(CurrencyCodes.USD, selectedCurrency === CurrencyCodes.USD)}
+              {this.renderCurrencyItem(CurrencyCodes.EUR, selectedCurrency === CurrencyCodes.EUR)}
             </div>
           </div>
         </div>

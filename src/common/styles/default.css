@@ -1,26 +1,36 @@
-
-html, body {
+html,
+body {
   height: 100%;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
-  color: #000;
-  background: #1e1916;
+  color: #fff;
+  background: #0f182d;
   font-family: sans-serif;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
-select{
+
+select {
   appearance: none;
-  border-radius:0;
-  background: url("../assets/icons8-sort-down-filled-50.png") no-repeat 90% 50%;
-  background-size: 14px;
+  border-radius: 0;
+  background: url("../assets/arrow.png") no-repeat 97% 50%;
+  background-size: 6px 4px;
 }
-input, select{
-  background-color: #d6cec0;
-  padding: 8px;
-  font-weight: 600;
-  line-height:normal;
+
+input,
+select {
+  border: 1px solid #3D4966;
+  box-sizing: border-box;
+  border-radius: 2px;
+  padding: 5px 8px;
+  color: #fff;
 }
+
 button {
-  font-weight: 600;
+  border-radius: 2px;
+  color: #fff;
+}
+
+::placeholder {
+  color: #676F80;
 }

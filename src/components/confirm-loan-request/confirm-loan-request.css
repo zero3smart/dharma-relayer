@@ -1,36 +1,39 @@
-.confirm{
+.confirm {
   padding: 20px;
+  color: #B3B7BF;
 }
 
-.confirm__row{
+.confirm__row {
   margin: 5px;
 }
 
-.confirm__header{
+.confirm__header {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 20px;
+  color: #fff;
 }
 
-.confirm__buttons{
+.confirm__buttons {
   margin-top: 30px;
 }
 
-.confirm__btn-wrapper{
+.confirm__btn-wrapper {
   display: flex;
   justify-content: space-between;
 }
 
-.confirm__btn{
+.confirm__btn {
   color: white;
   height: 32px;
   width: 200px;
 }
 
-.confirm__btn_confirm{
+.confirm__btn_confirm {
   background-color: #23a85b;
 }
 
-.confirm__btn_cancel{
-  background-color: #ff281f;;
+.confirm__btn_cancel {
+  background-color: #ff281f;
+  ;
 }

@@ -1,65 +1,63 @@
-.loan-table-header {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    margin: 20px 0 10px;
+.loan-table__header {
+    font-size: 21px;
+    margin: 30px 0 10px;
 }
 
 .loan-table__table {
-    text-align: center;
-    border-spacing: 0;
     width: 100%;
+    font-size: 11px;
+    color: #B3B7BF;
 }
 
-.loan-table-headers {
-    background-color: #474747;
+.loan-table__table thead tr {
+    border-bottom: 2px solid #2A364D;
+}
+
+.loan-table__stripe tbody tr:nth-of-type(even) {
+    background-color: #1A2337;
 }
 
 .loan-table__table-header {
-    padding: 8px 8px 8px 10px;
-    text-align: left;
     overflow: hidden;
-    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    width: 15%
+    white-space: nowrap;
 }
 
-.loan-table__table-header:last-child {
+.loan-table__table-cel {}
+
+.loan-table__table-header,
+.loan-table__table-cell {
+    padding: 6px;
+    text-align: left;
+    width: 14%;
+}
+
+.loan-table__table-header:first-child,
+.loan-table__table-cell:first-child {
+    width: 20%;
+}
+
+.loan-table__table-header:last-child,
+.loan-table__table-cell:last-child {
     width: 10%;
 }
 
-.loan-table__table-header__small-label {
-    font-size: 10px;
+.scrollable-table__table-body .loan-table__table-cell {
+    line-height: 24px;
 }
 
 .loan-table__table-body {
     max-height: 680px;
 }
 
-.loan-table__table-cell {
-    padding: 8px 8px 8px 10px;
-    font-size: 12px;
-    color: #d7cec0;
-    text-align: left;
-    width: 15%
-}
-
-.loan-table__table-cell:last-child {
-    width: 10%;
-}
-
-.loan-table-stripe tbody tr:nth-of-type(odd) {
-    background-color: #1e1916;
-}
-
 .loan-request-fund {
-    background-color: #ff281f;
-    color: white;
-    height: 25px;
-    width: 50px;
+    background-color: #B51313;
+    height: 24px;
+    width: 63px;
 }
 
 .loan-request-fund_disabled {
-    background-color: #ababab;
+    background: #3D4966;
+    color: #7F879A;
     cursor: not-allowed;
 }
