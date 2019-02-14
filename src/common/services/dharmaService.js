@@ -1,5 +1,7 @@
 import Dharma from '@dharmaprotocol/dharma.js';
-import web3, { getNetwork } from '../services/web3Service';
+import web3, {
+  getNetwork
+} from '../services/web3Service';
 import promisify from 'tiny-promisify';
 import BigNumber from 'bignumber.js';
 import DebtRegistry from '../protocolJson/DebtRegistry.json';
@@ -9,41 +11,17 @@ import TokenTransferProxy from '../protocolJson/TokenTransferProxy.json';
 import TokenRegistry from '../protocolJson/TokenRegistry.json';
 import DebtToken from '../protocolJson/DebtToken.json';
 import SimpleInterestTermsContract from '../protocolJson/SimpleInterestTermsContract.json';
-import { RELAYER_ADDRESS, RELAYER_FEE } from '../api/config.js';
+import {
+  RELAYER_ADDRESS,
+  RELAYER_FEE
+} from '../api/config.js';
+import {
+  convertFromHumanReadable,
+  convertToHumanReadable
+} from './tokenService.js';
 
 let dharma = null;
 let defaultAccount = null;
-
-async function instantiateDharma() {
-  const networkId = await getNetwork();
-  const accounts = await promisify(web3.eth.getAccounts)();
-  if (!accounts.length) {
-    throw new Error('ETH account not available');
-  }
-  defaultAccount = accounts[0];
-
-  if (!(networkId in DebtKernel.networks &&
-    networkId in RepaymentRouter.networks &&
-    networkId in TokenTransferProxy.networks &&
-    networkId in TokenRegistry.networks &&
-    networkId in DebtToken.networks &&
-    networkId in SimpleInterestTermsContract.networks &&
-    networkId in DebtRegistry.networks)) {
-    throw new Error('Unable to connect to the blockchain');
-  }
-
-  const dharmaConfig = {
-    kernelAddress: DebtKernel.networks[networkId].address,
-    repaymentRouterAddress: RepaymentRouter.networks[networkId].address,
-    tokenTransferProxyAddress: TokenTransferProxy.networks[networkId].address,
-    tokenRegistryAddress: TokenRegistry.networks[networkId].address,
-    debtTokenAddress: DebtToken.networks[networkId].address,
-    simpleInterestTermsContractAddress: SimpleInterestTermsContract.networks[networkId].address,
-    debtRegistryAddress: DebtRegistry.networks[networkId].address
-  };
-
-  return new Dharma(web3.currentProvider, dharmaConfig);
-}
 
 export async function createDebtOrder(debtOrderInfo) {
 
@@ -52,13 +30,14 @@ export async function createDebtOrder(debtOrderInfo) {
   }
 
   const tokenRegistry = await dharma.contracts.loadTokenRegistry();
-  const principalToken = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
+  const principalTokenAddress = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
+  const amount = await convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
 
   const simpleInterestLoan = {
     ...defaultDebtOrderParams,
-    principalToken,
+    principalTokenAddress,
     principalTokenSymbol: debtOrderInfo.principalTokenSymbol,
-    principalAmount: new BigNumber(debtOrderInfo.principalAmount),
+    principalAmount: amount,
     interestRate: new BigNumber(debtOrderInfo.interestRate),
     amortizationUnit: debtOrderInfo.amortizationUnit,
     termLength: new BigNumber(debtOrderInfo.termLength),
@@ -111,7 +90,7 @@ export async function fromDebtOrder(debtOrder) {
   let dharmaDebtOrder = {
     kernelVersion: debtOrder.kernelAddress,
     issuanceVersion: debtOrder.repaymentRouterAddress,
-    principalAmount: debtOrder.principalAmount && new BigNumber(debtOrder.principalAmount || 0),
+    principalAmount: new BigNumber(debtOrder.principalAmount || 0),
     principalToken: debtOrder.principalTokenAddress,
     debtor: debtOrder.debtorAddress,
     debtorFee: debtOrder.debtorFee && new BigNumber(debtOrder.debtorFee || 0),
@@ -128,7 +107,10 @@ export async function fromDebtOrder(debtOrder) {
     underwriterSignature: debtOrder.underwriterSignature ? JSON.parse(debtOrder.underwriterSignature) : defaultDebtOrderParams.underwriterSignature,
   };
 
-  return await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
+  const simpleInterestDebtOrder = await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
+  simpleInterestDebtOrder.principalAmount = await convertToHumanReadable(simpleInterestDebtOrder.principalAmount, simpleInterestDebtOrder.principalTokenSymbol);
+
+  return simpleInterestDebtOrder;
 }
 
 export async function fillDebtOrder(debtOrder) {
@@ -138,15 +120,18 @@ export async function fillDebtOrder(debtOrder) {
 
   const accounts = await promisify(web3.eth.getAccounts)();
   const creditor = accounts[0];
+  const dharmaDebtOrder = debtOrder.dharmaDebtOrder;
 
   let tx = await dharma.token.setUnlimitedProxyAllowanceAsync(debtOrder.principalTokenAddress);
   await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
 
-  debtOrder.dharmaDebtOrder.creditor = creditor;
+  dharmaDebtOrder.creditor = creditor;
+  dharmaDebtOrder.principalAmount = await convertFromHumanReadable(dharmaDebtOrder.principalAmount, dharmaDebtOrder.principalTokenSymbol)
 
-  console.log(debtOrder.dharmaDebtOrder);
   console.log(JSON.stringify(debtOrder.dharmaDebtOrder));
-  const txHash = await dharma.order.fillAsync(debtOrder.dharmaDebtOrder, { from: creditor });
+  const txHash = await dharma.order.fillAsync(debtOrder.dharmaDebtOrder, {
+    from: creditor
+  });
   const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
 
   debtOrder.txHash = txHash;
@@ -154,7 +139,37 @@ export async function fillDebtOrder(debtOrder) {
   console.log(receipt);
 
   return debtOrder;
+}
 
+async function instantiateDharma() {
+  const networkId = await getNetwork();
+  const accounts = await promisify(web3.eth.getAccounts)();
+  if (!accounts.length) {
+    throw new Error('ETH account not available');
+  }
+  defaultAccount = accounts[0];
+
+  if (!(networkId in DebtKernel.networks &&
+      networkId in RepaymentRouter.networks &&
+      networkId in TokenTransferProxy.networks &&
+      networkId in TokenRegistry.networks &&
+      networkId in DebtToken.networks &&
+      networkId in SimpleInterestTermsContract.networks &&
+      networkId in DebtRegistry.networks)) {
+    throw new Error('Unable to connect to the blockchain');
+  }
+
+  const dharmaConfig = {
+    kernelAddress: DebtKernel.networks[networkId].address,
+    repaymentRouterAddress: RepaymentRouter.networks[networkId].address,
+    tokenTransferProxyAddress: TokenTransferProxy.networks[networkId].address,
+    tokenRegistryAddress: TokenRegistry.networks[networkId].address,
+    debtTokenAddress: DebtToken.networks[networkId].address,
+    simpleInterestTermsContractAddress: SimpleInterestTermsContract.networks[networkId].address,
+    debtRegistryAddress: DebtRegistry.networks[networkId].address
+  };
+
+  return new Dharma(web3.currentProvider, dharmaConfig);
 }
 
 const defaultDebtOrderParams = {
