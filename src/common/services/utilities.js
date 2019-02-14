@@ -2,6 +2,9 @@ import {
   RELAYER_AMORTIZATION_FREQUENCIES,
   DHARMA_AMORTIZATION_UNITS
 } from '../../common/amortizationFrequencies';
+import {
+  LOANSCAN_URL
+} from '../../common/api/urls'
 
 export const calculateCollateralAmount = debtAmount => 1.5 * debtAmount;
 
@@ -66,3 +69,5 @@ export const calculateTermInDays = (dharmaAmortizationUnits, terms) => {
 export const isFloat = (n) => {
   return Number(n) === n && n % 1 !== 0;
 };
+
+export const formatLoanscanLink = (issuanceHash) => `${LOANSCAN_URL}/${issuanceHash.substring(2)}`;

@@ -1,27 +1,42 @@
 import React from 'react';
 import './loan-table-small.css';
-import {calculateTermInDays, isFloat} from '../../common/services/utilities';
+import { isFloat, calculateTermInDays, formatLoanscanLink } from '../../common/services/utilities';
 
-function renderRows(rows){
-  let i=0;
+function renderAmount(row) {
+  let amountString = isFloat(row.principalAmount) ? row.principalAmount.toFixed(2) : row.principalAmount;
+  if (row.issuanceHash) {
+    return (
+      <td className="loan-table-small__table-cell">
+        <a href={formatLoanscanLink(row.issuanceHash)}> {amountString} {row.principalTokenSymbol}</a>
+      </td>
+    )
+  }
+
+  return (
+    <td className="loan-table-small__table-cell"> {amountString} {row.principalTokenSymbol} </td>
+  )
+}
+
+function renderRows(rows) {
+  let i = 0;
 
   return rows
-    .sort((a,b) => a.date < b.date ? 1 : (-1))
+    .sort((a, b) => a.date < b.date ? 1 : (-1))
     .map(row => {
-      let amountString = isFloat(row.principalAmount) ? row.principalAmount.toFixed(2) : row.principalAmount;
+
 
       return (
         <tr key={i++}>
           <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} <br /> {row.date.toLocaleTimeString()}</td>
-          <td className="loan-table-small__table-cell">{`${amountString} ${row.principalTokenSymbol}`}</td>
-          <td className="loan-table-small__table-cell">{calculateTermInDays(row.amortizationUnit, row.termLength)}</td>
+          {renderAmount(row)}
+          <td className="loan-table-small__table-cell">{calculateTermInDays(row.amortizationUnit, row.termLength)} days</td>
           <td className="loan-table-small__table-cell">{row.interestRate + ' %'}</td>
         </tr>
       );
     });
 }
 
-function LoanTableSmall(props){
+function LoanTableSmall(props) {
   return (
     <div className="loan-table-small scrollable-table">
       <div className="loan-table-small__header">
