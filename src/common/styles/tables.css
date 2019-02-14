@@ -1,0 +1,28 @@
+/* Enable scroll on table body */
+
+.scrollable-table thead,
+.scrollable-table tbody,
+.scrollable-table tr,
+.scrollable-table th,
+.scrollable-table td {
+    display: block;
+}
+
+.scrollable-table tr:after {
+    /* clearing float */
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.scrollable-table tbody td,
+.scrollable-table thead th {
+
+    float: left;
+}
+
+.scrollable-table__table-body {
+    display: block;
+    overflow-y: auto;
+}

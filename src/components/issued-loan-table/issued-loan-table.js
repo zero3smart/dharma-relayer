@@ -7,10 +7,10 @@ function renderRows(rows) {
     return rows.map(row => {
         return (
             <tr key={i++}>
-                <td className="loan-table-small__table-cell">{row.amount} {row.token}</td>
-                <td className="loan-table-small__table-cell">{row.term}</td>
-                <td className="loan-table-small__table-cell">{row.interest}</td>
-                <td className="loan-table-small__table-cell">{row.date}</td>
+                <td className="issued-table__table-cell">{row.amount} {row.token}</td>
+                <td className="issued-table__table-cell">{row.term}</td>
+                <td className="issued-table__table-cell">{row.interest}</td>
+                <td className="issued-table__table-cell">{row.date}</td>
             </tr>
         );
     });
@@ -18,20 +18,20 @@ function renderRows(rows) {
 
 function IssuedLoanTable(props) {
     return (
-        <div className="loan-table">
-            <div className="loan-table-header">
+        <div className="issued-table scrollable-table">
+            <div className="issued-table__header">
                 {props.header}
             </div>
-            <table className="loan-table-small__table loan-table-stripe">
+            <table className="issued-table__table issued-table_stripe">
                 <thead>
-                <tr className="loan-table-headers">
-                    <th className="loan-table-small__table-header" title="Loan amount">Loan <br/> amount</th>
-                    <th className="loan-table-small__table-header" title="Loan amount (days)">Loan term</th>
-                    <th className="loan-table-small__table-header" title="Interest rate (per payment period)">Interest rate</th>
-                    <th className="loan-table-small__table-header" title="Date loan issued">Date loan issued</th>
+                <tr className="issued-table__headers">
+                    <th className="issued-table__table-header" title="Loan amount">Loan <br/> amount</th>
+                    <th className="issued-table__table-header" title="Loan amount (days)">Loan term</th>
+                    <th className="issued-table__table-header" title="Interest rate (per payment period)">Interest rate</th>
+                    <th className="issued-table__table-header" title="Date loan issued">Date loan issued</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody className="issued-table__table-body scrollable-table__table-body scrollable">
                 {renderRows(props.rows)}
                 </tbody>
             </table>

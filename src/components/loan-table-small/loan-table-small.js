@@ -22,7 +22,7 @@ function renderRows(rows){
 
 function LoanTableSmall(props){
   return (
-    <div className="loan-table-small">
+    <div className="loan-table-small scrollable-table">
       <div className="loan-table-small__header">
         {props.header}
       </div>
@@ -35,7 +35,7 @@ function LoanTableSmall(props){
             <th className="loan-table-small__table-header" title="Interest rate (per payment period)">Interest rate</th>
           </tr>
         </thead>
-        <tbody className="loan-table-small__table-body">
+        <tbody className="loan-table-small__table-body scrollable-table__table-body scrollable">
           {renderRows(props.rows)}
         </tbody>
       </table>

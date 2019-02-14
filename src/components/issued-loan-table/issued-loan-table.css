@@ -1,14 +1,43 @@
-.loan-table-header {
+.issued-table__header {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
     margin: 20px 0 10px;
 }
 
-.loan-table-headers {
+.issued-table__headers {
     background-color: #474747;
 }
 
-.loan-table-stripe tbody tr:nth-of-type(odd) {
-    background-color: #1e1916;
+.issued-table__table {
+    text-align: center;
+    border-spacing: 0;
+}
+
+.issued-table__table-header {
+    padding: 8px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 23%;
+}
+
+.issued-table__table-header:last-child {
+    width: 31%;
+}
+
+.issued-table__table-body {
+    max-height: 680px;
+}
+
+.issued-table__table-cell {
+    padding: 5px 5px 5px 10px;
+    font-size: 12px;
+    color: #d7cec0;
+    text-align: left;
+    width: 23%;
+}
+
+.issued-table__table-cell:last-child {
+    width: 31%;
 }
