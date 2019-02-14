@@ -1,10 +1,11 @@
 import React from 'react';
 import './loan-table-small.css';
 import { isFloat, calculateTermInDays, formatLoanscanLink } from '../../common/services/utilities';
+import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 
 function renderAmount(row) {
   let amountString = isFloat(row.principalAmount) ? row.principalAmount.toFixed(2) : row.principalAmount;
-  if (row.issuanceHash) {
+  if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
     return (
       <td className="loan-table-small__table-cell">
         <a href={formatLoanscanLink(row.issuanceHash)}> {amountString} {row.principalTokenSymbol}</a>
