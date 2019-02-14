@@ -107,6 +107,8 @@ export async function fromDebtOrder(debtOrder) {
     underwriterSignature: debtOrder.underwriterSignature ? JSON.parse(debtOrder.underwriterSignature) : defaultDebtOrderParams.underwriterSignature,
   };
 
+  dharmaDebtOrder.originalDebtOrder = Object.assign({}, dharmaDebtOrder)
+
   const simpleInterestDebtOrder = await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
   simpleInterestDebtOrder.principalAmount = await convertToHumanReadable(simpleInterestDebtOrder.principalAmount, simpleInterestDebtOrder.principalTokenSymbol);
 
@@ -120,16 +122,15 @@ export async function fillDebtOrder(debtOrder) {
 
   const accounts = await promisify(web3.eth.getAccounts)();
   const creditor = accounts[0];
-  const dharmaDebtOrder = debtOrder.dharmaDebtOrder;
+  const originalDebtOrder = debtOrder.dharmaDebtOrder.originalDebtOrder;
 
   let tx = await dharma.token.setUnlimitedProxyAllowanceAsync(debtOrder.principalTokenAddress);
   await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
 
-  dharmaDebtOrder.creditor = creditor;
-  dharmaDebtOrder.principalAmount = await convertFromHumanReadable(dharmaDebtOrder.principalAmount, dharmaDebtOrder.principalTokenSymbol)
+  originalDebtOrder.creditor = creditor;
 
-  console.log(JSON.stringify(debtOrder.dharmaDebtOrder));
-  const txHash = await dharma.order.fillAsync(debtOrder.dharmaDebtOrder, {
+  console.log(JSON.stringify(originalDebtOrder));
+  const txHash = await dharma.order.fillAsync(originalDebtOrder, {
     from: creditor
   });
   const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
