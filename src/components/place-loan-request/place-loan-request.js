@@ -8,7 +8,7 @@ import {
   resetLoanForm,
   hideLoanConfirmation,
   showLoanConfirmation,
-  runTablesUpdate
+  runGlobalUpdate
 } from '../../actions';
 import * as CurrencyCodes from '../../common/currencyCodes';
 import {RELAYER_AMORTIZATION_FREQUENCIES} from '../../common/amortizationFrequencies';
@@ -59,10 +59,10 @@ class PlaceLoanRequest extends Component{
   }
 
   placeLoanRequestHandler(values){
-    let {placeLoanRequest, runTablesUpdate} = this.props;
+    let {placeLoanRequest, runGlobalUpdate} = this.props;
     placeLoanRequest(values, () => {
       this.cancelLoanRequest();
-      runTablesUpdate();
+      runGlobalUpdate();
     });
   }
 
@@ -242,8 +242,8 @@ let mapDispatchToProps = (dispatch) => ({
   showLoanConfirmation(debtOrder){
     dispatch(showLoanConfirmation(debtOrder));
   },
-  runTablesUpdate(){
-    dispatch(runTablesUpdate());
+  runGlobalUpdate(){
+    dispatch(runGlobalUpdate());
   }
 });
 

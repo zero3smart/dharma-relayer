@@ -13,4 +13,4 @@ export * from './hideLoanConfirmation';
 export * from './showFundConfirmation';
 export * from './hideFundConfirmation';
 export * from './showLoanConfirmation';
-export * from './runTablesUpdate';
+export * from './runGlobalUpdate';
