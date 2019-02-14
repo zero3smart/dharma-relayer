@@ -19,7 +19,8 @@ export default function (state = [], action) {
                     token: loan.dharmaDebtOrder.principalTokenSymbol,
                     date: loan.issuanceBlockTimeParsed.toLocaleDateString() + " " + loan.issuanceBlockTimeParsed.toLocaleTimeString(),
                     term: calculateTermInDays(loan.dharmaDebtOrder.amortizationUnit, loan.dharmaDebtOrder.termLength.toNumber()),
-                    interest: loan.dharmaDebtOrder.interestRate.toNumber() + '%'
+                    interest: loan.dharmaDebtOrder.interestRate.toNumber() + '%',
+                    issuanceHash: loan.issuanceHash
                 }));
         default:
             return state;
