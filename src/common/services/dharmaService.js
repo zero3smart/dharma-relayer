@@ -127,6 +127,7 @@ export async function fillDebtOrder(debtOrder) {
   await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
 
   originalDebtOrder.creditor = creditor;
+  debtOrder.dharmaDebtOrder.creditor = creditor;
 
   console.log(JSON.stringify(originalDebtOrder));
   const txHash = await dharma.order.fillAsync(originalDebtOrder, {
