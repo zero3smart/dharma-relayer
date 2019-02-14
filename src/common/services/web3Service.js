@@ -17,7 +17,7 @@ export default window.web3.currentProvider;
 
 export function getWalletBalanceAsync() {
   return new Promise((resolve, reject) => {
-    window.web3.eth.getBalance(window.web3.eth.defaultAccount, (err, balance) => {
+    window.web3.eth.getBalance(getDefaultAccount(), (err, balance) => {
       if (err) {
         reject(err);
       } else {

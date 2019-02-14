@@ -1,6 +1,6 @@
 export * from './selectCurrency';
 export * from './allowCollateral';
-export * from './getWalletBalance';
+export * from './getWalletInfo';
 export * from './placeLoanRequest';
 export * from './fetchMyOpenedLoanRequests';
 export * from './fetchMyFundedLoans';
@@ -13,3 +13,4 @@ export * from './hideLoanConfirmation';
 export * from './showFundConfirmation';
 export * from './hideFundConfirmation';
 export * from './showLoanConfirmation';
+export * from './runTablesUpdate';

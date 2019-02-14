@@ -8,7 +8,7 @@ import * as CurrencyCodes from '../common/currencyCodes.js';
 import {
   SELECT_CURRENCY,
   ALLOW_COLLATERAL_SUCCESS,
-  GET_WALLET_BALANCE_SUCCESS,
+  GET_WALLET_INFO_SUCCESS,
   FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
   RESET_LOAN_FORM,
   HIDE_LOAN_CONFIRMATION,
@@ -36,10 +36,11 @@ function walletInfoReducer(state = {
         ...state,
         selectedCurrency: action.currency
       };
-    case GET_WALLET_BALANCE_SUCCESS:
+    case GET_WALLET_INFO_SUCCESS:
       return {
         ...state,
-        amount: action.balance
+        amount: action.balance,
+        address: action.address
       };
     default:
       return state;

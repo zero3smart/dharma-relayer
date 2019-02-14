@@ -2,13 +2,26 @@ import React, {Component} from 'react';
 import './wallet-info.css';
 import * as CurrencyCodes from '../../common/currencyCodes';
 
+let destroyTimer = null;
+
+let startTimer = (func) => {
+  destroyTimer = setTimeout(() => {
+    func();
+    startTimer(func);
+  }, 10000)
+};
+
 class WalletInfo extends Component{
   constructor(props){
     super(props);
 
-    this.props.getWalletBalance();
-
     this.renderCurrencyItem = this.renderCurrencyItem.bind(this);
+  }
+
+  componentDidMount(){
+    let {getWalletInfo} = this.props;
+    getWalletInfo();
+    startTimer(getWalletInfo);
   }
 
   renderCurrencyItem(currency, isActive){
