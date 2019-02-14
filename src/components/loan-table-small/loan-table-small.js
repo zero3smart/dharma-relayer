@@ -1,5 +1,6 @@
 import React from 'react';
 import './loan-table-small.css';
+import {calculateTermInDays} from '../../common/services/utilities';
 
 
 function renderRows(rows){
@@ -12,7 +13,7 @@ function renderRows(rows){
         <tr key={i++}>
           <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} <br /> {row.date.toLocaleTimeString()}</td>
           <td className="loan-table-small__table-cell">{`${row.principalAmount} ${row.principalTokenSymbol}`}</td>
-          <td className="loan-table-small__table-cell">{`${row.termLength} ${row.amortizationUnit}`}</td>
+          <td className="loan-table-small__table-cell">{calculateTermInDays(row.amortizationUnit, row.termLength)}</td>
           <td className="loan-table-small__table-cell">{row.interestRate + ' %'}</td>
         </tr>
       );
