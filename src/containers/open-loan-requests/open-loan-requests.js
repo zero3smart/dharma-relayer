@@ -27,7 +27,7 @@ class OpenLoanRequests extends Component{
     let {myOpenLoanRequests} = this.props;
 
     return (
-      <LoanTableSmall header="My Open Loan Requests" rows={myOpenLoanRequests}/>
+      <LoanTableSmall header="My open loan requests" rows={myOpenLoanRequests}/>
     );
   }
 }

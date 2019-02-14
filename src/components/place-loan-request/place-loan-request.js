@@ -17,12 +17,12 @@ import ConfirmLoanRequest from '../confirm-loan-request/confirm-loan-request';
 import {calculateCollateralAmount} from '../../common/services/utilities';
 
 const termValues = {
-  1: {name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.END]},
-  7: {name: '7 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY, RELAYER_AMORTIZATION_FREQUENCIES.END]},
-  28: {name: '28 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.WEEKLY, RELAYER_AMORTIZATION_FREQUENCIES.END]},
-  90: {name: '90 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY, RELAYER_AMORTIZATION_FREQUENCIES.END]},
-  180: {name: '180 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY, RELAYER_AMORTIZATION_FREQUENCIES.END]},
-  360: {name: '360 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY, RELAYER_AMORTIZATION_FREQUENCIES.END]}
+  1: {name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY]},
+  7: {name: '7 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY]},
+  28: {name: '28 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.WEEKLY]},
+  90: {name: '90 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY]},
+  180: {name: '180 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY]},
+  360: {name: '360 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY]}
 };
 
 const floatOnly = (value) => {
@@ -136,7 +136,7 @@ class PlaceLoanRequest extends Component{
           </div>
         </div>
         <div className="loan-request-form__repayment-frequency">
-          <span>Repayment frequency</span>
+          <span>Payment period frequency</span>
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
@@ -153,7 +153,7 @@ class PlaceLoanRequest extends Component{
             <Field
               name="maxInterest"
               className="loan-request-form__input"
-              placeholder="Max interest rate (per period)"
+              placeholder="Interest rate per each payment period"
               component="input"
               validate={required}
               normalize={floatOnly}/>
