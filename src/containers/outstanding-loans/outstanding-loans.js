@@ -36,7 +36,7 @@ class OutstandingLoans extends Component {
     }));
 
     return (
-      <LoanTableSmall header="My outstading loans" dateColumnHeader="Date loan issued" rows={rows} />
+      <LoanTableSmall header="My outstanding loans" dateColumnHeader="Date loan issued" rows={rows} />
     );
   }
 }
