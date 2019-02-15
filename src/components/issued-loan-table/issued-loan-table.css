@@ -8,12 +8,14 @@
     color: #B3B7BF;
 }
 
+.issued-table__table tr {
+    border-bottom: 2px solid #2A364D;
+}
+
 .issued-table__table-header,
 .issued-table__table-cell {
     padding: 5px;
     text-align: left;
-    width: 18%;
-    border-bottom: 2px solid #2A364D;
 }
 
 .issued-table__table-cell strong {
@@ -23,12 +25,13 @@
 
 .issued-table__table-header:first-child,
 .issued-table__table-cell:first-child {
-    width: 43%;
+    width: 48%;
+    white-space: nowrap;
 }
 
 .issued-table__table-header:nth-child(2),
 .issued-table__table-cell:nth-child(2) {
-    width: 21%;
+    width: 20%;
     white-space: nowrap;
 }
 
@@ -37,6 +40,7 @@
 .issued-table__table-header:nth-child(4),
 .issued-table__table-cell:nth-child(4) {
     text-align: right;
+    width: 16%;
 }
 
 .issued-table__table-body {

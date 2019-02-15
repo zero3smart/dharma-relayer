@@ -29,7 +29,7 @@
 .loan-table__table-cell {
     padding: 6px;
     text-align: left;
-    width: 14%;
+    width: 13%;
 }
 
 .loan-table__table-cell strong {
@@ -43,7 +43,7 @@
 
 .loan-table__table-header:first-child,
 .loan-table__table-cell:first-child {
-    width: 15%;
+    width: 18%;
 }
 
 .loan-table__large-cell {

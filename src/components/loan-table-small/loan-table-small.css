@@ -9,22 +9,31 @@
   color: #B3B7BF;
 }
 
+.loan-table-small__table tr {
+  border-bottom: 2px solid #2A364D;
+}
+
 .loan-table-small__table-header,
 .loan-table-small__table-cell {
   padding: 5px;
   text-align: left;
-  width: 18%;
-  border-bottom: 2px solid #2A364D;
+}
+
+.loan-table-small__table-cell strong {
+  color: #fff;
+  font-weight: normal;
 }
 
 .loan-table-small__table-header:first-child,
 .loan-table-small__table-cell:first-child {
-  width: 43%;
+  width: 48%;
+  white-space: nowrap;
 }
 
 .loan-table-small__table-header:nth-child(2),
 .loan-table-small__table-cell:nth-child(2) {
-  width: 21%;
+  width: 20%;
+  white-space: nowrap;
 }
 
 .loan-table-small__table-header:nth-child(3),
@@ -32,6 +41,7 @@
 .loan-table-small__table-header:nth-child(4),
 .loan-table-small__table-cell:nth-child(4) {
   text-align: right;
+  width: 16%;
 }
 
 .loan-table-small__table-body {
