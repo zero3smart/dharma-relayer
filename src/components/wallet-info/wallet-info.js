@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './wallet-info.css';
 import * as CurrencyCodes from '../../common/currencyCodes';
 import {isFloat} from '../../common/services/utilities';
+import Spinner from '../spinner/spinner';
 
 let destroyTimer = null;
 
@@ -56,9 +57,11 @@ class WalletInfo extends Component{
         <div className="wallet-info__balance-info">
           <p>Balance</p>
           <div>
-            <b className={isProcessing ? "wallet-info__balance-hidden" : "wallet-info__balance"} title={`${amountString} ${selectedCurrency}`}>
-              {amountString} {selectedCurrency}
-            </b>
+            {isProcessing ? <Spinner></Spinner> :
+              <b className="wallet-info__balance" title={`${amountString} ${selectedCurrency}`}>
+                {amountString} {selectedCurrency}
+              </b>
+            }
             <div className="wallet-info__currency-container">
               {this.renderCurrencyItem(CurrencyCodes.ETH, selectedCurrency === CurrencyCodes.ETH)}
               {this.renderCurrencyItem(CurrencyCodes.DAI, selectedCurrency === CurrencyCodes.DAI)}

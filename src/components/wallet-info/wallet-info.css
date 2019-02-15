@@ -21,15 +21,23 @@
   color: #B3B7BF;
 }
 
-.wallet-info__balance-info {}
-
-.wallet-info__balance {
-  font-size: 21px;
-  font-weight: bold;
+.wallet-info__balance-info .spinner {
+  margin: 8px 0;
+  text-align: left;
+  height: 16px;
 }
 
-.wallet-info__balance-hidden {
-  display: none;
+.wallet-info__balance-info .spinner>div {
+  width: 10px;
+  height: 10px;
+  margin-right: 2px;
+}
+
+.wallet-info__balance {
+  display: block;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 32px;
 }
 
 .wallet-info__currency-container {
@@ -37,7 +45,7 @@
   border: 1px solid #3F4A5F;
   border-radius: 2px;
   vertical-align: top;
-  margin: 2px 15px;
+  margin: 2px 0;
 }
 
 .wallet-info__currency {
