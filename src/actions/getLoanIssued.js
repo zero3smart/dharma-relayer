@@ -1,6 +1,8 @@
 import debtsApi from '../common/api/debts';
 import * as loanStatuses from '../common/loanStatuses';
-import {fromDebtOrder} from '../common/services/dharmaService';
+import {
+    fromDebtOrder
+} from '../common/services/dharmaService';
 
 export const GET_LOAN_ISSUED = 'GET_LOAN_ISSUED';
 export const GET_LOAN_ISSUED_SUCCESS = 'GET_LOAN_ISSUED_SUCCESS';
@@ -20,17 +22,24 @@ const getIssuedLoansFail = (error) => ({
     error
 });
 
-export function getIssuedLoans(){
+export function getIssuedLoans() {
     return dispatch => {
         dispatch(getIssuedLoansStart());
 
         return debtsApi.getAll(loanStatuses.FILLED)
-            .then(async(debts) => {
-                for(let i=0; i<debts.length; i++){
-                    debts[i].dharmaDebtOrder = await fromDebtOrder(debts[i]);
+            .then(async (debts) => {
+                var res = []
+                for (let i = 0; i < debts.length; i++) {
+                    var debtOrder = await fromDebtOrder(debts[i]);
+                    if (debtOrder) {
+                        debts[i].dharmaDebtOrder = debtOrder
+                        res.push(debts[i])
+                    }
                 }
-                dispatch(getIssuedLoansSuccess(debts));
+                dispatch(getIssuedLoansSuccess(res));
             })
-            .catch(err => {dispatch(getIssuedLoansFail(err))});
+            .catch(err => {
+                dispatch(getIssuedLoansFail(err))
+            });
     }
 }

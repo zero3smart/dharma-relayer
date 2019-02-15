@@ -82,37 +82,36 @@ export async function fromDebtOrder(debtOrder) {
   }
 
   try {
-    JSON.parse(debtOrder.debtorSignature)
+    let dharmaDebtOrder = {
+      kernelVersion: debtOrder.kernelAddress,
+      issuanceVersion: debtOrder.repaymentRouterAddress,
+      principalAmount: new BigNumber(debtOrder.principalAmount || 0),
+      principalToken: debtOrder.principalTokenAddress,
+      debtor: debtOrder.debtorAddress,
+      debtorFee: debtOrder.debtorFee && new BigNumber(debtOrder.debtorFee || 0),
+      termsContract: debtOrder.termsContractAddress,
+      termsContractParameters: debtOrder.termsContractParameters,
+      expirationTimestampInSec: new BigNumber(new Date(debtOrder.expirationTime).getTime() / 1000),
+      salt: new BigNumber(debtOrder.salt || 0),
+      debtorSignature: debtOrder.debtorSignature ? JSON.parse(debtOrder.debtorSignature) : null,
+      relayer: debtOrder.relayerAddress,
+      relayerFee: new BigNumber(debtOrder.relayerFee || 0),
+      underwriter: debtOrder.underwriterAddress || defaultDebtOrderParams.underwriter,
+      underwriterRiskRating: new BigNumber(debtOrder.underwriterRiskRating || defaultDebtOrderParams.underwriterRiskRating),
+      underwriterFee: new BigNumber(debtOrder.underwriterFee || defaultDebtOrderParams.underwriterFee),
+      underwriterSignature: debtOrder.underwriterSignature ? JSON.parse(debtOrder.underwriterSignature) : defaultDebtOrderParams.underwriterSignature,
+    };
+
+    dharmaDebtOrder.originalDebtOrder = Object.assign({}, dharmaDebtOrder)
+
+    const simpleInterestDebtOrder = await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
+    simpleInterestDebtOrder.principalAmount = await convertToHumanReadable(simpleInterestDebtOrder.principalAmount, simpleInterestDebtOrder.principalTokenSymbol);
+
+    return simpleInterestDebtOrder;
   } catch (e) {
-    throw 'not valid JSON'
+    console.error(e)
+    return null;
   }
-
-  let dharmaDebtOrder = {
-    kernelVersion: debtOrder.kernelAddress,
-    issuanceVersion: debtOrder.repaymentRouterAddress,
-    principalAmount: new BigNumber(debtOrder.principalAmount || 0),
-    principalToken: debtOrder.principalTokenAddress,
-    debtor: debtOrder.debtorAddress,
-    debtorFee: debtOrder.debtorFee && new BigNumber(debtOrder.debtorFee || 0),
-    termsContract: debtOrder.termsContractAddress,
-    termsContractParameters: debtOrder.termsContractParameters,
-    expirationTimestampInSec: new BigNumber(new Date(debtOrder.expirationTime).getTime() / 1000),
-    salt: new BigNumber(debtOrder.salt || 0),
-    debtorSignature: debtOrder.debtorSignature ? JSON.parse(debtOrder.debtorSignature) : null,
-    relayer: debtOrder.relayerAddress,
-    relayerFee: new BigNumber(debtOrder.relayerFee || 0),
-    underwriter: debtOrder.underwriterAddress || defaultDebtOrderParams.underwriter,
-    underwriterRiskRating: new BigNumber(debtOrder.underwriterRiskRating || defaultDebtOrderParams.underwriterRiskRating),
-    underwriterFee: new BigNumber(debtOrder.underwriterFee || defaultDebtOrderParams.underwriterFee),
-    underwriterSignature: debtOrder.underwriterSignature ? JSON.parse(debtOrder.underwriterSignature) : defaultDebtOrderParams.underwriterSignature,
-  };
-
-  dharmaDebtOrder.originalDebtOrder = Object.assign({}, dharmaDebtOrder)
-
-  const simpleInterestDebtOrder = await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
-  simpleInterestDebtOrder.principalAmount = await convertToHumanReadable(simpleInterestDebtOrder.principalAmount, simpleInterestDebtOrder.principalTokenSymbol);
-
-  return simpleInterestDebtOrder;
 }
 
 export async function fillDebtOrder(debtOrder) {
