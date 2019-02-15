@@ -21,15 +21,17 @@ import {
   convertToHumanReadable
 } from './tokenService.js';
 
-let dharma = null;
+let customDharma = null;
+let originalDharma = null;
 
 export async function createDebtOrder(debtOrderInfo) {
 
-  if (!dharma) {
-    dharma = await instantiateDharma();
+  if (!customDharma) {
+    customDharma = await instantiateDharma(true);
+    originalDharma = new Dharma(web3Provider);
   }
 
-  const tokenRegistry = await dharma.contracts.loadTokenRegistry();
+  const tokenRegistry = await customDharma.contracts.loadTokenRegistry();
   const principalTokenAddress = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
   const amount = await convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
 
@@ -47,13 +49,13 @@ export async function createDebtOrder(debtOrderInfo) {
     salt: BigNumber.random().mul('1e9').floor()
   };
 
-  const dharmaDebtOrder = await dharma.adapters.simpleInterestLoan.toDebtOrder(simpleInterestLoan);
-  dharmaDebtOrder.debtorSignature = await dharma.sign.asDebtor(dharmaDebtOrder, true);
+  const dharmaDebtOrder = await customDharma.adapters.simpleInterestLoan.toDebtOrder(simpleInterestLoan);
+  dharmaDebtOrder.debtorSignature = await customDharma.sign.asDebtor(dharmaDebtOrder, true);
 
   console.log(`Dharma debt order: ${JSON.stringify(dharmaDebtOrder)}`);
   let result = {
-    kernelAddress: (await dharma.contracts.loadDebtKernelAsync()).address,
-    repaymentRouterAddress: (await dharma.contracts.loadRepaymentRouterAsync()).address,
+    kernelAddress: (await customDharma.contracts.loadDebtKernelAsync()).address,
+    repaymentRouterAddress: (await customDharma.contracts.loadRepaymentRouterAsync()).address,
     creditorFee: dharmaDebtOrder.creditorFee.toString(),
     debtorFee: dharmaDebtOrder.debtorFee.toString(),
     principalAmount: dharmaDebtOrder.principalAmount.toString(),
@@ -77,9 +79,12 @@ export async function createDebtOrder(debtOrderInfo) {
 }
 
 export async function fromDebtOrder(debtOrder) {
-  if (!dharma) {
-    dharma = await instantiateDharma();
+  if (!customDharma) {
+    customDharma = await instantiateDharma(true);
+    originalDharma = new Dharma(web3Provider)
   }
+
+  const dharma = getDharmaByKernel(debtOrder.kernelAddress)
 
   try {
     let dharmaDebtOrder = {
@@ -115,9 +120,12 @@ export async function fromDebtOrder(debtOrder) {
 }
 
 export async function fillDebtOrder(debtOrder) {
-  if (!dharma) {
-    dharma = await instantiateDharma();
+  if (!customDharma) {
+    customDharma = await instantiateDharma(true);
+    originalDharma = new Dharma(web3Provider)
   }
+
+  const dharma = getDharmaByKernel(debtOrder.kernelAddress)
 
   const creditor = getDefaultAccount();
   const originalDebtOrder = debtOrder.dharmaDebtOrder.originalDebtOrder;
@@ -141,7 +149,18 @@ export async function fillDebtOrder(debtOrder) {
   return debtOrder;
 }
 
-async function instantiateDharma() {
+function getDharmaByKernel(kernelVersion) {
+  switch (kernelVersion.toLowerCase()) {
+    case '0x02c1c8cc7e43c044d632b0c1cb017ae107a2b5c7':
+      return originalDharma;
+    case '0x8075270f08026769873536e71103638fb90054bc':
+      return customDharma;
+    default:
+      throw new Error('Unknown kernel version' + kernelVersion)
+  }
+}
+
+async function instantiateDharma(isCustom) {
   const networkId = await getNetworkAsync();
 
   if (!(networkId in DebtKernel.networks &&
