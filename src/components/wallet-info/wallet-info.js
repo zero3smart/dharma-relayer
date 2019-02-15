@@ -2,26 +2,13 @@ import React, {Component} from 'react';
 import './wallet-info.css';
 import * as CurrencyCodes from '../../common/currencyCodes';
 
-let destroyTimer = null;
-
-let startTimer = (func) => {
-  destroyTimer = setTimeout(() => {
-    func();
-    startTimer(func);
-  }, 10000)
-};
-
 class WalletInfo extends Component{
   constructor(props){
     super(props);
 
-    this.renderCurrencyItem = this.renderCurrencyItem.bind(this);
-  }
+    this.props.getWalletBalance();
 
-  componentDidMount(){
-    let {getWalletInfo} = this.props;
-    getWalletInfo();
-    startTimer(getWalletInfo);
+    this.renderCurrencyItem = this.renderCurrencyItem.bind(this);
   }
 
   renderCurrencyItem(currency, isActive){
@@ -49,13 +36,13 @@ class WalletInfo extends Component{
         <div className="wallet-info__balance-info">
           <p>Balance</p>
           <div>
-            <b className="wallet-info__balance">
+            <b className="wallet-info__balance" title={(amount && amount.toString()) || 0}>
               {(amount && amount.toString()) || 0}
             </b>
             <div className="wallet-info__currency-container">
-              {this.renderCurrencyItem(CurrencyCodes.ETH, selectedCurrency === CurrencyCodes.ETH)}
-              {this.renderCurrencyItem(CurrencyCodes.USD, selectedCurrency === CurrencyCodes.USD)}
-              {this.renderCurrencyItem(CurrencyCodes.EUR, selectedCurrency === CurrencyCodes.EUR)}
+              {this.renderCurrencyItem(CurrencyCodes.ETH, true)}
+              {/*{this.renderCurrencyItem(CurrencyCodes.USD, selectedCurrency === CurrencyCodes.USD)}*/}
+              {/*{this.renderCurrencyItem(CurrencyCodes.EUR, selectedCurrency === CurrencyCodes.EUR)}*/}
             </div>
           </div>
         </div>

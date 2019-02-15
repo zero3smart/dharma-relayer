@@ -24,8 +24,12 @@
 .wallet-info__balance-info {}
 
 .wallet-info__balance {
+  display: inline-block;
   font-size: 21px;
   font-weight: bold;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .wallet-info__currency-container {
