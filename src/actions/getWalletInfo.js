@@ -1,24 +1,32 @@
 import {
-    getWalletBalanceAsync as getBalance,
+    getWalletBalanceAsync,
     getDefaultAccount
 } from '../common/services/web3Service';
+import {
+    getTokenBalance
+} from '../common/services/tokenService';
+import * as CurrencyCodes from '../common/currencyCodes';
 
 export const GET_WALLET_INFO = 'GET_WALLET_INFO';
 export const GET_WALLET_INFO_SUCCESS = 'GET_WALLET_INFO_SUCCESS';
 export const GET_WALLET_INFO_FAIL = 'GET_WALLET_INFO_FAIL';
 
 export function getWalletInfo() {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch({
             type: GET_WALLET_INFO
         });
 
-        return getBalance()
+        let currency = getState().walletInfo.selectedCurrency;
+        let accountAddress = getDefaultAccount();
+        let balancePromise = (currency === CurrencyCodes.ETH) ? getWalletBalanceAsync() : getTokenBalance(currency, accountAddress);
+
+        return balancePromise
             .then(balance => {
                 dispatch({
                     type: GET_WALLET_INFO_SUCCESS,
                     balance: balance,
-                    address: getDefaultAccount()
+                    address: accountAddress
                 });
             })
             .catch(err => {

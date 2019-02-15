@@ -32,6 +32,12 @@ async function getTokenDecimals(symbol) {
     return token.decimals();
 }
 
+export async function getTokenBalance(symbol, ownerAddress) {
+    let contract = await getTokenContractBySymbolAsync(symbol);
+    let balance = await contract.balanceOf(ownerAddress);
+    return convertToHumanReadable(balance, symbol);
+}
+
 function getTokenSource(token) {
     switch (token) {
         case currencyCodes.DAI:

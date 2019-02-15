@@ -1,14 +1,28 @@
 import React, {Component} from 'react';
 import './wallet-info.css';
 import * as CurrencyCodes from '../../common/currencyCodes';
+import {isFloat} from '../../common/services/utilities';
+
+let destroyTimer = null;
+
+let startTimer = (func) => {
+  destroyTimer = setTimeout(() => {
+    func();
+    startTimer(func);
+  }, 5000)
+};
 
 class WalletInfo extends Component{
   constructor(props){
     super(props);
 
-    this.props.getWalletBalance();
-
     this.renderCurrencyItem = this.renderCurrencyItem.bind(this);
+  }
+
+  componentDidMount(){
+    let {getWalletInfo} = this.props;
+    getWalletInfo();
+    startTimer(getWalletInfo);
   }
 
   renderCurrencyItem(currency, isActive){
@@ -21,7 +35,13 @@ class WalletInfo extends Component{
   }
 
   render(){
-    let {address, amount, selectedCurrency} = this.props;
+    let {address, amount, selectedCurrency, isProcessing} = this.props;
+
+    let amountString;
+    if(amount){
+      let amountNumber = amount.toNumber();
+      amountString = (isFloat(amountNumber) ? amountNumber.toFixed(5) : amountNumber);
+    }
 
     return (
       <div className="wallet-info">
@@ -36,13 +56,15 @@ class WalletInfo extends Component{
         <div className="wallet-info__balance-info">
           <p>Balance</p>
           <div>
-            <b className="wallet-info__balance" title={(amount && amount.toString()) || 0}>
-              {(amount && amount.toString()) || 0}
+            <b className={isProcessing ? "wallet-info__balance-hidden" : "wallet-info__balance"}>
+              {amountString} {selectedCurrency}
             </b>
             <div className="wallet-info__currency-container">
-              {this.renderCurrencyItem(CurrencyCodes.ETH, true)}
-              {/*{this.renderCurrencyItem(CurrencyCodes.USD, selectedCurrency === CurrencyCodes.USD)}*/}
-              {/*{this.renderCurrencyItem(CurrencyCodes.EUR, selectedCurrency === CurrencyCodes.EUR)}*/}
+              {this.renderCurrencyItem(CurrencyCodes.ETH, selectedCurrency === CurrencyCodes.ETH)}
+              {this.renderCurrencyItem(CurrencyCodes.DAI, selectedCurrency === CurrencyCodes.DAI)}
+              {this.renderCurrencyItem(CurrencyCodes.MKR, selectedCurrency === CurrencyCodes.MKR)}
+              {this.renderCurrencyItem(CurrencyCodes.REP, selectedCurrency === CurrencyCodes.REP)}
+              {this.renderCurrencyItem(CurrencyCodes.ZRX, selectedCurrency === CurrencyCodes.ZRX)}
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ let startTimer = (func) => {
     destroyTimer = setTimeout(() => {
         func();
         startTimer(func);
-    }, 10000)
+    }, 5000)
 };
 
 class LoanRequests extends Component {

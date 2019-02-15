@@ -7,6 +7,7 @@ import {
 import * as CurrencyCodes from '../common/currencyCodes.js';
 import {
   SELECT_CURRENCY,
+  SELECT_CURRENCY_SUCCESS,
   ALLOW_COLLATERAL_SUCCESS,
   GET_WALLET_INFO_SUCCESS,
   FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
@@ -28,13 +29,21 @@ import fillLoanReducer from './fillLoanReducer';
 function walletInfoReducer(state = {
   address: getDefaultAccount(),
   amount: null,
-  selectedCurrency: CurrencyCodes.USD
+  selectedCurrency: CurrencyCodes.ETH,
+  isProcessing: false
 }, action) {
   switch (action.type) {
     case SELECT_CURRENCY:
       return {
         ...state,
-        selectedCurrency: action.currency
+        selectedCurrency: action.currency,
+        isProcessing: true
+      };
+    case SELECT_CURRENCY_SUCCESS:
+      return {
+        ...state,
+        amount: action.balance,
+        isProcessing: false
       };
     case GET_WALLET_INFO_SUCCESS:
       return {
