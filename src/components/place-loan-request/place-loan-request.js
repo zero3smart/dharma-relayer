@@ -204,7 +204,10 @@ class PlaceLoanRequest extends Component{
         </div>
         <Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={this.props.hideLoanConfirmation}>
           <ModalBody>
-            <ConfirmLoanRequest {...debtOrderConfirmation} onCancel={this.cancelLoanRequest.bind(this)} onConfirm={this.placeLoanRequestHandler.bind(this)} isLoading={placeLoan.isLoading} />
+            {
+              debtOrderConfirmation.modalVisible &&
+              <ConfirmLoanRequest {...debtOrderConfirmation} onCancel={this.cancelLoanRequest.bind(this)} onConfirm={this.placeLoanRequestHandler.bind(this)} isLoading={placeLoan.isLoading} />
+            }
           </ModalBody>
         </Modal>
 
