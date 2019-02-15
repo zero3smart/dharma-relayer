@@ -21,13 +21,13 @@ class ConfirmLoanRequest extends Component{
         isLoading={isLoading}>
 
         <div className="confirm__row">
-          <b>Loan amount: </b>{isFloat(amount) ? amount.toFixed(5) : amount} {currency}
+          <b>Loan amount: </b><strong>{isFloat(amount) ? amount.toFixed(5) : amount}</strong> {currency}
         </div>
         <div className="confirm__row">
-          <b>Loan term: </b>{term} days
+          <b>Loan term: </b><strong>{term}</strong> days
         </div>
         <div className="confirm__row">
-          <b>Maximum interest rate willing to pay: </b>{maxInterest} %
+          <b>Interest rate: </b><strong>{maxInterest}</strong> %
         </div>
         {/*
           <div className="confirm__row">
@@ -35,20 +35,20 @@ class ConfirmLoanRequest extends Component{
           </div>
         */}
         <div className="confirm__row">
-          <b>Total loan repayment amount: </b>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount} {currency}
+          <b>Total loan repayment amount: </b><strong>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount}</strong> {currency}
         </div>
         <div className="confirm__row">
-          <b>Number of payments: </b>{numberOfPayments}
+          <b>Number of payments: </b><strong>{numberOfPayments}</strong>
         </div>
         <div className="confirm__row">
-          <b>Payment frequency: </b>{amortizationFrequency}
+          <b>Payment frequency: </b><strong>{amortizationFrequency}</strong>
         </div>
         <div className="confirm__row">
-          <b>Payment amount: </b>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount} {currency}
+          <b>Payment amount: </b><strong>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount}</strong> {currency}
         </div>
         <br/>
         <div className="confirm__row">
-          <b>Relayer fees: </b>0.00%
+          <b>Relayer fees: </b><strong>0.00%</strong>
         </div>
         <hr/>
       </Confirm>

@@ -21,12 +21,12 @@ function renderRows(rows, fundFunction) {
               return (
                   <tr key={i++}>
                       <td className="loan-table__table-cell">{row.creationTimeParsed.toLocaleDateString()} {row.creationTimeParsed.toLocaleTimeString()}</td>
-                      <td className="loan-table__table-cell text-right">{amountString} {row.dharmaDebtOrder.principalTokenSymbol}</td>
-                      <td className="loan-table__table-cell text-right">{termInDays} days</td>
-                      <td className="loan-table__table-cell text-right">{repaymentString} {row.dharmaDebtOrder.principalTokenSymbol}</td>
-                      <td className="loan-table__table-cell text-right">{interestRate + '%'}</td>
+                      <td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{amountString}</strong> {row.dharmaDebtOrder.principalTokenSymbol}</td>
+                      <td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{termInDays}</strong> days</td>
+                      <td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{repaymentString}</strong> {row.dharmaDebtOrder.principalTokenSymbol}</td>
+                      <td className="loan-table__table-cell loan-table__primary-cell text-right loan-table__large-cell"><strong>{interestRate}</strong> %</td>
                       {/*<td className="loan-table__table-cell">N/A</td>*/}
-                      <td className="loan-table__table-cell">{paymentPeriodFrequency}</td>
+                      <td className="loan-table__table-cell loan-table__large-cell">{paymentPeriodFrequency}</td>
                       <td className="loan-table__table-cell">
                           <button className={"loan-request-fund " + (row.isLoading && "loan-request-fund_disabled")} disabled={row.isLoading} onClick={fundFunction.bind(this, row)}>FUND</button>
                       </td>
@@ -48,9 +48,9 @@ function LoanRequestsTable(props) {
                     <th className="loan-table__table-header text-right" title="Amount">Amount</th>
                     <th className="loan-table__table-header text-right" title="Term">Term</th>
                     <th className="loan-table__table-header text-right" title="Total repayment">Total repayment</th>
-                    <th className="loan-table__table-header text-right" title="Interest per  repayment">Interest per  repayment</th>
+                    <th className="loan-table__table-header text-right loan-table__large-cell" title="Interest per  repayment">Interest per  repayment</th>
                     {/*<th className="loan-table__table-header">Collateral name and amount</th>*/}
-                    <th className="loan-table__table-header" title="Repayment frequency">Repayment frequency</th>
+                    <th className="loan-table__table-header loan-table__large-cell" title="Repayment frequency">Repayment frequency</th>
                     <th className="loan-table__table-header"></th>
                 </tr>
                 </thead>

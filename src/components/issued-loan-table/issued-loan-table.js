@@ -8,13 +8,13 @@ function renderAmount(row) {
     if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
         return (
             <td className="issued-table__table-cell">
-                <a href={formatLoanscanLink(row.issuanceHash)}> {amountString} {row.token}</a>
+                <a href={formatLoanscanLink(row.issuanceHash)}><strong>{amountString}</strong> {row.token}</a>
             </td>
         )
     }
 
     return (
-        <td className="issued-table__table-cell"> {amountString} {row.token} </td>
+        <td className="issued-table__table-cell"><strong>{amountString}</strong> {row.token} </td>
     )
 }
 
@@ -25,8 +25,8 @@ function renderRows(rows) {
             <tr key={i++}>
                 <td className="issued-table__table-cell">{row.date}</td>
                 {renderAmount(row)}
-                <td className="issued-table__table-cell">{row.interest}</td>
-                <td className="issued-table__table-cell">{row.term} days</td>
+                <td className="issued-table__table-cell"><strong>{row.interest}</strong> %</td>
+                <td className="issued-table__table-cell"><strong>{row.term}</strong> d</td>
             </tr>
         );
     });

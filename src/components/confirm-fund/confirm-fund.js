@@ -51,13 +51,13 @@ class ConfirmFund extends Component{
         isLoading = {isLoading}>
 
         <div className="confirm__row">
-          <b>Loan amount: </b>{isFloat(amount) ? amount.toFixed(5) : amount} {token}
+          <b>Loan amount: </b><strong>{isFloat(amount) ? amount.toFixed(5) : amount}</strong> {token}
         </div>
         <div className="confirm__row">
-          <b>Loan term: </b>{termInDays} days
+          <b>Loan term: </b><strong>{termInDays}</strong> days
         </div>
         <div className="confirm__row">
-          <b>Maximum interest rate willing to pay: </b>{interest} %
+          <b>Interest rate willing to pay: </b><strong>{interest}</strong> %
         </div>
         {/*
          <div className="confirm__row">
@@ -65,16 +65,16 @@ class ConfirmFund extends Component{
          </div>
         */}
         <div className="confirm__row">
-          <b>Total loan repayment amount: </b>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount} {token}
+          <b>Total loan repayment amount: </b><strong>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount}</strong> {token}
         </div>
         <div className="confirm__row">
-          <b>Number of payments: </b>{termLength}
+          <b>Number of payments: </b><strong>{termLength}</strong>
         </div>
         <div className="confirm__row">
-          <b>Payment frequency: </b>{amortizationFrequency}
+          <b>Payment frequency: </b><strong>{amortizationFrequency}</strong>
         </div>
         <div className="confirm__row">
-          <b>Payment amount: </b>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount} {token}
+          <b>Payment amount: </b><strong>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount}</strong> {token}
         </div>
       </Confirm>
     );

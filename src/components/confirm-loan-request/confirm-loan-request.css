@@ -14,6 +14,11 @@
   color: #fff;
 }
 
+.confirm__row strong {
+  font-weight: normal;
+  color: #fff;
+}
+
 .confirm__buttons {
   margin-top: 30px;
 }
@@ -30,10 +35,9 @@
 }
 
 .confirm__btn_confirm {
-  background-color: #23a85b;
+  background-color: #399A08;
 }
 
 .confirm__btn_cancel {
-  background-color: #ff281f;
-  ;
+  background-color: #B51313;
 }

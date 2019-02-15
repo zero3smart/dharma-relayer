@@ -32,14 +32,28 @@
     width: 14%;
 }
 
+.loan-table__table-cell strong {
+    color: #fff;
+    font-weight: normal;
+}
+
+.loan-table__primary-cell {
+    font-size: 13px;
+}
+
 .loan-table__table-header:first-child,
 .loan-table__table-cell:first-child {
-    width: 20%;
+    width: 15%;
+}
+
+.loan-table__large-cell {
+    width: 17%;
 }
 
 .loan-table__table-header:last-child,
 .loan-table__table-cell:last-child {
-    width: 10%;
+    width: 9%;
+    padding: 6px 0;
 }
 
 .scrollable-table__table-body .loan-table__table-cell {

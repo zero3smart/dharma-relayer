@@ -16,6 +16,11 @@
     border-bottom: 2px solid #2A364D;
 }
 
+.issued-table__table-cell strong {
+    color: #fff;
+    font-weight: normal;
+}
+
 .issued-table__table-header:first-child,
 .issued-table__table-cell:first-child {
     width: 43%;
@@ -24,6 +29,7 @@
 .issued-table__table-header:nth-child(2),
 .issued-table__table-cell:nth-child(2) {
     width: 21%;
+    white-space: nowrap;
 }
 
 .issued-table__table-header:nth-child(3),
