@@ -8,7 +8,7 @@ function renderAmount(row) {
     if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
         return (
             <td className="issued-table__table-cell">
-                <a href={formatLoanscanLink(row.issuanceHash)}><strong>{amountString}</strong> {row.token}</a>
+                <a href={formatLoanscanLink(row.issuanceHash)} target="_blank"><strong>{amountString}</strong> {row.token}</a>
             </td>
         )
     }

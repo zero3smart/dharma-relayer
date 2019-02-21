@@ -160,7 +160,7 @@ function getDharmaByKernel(kernelVersion) {
   }
 }
 
-async function instantiateDharma(isCustom) {
+async function instantiateDharma() {
   const networkId = await getNetworkAsync();
 
   if (!(networkId in DebtKernel.networks &&
