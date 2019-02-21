@@ -1,4 +1,4 @@
-import {fillDebtOrder} from '../common/services/dharmaService';
+import { fillDebtOrder } from '../common/services/dharmaService';
 import * as loanStatuses from '../common/loanStatuses';
 import debtsApi from '../common/api/debts';
 
@@ -17,7 +17,6 @@ export function fillLoanRequest(debtOrder, callback) {
             .then(debtOrder => {
                 let obj = {
                     status: loanStatuses.FILLED,
-                    creditorAddress: debtOrder.dharmaDebtOrder.creditor,
                     txHash: debtOrder.txHash
                 };
                 return debtsApi.put(debtOrder.id, obj);
@@ -30,7 +29,7 @@ export function fillLoanRequest(debtOrder, callback) {
             })
             .catch(err => {
                 alert(err);
-                dispatch({type: FILL_LOAN_FAIL});
+                dispatch({ type: FILL_LOAN_FAIL });
                 return Promise.reject(err);
             });
     };
