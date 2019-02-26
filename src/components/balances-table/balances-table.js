@@ -3,22 +3,6 @@ import './balances-table.css';
 import Slider from '../slider/slider.js';
 import { isFloat } from '../../common/services/utilities';
 
-let data = [
-  {
-    id: 'OMG',
-    name: 'OmiseGo',
-    amount: 0.003,
-    unlocked: false
-  },
-  {
-    id: 'WETH',
-    name: 'Wrapped Ether',
-    amount: 0.23,
-    unlocked: true
-  }
-];
-
-
 function handleUnlockChange(assetId, e, callback) {
   let unlockValue = e.target.checked;
   if (callback) {
