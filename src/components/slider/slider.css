@@ -28,6 +28,8 @@
 .slider:before {
   position: absolute;
   content: "";
+  /*font-size:8px;*/
+  /*font-weight:600;*/
   height: 13px;
   width: 13px;
   left: 2px;
@@ -37,8 +39,19 @@
   transition: .4s;
 }
 
+/*.slider_on:before {*/
+  /*content: "on";*/
+  /*color: green;*/
+/*}*/
+
+/*.slider_off:before {*/
+  /*content: "off";*/
+  /*color: red;*/
+/*}*/
+
+
 input:checked + .slider {
-  /*background-color: #2196F3;*/
+  background-color: #399A08;
 }
 
 input:focus + .slider {
