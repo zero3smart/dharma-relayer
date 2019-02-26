@@ -1,6 +1,5 @@
 import { getWalletBalanceAsync, getDefaultAccount } from '../common/services/web3Service';
 import { getTokenBalanceAsync } from '../common/services/tokenService';
-import * as CurrencyCodes from '../common/currencyCodes';
 
 export const GET_WALLET_INFO = 'GET_WALLET_INFO';
 export const GET_WALLET_INFO_SUCCESS = 'GET_WALLET_INFO_SUCCESS';
@@ -14,7 +13,7 @@ export function getWalletInfo() {
 
         let currency = getState().walletInfo.selectedCurrency;
         let accountAddress = getDefaultAccount();
-        let balancePromise = (currency === CurrencyCodes.ETH) ? getWalletBalanceAsync() : getTokenBalanceAsync(currency, accountAddress);
+        let balancePromise = (currency === 'ETH') ? getWalletBalanceAsync() : getTokenBalanceAsync(currency, accountAddress);
 
         return balancePromise
             .then(balance => {

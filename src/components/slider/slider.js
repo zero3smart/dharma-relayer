@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './slider.css';
 import Spinner from '../spinner/spinner.js';
 
+//todo: call onChange with true/false argument, not event
 export default function (props) {
   let onChange = props.onChange || (() => { });
   return (

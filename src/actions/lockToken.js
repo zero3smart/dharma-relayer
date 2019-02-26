@@ -1,5 +1,4 @@
 import { unlockTokenAsync } from '../common/services/tokenService';
-import * as CurrencyCodes from '../common/currencyCodes';
 
 export const LOCK_TOKEN = 'LOCK_TOKEN';
 export const LOCK_TOKEN_SUCCESS = 'LOCK_TOKEN_SUCCESS'

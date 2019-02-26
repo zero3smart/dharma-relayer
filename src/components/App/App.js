@@ -7,7 +7,7 @@ import './App.css';
 import UserInfo from '../user-info/user-info.js';
 import LoanRequests from '../../containers/loan-requests/loan-requests';
 import IssuedLoans from '../../containers/issued-loans/issued-loans';
-import {HOST_URL} from '../../common/api/urls'
+import { HOST_URL } from '../../common/api/config'
 
 export const store = createStore(
   rootReducer,

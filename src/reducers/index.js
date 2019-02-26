@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import * as CurrencyCodes from '../common/currencyCodes.js';
 import {
   SELECT_CURRENCY,
   SELECT_CURRENCY_SUCCESS,
@@ -21,11 +20,12 @@ import myFundedLoansReducer from './myFundedLoansReducer';
 import placeLoanReducer from './placeLoanReducer';
 import fillLoanReducer from './fillLoanReducer';
 import tokenBalancesReducer from './tokenBalancesReducer';
+import { SUPPORTED_TOKENS } from '../common/api/config';
 
 function walletInfoReducer(state = {
   address: getDefaultAccount(),
   amount: null,
-  selectedCurrency: CurrencyCodes.ETH,
+  selectedCurrency: SUPPORTED_TOKENS[0],
   isProcessing: false
 }, action) {
   switch (action.type) {

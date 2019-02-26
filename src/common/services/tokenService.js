@@ -1,12 +1,11 @@
 import contract from 'truffle-contract';
 import BigNumber from 'bignumber.js';
-import DAI from '../tokenJson/DAI.json';
-import MKR from '../tokenJson/MKR.json';
-import REP from '../tokenJson/REP.json';
-import ZRX from '../tokenJson/ZRX.json';
-import * as currencyCodes from '../currencyCodes';
-import web3Provider from './web3Service.js'
-import * as dharmaService from './dharmaService.js'
+import { abi as TOKEN_ABI } from '../tokenJson/token_abi.json';
+import web3Provider from './web3Service.js';
+import * as dharmaService from './dharmaService.js';
+
+const supportedTokensPromise = dharmaService.getSupportedTokens();
+const cachedTokens = {};
 
 export async function convertToHumanReadable(amount, tokenSymbol) {
     const decimals = await getTokenDecimals(tokenSymbol);
@@ -28,13 +27,6 @@ export async function getTokenAddressBySymbolAsync(symbol) {
 export async function getTokenNameBySymbolAsync(symbol) {
     const contract = await getTokenContractBySymbolAsync(symbol)
     return contract.name();
-}
-
-export function getTokenContractBySymbolAsync(symbol) {
-    const TokenContract = contract(getTokenSource(symbol));
-    TokenContract.setProvider(web3Provider);
-
-    return TokenContract.deployed();
 }
 
 export async function getTokenBalanceAsync(symbol, ownerAddress) {
@@ -60,23 +52,23 @@ export async function getTokenLockAsync(symbol) {
     return allowance.greaterThan(0)
 }
 
+export async function getTokenContractBySymbolAsync(symbol) {
+    if (symbol in (await supportedTokensPromise)) {
+        if (!(symbol in cachedTokens)) {
+            const TokenContract = contract({
+                abi: TOKEN_ABI
+            });
+            TokenContract.setProvider(web3Provider);
+            cachedTokens[symbol] = TokenContract.at((await supportedTokensPromise)[symbol]);
+        }
+
+        return cachedTokens[symbol];
+    }
+    return null;
+}
+
 async function getTokenDecimals(symbol) {
     const token = await getTokenContractBySymbolAsync(symbol);
 
     return token.decimals();
-}
-
-function getTokenSource(token) {
-    switch (token) {
-        case currencyCodes.DAI:
-            return DAI;
-        case currencyCodes.MKR:
-            return MKR;
-        case currencyCodes.REP:
-            return REP;
-        case currencyCodes.ZRX:
-            return ZRX;
-        default:
-            throw new Error(`Configuration for token ${token} wasn't found`);
-    }
 }

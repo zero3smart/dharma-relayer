@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
 import './place-loan-request.css';
 import {
   allowCollateral,
@@ -10,19 +10,19 @@ import {
   showLoanConfirmation,
   runGlobalUpdate
 } from '../../actions';
-import * as CurrencyCodes from '../../common/currencyCodes';
-import {RELAYER_AMORTIZATION_FREQUENCIES} from '../../common/amortizationFrequencies';
-import {Modal, ModalBody} from '../modal/modal';
+import { RELAYER_AMORTIZATION_FREQUENCIES } from '../../common/amortizationFrequencies';
+import { Modal, ModalBody } from '../modal/modal';
 import ConfirmLoanRequest from '../confirm-loan-request/confirm-loan-request';
-import {calculateCollateralAmount} from '../../common/services/utilities';
+import { calculateCollateralAmount } from '../../common/services/utilities';
+import { SUPPORTED_TOKENS } from '../../common/api/config.js';
 
 const termValues = {
-  1: {name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY]},
-  7: {name: '7 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY]},
-  28: {name: '28 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.WEEKLY]},
-  90: {name: '90 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY]},
-  180: {name: '180 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY]},
-  360: {name: '360 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY]}
+  1: { name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY] },
+  7: { name: '7 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY] },
+  28: { name: '28 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.WEEKLY] },
+  90: { name: '90 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY] },
+  180: { name: '180 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY] },
+  360: { name: '360 days', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY] }
 };
 
 const floatOnly = (value) => {
@@ -33,13 +33,14 @@ const floatOnly = (value) => {
 };
 const required = value => (value ? false : true);
 
-class PlaceLoanRequest extends Component{
+class PlaceLoanRequest extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.reset = this.reset.bind(this);
     this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
+    this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
   }
 
   //uncomment when decide to return "collateral" functionality
@@ -51,32 +52,32 @@ class PlaceLoanRequest extends Component{
   //  });
   //}
 
-  placeLoanRequestClick(values){
+  placeLoanRequestClick(values) {
     this.props.showLoanConfirmation({
       ...values,
       amortizationFrequency: values.amortizationFrequency || termValues[values.term].amortizationFrequencies[0]
     });
   }
 
-  placeLoanRequestHandler(values){
-    let {placeLoanRequest, runGlobalUpdate} = this.props;
+  placeLoanRequestHandler(values) {
+    let { placeLoanRequest, runGlobalUpdate } = this.props;
     placeLoanRequest(values, () => {
       this.cancelLoanRequest();
       runGlobalUpdate();
     });
   }
 
-  cancelLoanRequest(){
+  cancelLoanRequest() {
     this.reset();
     this.props.hideLoanConfirmation();
   }
 
-  reset(){
+  reset() {
     this.props.reset();
     this.props.resetLoanForm();
   }
 
-  renderAmortizationFrequencySelect(selectedTerm){
+  renderAmortizationFrequencySelect(selectedTerm) {
     return (
       <Field name="amortizationFrequency" className="loan-request-form__select" component="select">
         {
@@ -88,13 +89,19 @@ class PlaceLoanRequest extends Component{
     );
   }
 
-  termChange(event, newValue){
+  termChange(event, newValue) {
     let newSelectedFrequency = termValues[newValue].amortizationFrequencies[0];
     this.props.changeAmortizationFrequency(newSelectedFrequency);
   }
 
+  renderCurrencyOptions() {
+    return SUPPORTED_TOKENS.map(symbol => {
+      return (<option key={symbol} value={symbol}>{symbol}</option>);
+    });
+  }
 
-  render(){
+
+  render() {
     const { handleSubmit, valid, collateralAllowed, term, debtOrderConfirmation, placeLoan } = this.props;
 
     return (
@@ -113,14 +120,11 @@ class PlaceLoanRequest extends Component{
               placeholder="0"
               component="input"
               validate={required}
-              normalize={floatOnly}/>
+              normalize={floatOnly} />
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="currency" className="loan-request-form__select" component="select">
-              <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
-              <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
-              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
-              <option value={CurrencyCodes.ZRX}>{CurrencyCodes.ZRX}</option>
+              {this.renderCurrencyOptions()}
             </Field>
           </div>
         </div>
@@ -144,9 +148,9 @@ class PlaceLoanRequest extends Component{
             <label className="loan-request-form__label">Payment</label>
           </div>
           {/*<div className="loan-request-form__label-wrapper">*/}
-            {/*<span className="loan-request-form__label">*/}
-               {/*{term ? termValues[term].name : termValues['28'].name} loan*/}
-            {/*</span>*/}
+          {/*<span className="loan-request-form__label">*/}
+          {/*{term ? termValues[term].name : termValues['28'].name} loan*/}
+          {/*</span>*/}
           {/*</div>*/}
           <div className="loan-request-form__select-wrapper">
             {term && this.renderAmortizationFrequencySelect(term)}
@@ -163,7 +167,7 @@ class PlaceLoanRequest extends Component{
               placeholder="For each repayment, %"
               component="input"
               validate={required}
-              normalize={floatOnly}/>
+              normalize={floatOnly} />
           </div>
         </div>
         {/*
@@ -227,25 +231,25 @@ let mapStateToProps = state => ({
   placeLoan: state.placeLoan
 });
 let mapDispatchToProps = (dispatch) => ({
-  allowCollateral(amount, token){
+  allowCollateral(amount, token) {
     dispatch(allowCollateral(amount, token))
   },
-  placeLoanRequest(order, callback){
+  placeLoanRequest(order, callback) {
     dispatch(placeLoanRequest(order, callback))
   },
-  changeAmortizationFrequency(value){
+  changeAmortizationFrequency(value) {
     dispatch(changeForm('LoanRequestForm', 'amortizationFrequency', value))
   },
-  resetLoanForm(){
+  resetLoanForm() {
     dispatch(resetLoanForm());
   },
-  hideLoanConfirmation(){
+  hideLoanConfirmation() {
     dispatch(hideLoanConfirmation());
   },
-  showLoanConfirmation(debtOrder){
+  showLoanConfirmation(debtOrder) {
     dispatch(showLoanConfirmation(debtOrder));
   },
-  runGlobalUpdate(){
+  runGlobalUpdate() {
     dispatch(runGlobalUpdate());
   }
 });
@@ -253,9 +257,9 @@ let mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'LoanRequestForm',
-  initialValues:{
+  initialValues: {
     term: 7,
-    currency: CurrencyCodes.DAI,
-    collateralType:CurrencyCodes.DAI
+    currency: SUPPORTED_TOKENS[0],
+    collateralType: SUPPORTED_TOKENS[0]
   }
 })(PlaceLoanRequest));

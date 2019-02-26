@@ -19,3 +19,6 @@ export * from './unlockToken';
 export * from './lockToken';
 export * from './getTokenLock';
 export * from './getTokenName';
+export * from './changeDebtOrderConfirmationStep';
+export * from './unlockCollateralToken';
+export * from './lockCollateralToken';

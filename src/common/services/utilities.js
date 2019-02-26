@@ -1,19 +1,16 @@
-import {
-  RELAYER_AMORTIZATION_FREQUENCIES,
-  DHARMA_AMORTIZATION_UNITS
-} from '../../common/amortizationFrequencies';
-import {
-  LOANSCAN_URL
-} from '../../common/api/urls'
+import { RELAYER_AMORTIZATION_FREQUENCIES, DHARMA_AMORTIZATION_UNITS } from '../../common/amortizationFrequencies';
+import { LOANSCAN_URL } from '../../common/api/config'
 
 export const calculateCollateralAmount = debtAmount => 1.5 * debtAmount;
 
 export const calculateNumberOfPayments = (amortizationFrequency, termInDays) => {
   if (amortizationFrequency === RELAYER_AMORTIZATION_FREQUENCIES.WEEKLY) {
     return termInDays / 7;
-  } else if (amortizationFrequency === RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY) {
+  }
+  else if (amortizationFrequency === RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY) {
     return termInDays / 30;
-  } else if (amortizationFrequency === RELAYER_AMORTIZATION_FREQUENCIES.END) {
+  }
+  else if (amortizationFrequency === RELAYER_AMORTIZATION_FREQUENCIES.END) {
     return 1;
   }
   return termInDays;

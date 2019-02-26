@@ -1,4 +1,3 @@
-import * as currencyCodes from '../common/currencyCodes';
 import {
     GET_TOKEN_BALANCE_SUCCESS,
     UNLOCK_TOKEN,
@@ -11,36 +10,24 @@ import {
     GET_TOKEN_LOCK_SUCCESS,
     GET_TOKEN_NAME_SUCCESS
 } from '../actions';
+import { SUPPORTED_TOKENS } from '../common/api/config';
 
 
-const usedTokens = {
-    [currencyCodes.DAI]: {
-        amount: null,
-        unlocked: null,
-        name: null,
-        lockProcessing: false
-    },
-    [currencyCodes.MKR]: {
-        amount: null,
-        unlocked: null,
-        name: null,
-        lockProcessing: false
-    },
-    [currencyCodes.REP]: {
-        amount: null,
-        unlocked: null,
-        name: null,
-        lockProcessing: false
-    },
-    [currencyCodes.ZRX]: {
-        amount: null,
-        unlocked: null,
-        name: null,
-        lockProcessing: false
-    }
-};
+function getTokens() {
+    const tokens = {}
+    SUPPORTED_TOKENS.forEach(token => {
+        tokens[token] = {
+            amount: null,
+            unlocked: null,
+            name: null,
+            lockProcessing: false
+        }
+    });
 
-export default function (state = usedTokens, action) {
+    return tokens
+}
+
+export default function (state = getTokens(), action) {
     switch (action.type) {
         case GET_TOKEN_BALANCE_SUCCESS:
             return {

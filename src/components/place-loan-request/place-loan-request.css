@@ -1,4 +1,4 @@
-.loan-request-form {
+.loan-request-form{
   padding: 10px;
 }
 
@@ -7,84 +7,74 @@
   margin-bottom: 10px;
 }
 
-.loan-request-form__row {
+.loan-request-form__row{
   display: flex;
   margin-bottom: 8px;
 }
-
-.loan-request-form__label-wrapper {
+.loan-request-form__label-wrapper{
   flex-basis: 25%;
   line-height: 28px;
 }
-
-.loan-request-form__label {
+.loan-request-form__label{
   color: #B3B7BF;
 }
-
-.loan-request-form__input-wrapper {
+.loan-request-form__label_collateral{
+  line-height:14px;
+  font-size:10px;
+}
+.loan-request-form__input-wrapper{
   flex-basis: 75%;
 }
-
-.loan-request-form__input {
+.loan-request-form__input{
   width: 100%;
   height: 28px;
   line-height: 16px;
 }
-
-.loan-request-form__select-wrapper {
+.loan-request-form__select-wrapper{
   height: 28px;
   flex-basis: 75%;
 }
-
 .loan-request-amount .loan-request-form__input-wrapper {
   flex-basis: 50%;
 }
-
 .loan-request-amount .loan-request-form__select-wrapper {
   flex-basis: 25%;
   margin-left: 4px;
 }
-
 .loan-request-amount .loan-request-form__select {
   background-position: 90% 50%;
 }
-
-.loan-request-form__select {
+.loan-request-form__select{
   height: 100%;
   width: 100%;
 }
 
-.loan-request-form__select option {
+.loan-request-form__select option{
   background-color: #18253e;
 }
 
-.loan-request-form__collateral-input-wrapper {
+.loan-request-form__collateral-input-wrapper{
   flex-basis: 50%;
   font-size: 12px;
 }
-
 .loan-request-form__collateral-btn-wrapper {
   flex-basis: 50%;
   font-size: 12px;
   padding-left: 2px;
 }
-
-.loan-request-form__collateral-btn {
+.loan-request-form__collateral-btn{
   width: 100%;
   height: 100%;
   background-color: #B51313;
   color: white;
 }
-
-.loan-request-form__relayer-fee {
+.loan-request-form__relayer-fee{
   padding: 6px;
 }
-
-.loan-request-form__place-btn-wrapper {
+.loan-request-form__place-btn-wrapper{
   display: flex;
   justify-content: center;
 }
-
 .loan-request-form__place-btn {
   background-color: #399A08;
   color: #fff;
@@ -93,8 +83,7 @@
   border-radius: 2px;
   margin: 8px 0;
 }
-
-.loan-request-form_disabled {
+.loan-request-form_disabled{
   background: #3D4966;
   color: #7F879A;
   cursor: not-allowed;

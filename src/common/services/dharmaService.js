@@ -9,7 +9,7 @@ import TokenTransferProxy from '../protocolJson/TokenTransferProxy.json';
 import TokenRegistry from '../protocolJson/TokenRegistry.json';
 import DebtToken from '../protocolJson/DebtToken.json';
 import SimpleInterestTermsContract from '../protocolJson/SimpleInterestTermsContract.json';
-import { RELAYER_ADDRESS, RELAYER_FEE } from '../api/config.js';
+import { RELAYER_ADDRESS, RELAYER_FEE, SUPPORTED_TOKENS } from '../api/config.js';
 import { convertFromHumanReadable, convertToHumanReadable } from './tokenService.js';
 
 const dharma = new Dharma(web3Provider);
@@ -96,6 +96,23 @@ export async function fromDebtOrder(debtOrder) {
   }
 }
 
+export async function fillDebtOrder(debtOrder) {
+  const creditor = getDefaultAccount();
+  const originalDebtOrder = debtOrder.dharmaDebtOrder.originalDebtOrder;
+
+  originalDebtOrder.creditor = creditor;
+
+  console.log(JSON.stringify(originalDebtOrder));
+  const txHash = await dharma.order.fillAsync(originalDebtOrder, { from: creditor });
+  const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
+
+  debtOrder.txHash = txHash;
+
+  console.log(receipt);
+
+  return debtOrder;
+}
+
 export async function setUnlimitedProxyAllowanceAsync(tokenAddress) {
   const tx = await dharma.token.setUnlimitedProxyAllowanceAsync(
     tokenAddress,
@@ -118,23 +135,15 @@ export function getProxyAllowanceAsync(tokenAddress) {
   return dharma.token.getProxyAllowanceAsync(tokenAddress, getDefaultAccount());
 }
 
-export async function fillDebtOrder(debtOrder) {
-  const dharma = getDharmaByKernel(debtOrder.kernelAddress)
-
-  const creditor = getDefaultAccount();
-  const originalDebtOrder = debtOrder.dharmaDebtOrder.originalDebtOrder;
-
-  originalDebtOrder.creditor = creditor;
-
-  console.log(JSON.stringify(originalDebtOrder));
-  const txHash = await dharma.order.fillAsync(originalDebtOrder, { from: creditor });
-  const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
-
-  debtOrder.txHash = txHash;
-
-  console.log(receipt);
-
-  return debtOrder;
+export async function getSupportedTokens() {
+  const res = {};
+  for (const i in SUPPORTED_TOKENS) {
+    const symbol = SUPPORTED_TOKENS[i];
+    const address = await dharma.contracts.getTokenAddressBySymbolAsync(symbol);
+    res[symbol] = address;
+  }
+  console.log('Supported tokens: ' + JSON.stringify(res))
+  return res;
 }
 
 const defaultDebtOrderParams = {
