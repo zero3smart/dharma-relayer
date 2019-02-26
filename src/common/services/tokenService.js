@@ -6,6 +6,7 @@ import REP from '../tokenJson/REP.json';
 import ZRX from '../tokenJson/ZRX.json';
 import * as currencyCodes from '../currencyCodes';
 import web3Provider from './web3Service.js'
+import * as dharmaService from './dharmaService.js'
 
 export async function convertToHumanReadable(amount, tokenSymbol) {
     const decimals = await getTokenDecimals(tokenSymbol);
@@ -19,17 +20,21 @@ export async function convertFromHumanReadable(amount, tokenSymbol) {
     return res;
 }
 
+export async function getTokenAddressBySymbolAsync(symbol) {
+    const contract = await getTokenContractBySymbolAsync(symbol)
+    return contract.address;
+}
+
+export async function getTokenNameBySymbolAsync(symbol) {
+    const contract = await getTokenContractBySymbolAsync(symbol)
+    return contract.name();
+}
+
 export function getTokenContractBySymbolAsync(symbol) {
     const TokenContract = contract(getTokenSource(symbol));
     TokenContract.setProvider(web3Provider);
 
     return TokenContract.deployed();
-}
-
-async function getTokenDecimals(symbol) {
-    const token = await getTokenContractBySymbolAsync(symbol);
-
-    return token.decimals();
 }
 
 export async function getTokenBalanceAsync(symbol, ownerAddress) {
@@ -39,18 +44,26 @@ export async function getTokenBalanceAsync(symbol, ownerAddress) {
 }
 
 export async function unlockTokenAsync(symbol, unlock) {
-    //todo: implement
+    const tokenAddress = await getTokenAddressBySymbolAsync(symbol)
     console.log('unlockTokenAsync called:', symbol, unlock)
-    return new Promise((resolve, reject) => {
-        resolve();
-    })
+    if (unlock) {
+        await dharmaService.setUnlimitedProxyAllowanceAsync(tokenAddress);
+    } else {
+        await dharmaService.setProxyAllowanceAsync(tokenAddress, 0);
+    }
 }
 
 export async function getTokenLockAsync(symbol) {
-    //todo: implement
-    return new Promise((resolve, reject) => {
-        resolve(true);
-    })
+    const tokenAddress = await getTokenAddressBySymbolAsync(symbol)
+    const allowance = await dharmaService.getProxyAllowanceAsync(tokenAddress)
+
+    return allowance.greaterThan(0)
+}
+
+async function getTokenDecimals(symbol) {
+    const token = await getTokenContractBySymbolAsync(symbol);
+
+    return token.decimals();
 }
 
 function getTokenSource(token) {
