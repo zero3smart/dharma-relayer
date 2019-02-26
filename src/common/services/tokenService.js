@@ -32,10 +32,25 @@ async function getTokenDecimals(symbol) {
     return token.decimals();
 }
 
-export async function getTokenBalance(symbol, ownerAddress) {
+export async function getTokenBalanceAsync(symbol, ownerAddress) {
     let contract = await getTokenContractBySymbolAsync(symbol);
     let balance = await contract.balanceOf(ownerAddress);
     return convertToHumanReadable(balance, symbol);
+}
+
+export async function unlockTokenAsync(symbol, unlock) {
+    //todo: implement
+    console.log('unlockTokenAsync called:', symbol, unlock)
+    return new Promise((resolve, reject) => {
+        resolve();
+    })
+}
+
+export async function getTokenLockAsync(symbol) {
+    //todo: implement
+    return new Promise((resolve, reject) => {
+        resolve(true);
+    })
 }
 
 function getTokenSource(token) {

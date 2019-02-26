@@ -1,9 +1,5 @@
-import {
-  combineReducers
-} from 'redux';
-import {
-  reducer as formReducer
-} from 'redux-form';
+import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import * as CurrencyCodes from '../common/currencyCodes.js';
 import {
   SELECT_CURRENCY,
@@ -13,11 +9,10 @@ import {
   FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
   RESET_LOAN_FORM,
   HIDE_LOAN_CONFIRMATION,
-  SHOW_LOAN_CONFIRMATION
+  SHOW_LOAN_CONFIRMATION,
+  GET_TOKEN_BALANCE_SUCCESS
 } from '../actions';
-import {
-  getDefaultAccount
-} from '../common/services/web3Service';
+import { getDefaultAccount } from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
 import loanIssuedReducer from './loanIssuedReducer';
 import fundConfirmationReducer from './fundConfirmationReducer';
@@ -25,6 +20,7 @@ import myOpenLoanRequestsReducer from './myOpenLoanRequestsReducer';
 import myFundedLoansReducer from './myFundedLoansReducer';
 import placeLoanReducer from './placeLoanReducer';
 import fillLoanReducer from './fillLoanReducer';
+import tokenBalancesReducer from './tokenBalancesReducer';
 
 function walletInfoReducer(state = {
   address: getDefaultAccount(),
@@ -34,23 +30,16 @@ function walletInfoReducer(state = {
 }, action) {
   switch (action.type) {
     case SELECT_CURRENCY:
-      return {
-        ...state,
-        selectedCurrency: action.currency,
-        isProcessing: true
-      };
+      return { ...state, selectedCurrency: action.currency, isProcessing: true };
     case SELECT_CURRENCY_SUCCESS:
-      return {
-        ...state,
-        amount: action.balance,
-        isProcessing: false
-      };
+      return { ...state, amount: action.balance, isProcessing: false };
     case GET_WALLET_INFO_SUCCESS:
-      return {
-        ...state,
-        amount: action.balance,
-        address: action.address
-      };
+      return { ...state, amount: action.balance, address: action.address };
+    case GET_TOKEN_BALANCE_SUCCESS:
+      if (state.selectedCurrency === action.token) {
+        return { ...state, amount: action.amount }
+      }
+      return state;
     default:
       return state;
   }
@@ -81,22 +70,11 @@ function debtOrderConfirmationReducer(state = {
 }, action) {
   switch (action.type) {
     case SHOW_LOAN_CONFIRMATION:
-      return {
-        ...state,
-        modalVisible: true,
-        ...action.debtOrder
-      };
+      return { ...state, modalVisible: true, ...action.debtOrder };
     case HIDE_LOAN_CONFIRMATION:
-      return {
-        ...state,
-        modalVisible: false
-      };
+      return { ...state, modalVisible: false };
     case ALLOW_COLLATERAL_SUCCESS:
-      return {
-        ...state,
-        modalVisible: true,
-        ...action.debtOrder
-      };
+      return { ...state, modalVisible: true, ...action.debtOrder };
     default:
       return state;
   }
@@ -114,6 +92,7 @@ const rootReducer = combineReducers({
   fundConfirmation: fundConfirmationReducer,
   placeLoan: placeLoanReducer,
   fillLoan: fillLoanReducer,
+  tokenBalances: tokenBalancesReducer,
   form: formReducer
 });
 

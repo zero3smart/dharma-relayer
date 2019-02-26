@@ -14,3 +14,7 @@ export * from './showFundConfirmation';
 export * from './hideFundConfirmation';
 export * from './showLoanConfirmation';
 export * from './runGlobalUpdate';
+export * from './getTokenBalance';
+export * from './unlockToken';
+export * from './lockToken';
+export * from './getTokenLock';

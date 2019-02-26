@@ -8,13 +8,13 @@ function renderAmount(row) {
   if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
     return (
       <td className="loan-table-small__table-cell">
-        <a href={formatLoanscanLink(row.issuanceHash)}> {amountString} {row.principalTokenSymbol}</a>
+        <a href={formatLoanscanLink(row.issuanceHash)}><strong>{amountString}</strong> {row.principalTokenSymbol}</a>
       </td>
     )
   }
 
   return (
-    <td className="loan-table-small__table-cell"> {amountString} {row.principalTokenSymbol} </td>
+    <td className="loan-table-small__table-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
   )
 }
 
@@ -30,8 +30,8 @@ function renderRows(rows) {
         <tr key={i++}>
           <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
           {renderAmount(row)}
-          <td className="loan-table-small__table-cell">{row.interestRate + ' %'}</td>
-          <td className="loan-table-small__table-cell">{calculateTermInDays(row.amortizationUnit, row.termLength)} days</td>
+          <td className="loan-table-small__table-cell"><strong>{row.interestRate.toString()}</strong> %</td>
+          <td className="loan-table-small__table-cell"><strong>{calculateTermInDays(row.amortizationUnit, row.termLength)}</strong> d</td>
         </tr>
       );
     });
@@ -45,7 +45,7 @@ function LoanTableSmall(props) {
       </div>
       <table className="loan-table-small__table">
         <thead>
-          <tr className="loan-table-small__table-headers">
+          <tr>
             <th className="loan-table-small__table-header" title={props.dateColumnHeader}>Date</th>
             <th className="loan-table-small__table-header" title="Loan amount">Amount</th>
             <th className="loan-table-small__table-header" title="Interest rate (per payment period)">Interest</th>

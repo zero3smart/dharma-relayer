@@ -1,0 +1,55 @@
+.balances-table{
+  background-color:#0a1222;
+}
+
+.balances-table__header{
+  font-size: 16px;
+  padding: 10px;
+}
+
+.balances-table__table-wrapper{
+  padding: 10px;
+  border-top: 1px solid #18253e;
+}
+
+.balances-table__table{
+  width: 100%;
+  font-size: 11px;
+  color: #B3B7BF;
+}
+
+.balances-table__table-header, .balances-table__table-cell {
+  padding: 5px;
+  text-align:center;
+  width: 28%;
+}
+
+.balances-table__table-header:first-child, .balances-table__table-cell:first-child{
+  text-align:left;
+  width: 35%;
+}
+
+.balances-table__table-header:nth-child(2), .balances-table__table-cell:nth-child(2){
+  text-align:right;
+  width: 37%;
+}
+
+.balances-table__table-body{
+  max-height:220px;
+}
+
+.balances-table__table_stripe tbody tr:nth-of-type(odd) {
+  /*background-color: #1A2337;*/
+  background-color: rgba(26,35,55,0.5);
+}
+
+.balances-table__asset-id{
+  font-size:14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.balances-table__balance-value{
+  font-weight: 600;
+  color: #ffffff;
+}
