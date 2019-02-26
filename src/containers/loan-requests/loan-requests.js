@@ -4,6 +4,8 @@ import { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirm
 import LoanRequestsTable from '../../components/loan-request-table/loan-request-table';
 import { Modal, ModalBody } from '../../components/modal/modal';
 import ConfirmFund from '../../components/confirm-fund/confirm-fund';
+import Spinner from '../../components/spinner/spinner.js';
+import './loan-requests.css';
 
 let destroyTimer = null;
 
@@ -41,7 +43,15 @@ class LoanRequests extends Component {
     }
 
     render() {
-        let { loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoan } = this.props;
+        let { loanRequests, fundConfirmation, showFundConfirmation, hideFundConfirmation, fillLoan, isLoading } = this.props;
+
+        if (isLoading) {
+            return (
+                <div className="loan-requests__spinner-container">
+                    <Spinner />
+                </div>
+            );
+        }
 
         return (
             <div>
@@ -60,7 +70,8 @@ class LoanRequests extends Component {
 }
 
 let mapStateToProps = ({ loanRequests, fundConfirmation, fillLoan }) => ({
-    loanRequests,
+    loanRequests: loanRequests.values,
+    isLoading: loanRequests.isLoading,
     fundConfirmation,
     fillLoan
 });

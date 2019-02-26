@@ -7,6 +7,7 @@ import {
     LOCK_TOKEN,
     LOCK_TOKEN_SUCCESS,
     LOCK_TOKEN_FAIL,
+    GET_TOKEN_LOCK,
     GET_TOKEN_LOCK_SUCCESS,
     GET_TOKEN_NAME_SUCCESS
 } from '../actions';
@@ -90,13 +91,23 @@ export default function (state = usedTokens, action) {
                     lockProcessing: false
                 }
             };
+        case GET_TOKEN_LOCK:
+            return {
+                ...state,
+                [action.token]:
+                {
+                    ...state[action.token],
+                    lockProcessing: true
+                }
+            };
         case GET_TOKEN_LOCK_SUCCESS:
             return {
                 ...state,
                 [action.token]:
                 {
                     ...state[action.token],
-                    unlocked: action.unlocked
+                    unlocked: action.unlocked,
+                    lockProcessing: false
                 }
             };
         case GET_TOKEN_NAME_SUCCESS:
