@@ -6,7 +6,8 @@ if (typeof window.web3 !== 'undefined') {
     console.log('provider is metamask: ', window.web3.currentProvider.isMetaMask);
     window.web3 = new Web3(window.web3.currentProvider);
     window.web3.eth.defaultAccount = defaultAccount;
-  } else {
+  }
+  else {
     alert('Please, log in Metamask and reload the page.');
   }
 } else {
@@ -26,11 +27,16 @@ export function getWalletBalanceAsync() {
     window.web3.eth.getBalance(getDefaultAccount(), (err, balance) => {
       if (err) {
         reject(err);
-      } else {
+      }
+      else {
         resolve(window.web3.fromWei(balance));
       }
     });
   });
+}
+
+export function getNetwork() {
+  return window.web3.version.network;
 }
 
 export function getNetworkAsync() {
