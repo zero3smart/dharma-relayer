@@ -21,12 +21,12 @@
 .balances-table__table-header, .balances-table__table-cell {
   padding: 5px;
   text-align:center;
-  width: 28%;
+  width: 29%;
 }
 
 .balances-table__table-header:first-child, .balances-table__table-cell:first-child{
   text-align:left;
-  width: 35%;
+  width: 34%;
 }
 
 .balances-table__table-header:nth-child(2), .balances-table__table-cell:nth-child(2){
@@ -52,4 +52,21 @@
 .balances-table__balance-value{
   font-weight: 600;
   color: #ffffff;
+}
+
+.balances-table__info-icon-container{
+  display:inline-block;
+  position: relative;
+  top: 2px;
+  left: 3px;
+}
+
+.balances-table__unlocked-tooltip-text{
+  width: 200px;
+  text-align:left;
+}
+
+.balances-table__unlocked-tooltip-list{
+  list-style-type:disc;
+  list-style-position: inside;
 }

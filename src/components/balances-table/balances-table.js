@@ -1,6 +1,7 @@
 import React from 'react';
 import './balances-table.css';
 import Slider from '../slider/slider.js';
+import InfoIcon from '../info-icon/info-icon.js';
 import { isFloat } from '../../common/services/utilities';
 
 function handleUnlockChange(assetId, e, callback) {
@@ -39,6 +40,18 @@ function renderRows(rows, onLockUpdate) {
   });
 }
 
+function renderUnlockedTooltip() {
+  return (
+    <div className="balances-table__unlocked-tooltip-text">
+      Unlocking Tokens
+      <ul className="balances-table__unlocked-tooltip-list">
+        <li>Creditors have to unlock their tokens to allow tokens transfer when funding a loan (lending).</li>
+        <li>To unlock your tokens click the toggle next to the token you would like to lend.</li>
+      </ul>
+    </div>
+  );
+}
+
 function BalancesTable(props) {
   return (
     <div className="balances-table scrollable-table">
@@ -52,7 +65,12 @@ function BalancesTable(props) {
             <tr>
               <th className="balances-table__table-header" title="Asset">Asset</th>
               <th className="balances-table__table-header" title="Available Balances">Available Balance</th>
-              <th className="balances-table__table-header" title="Unlocked">Unlocked</th>
+              <th className="balances-table__table-header">
+                Unlocked
+              <div className="balances-table__info-icon-container">
+                  <InfoIcon color="#3D4966" renderTooltip={renderUnlockedTooltip} />
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody className="balances-table__table-body scrollable-table__table-body scrollable">

@@ -1,0 +1,29 @@
+.relayer-tooltip {
+}
+
+.relayer-tooltip .tooltiptext {
+  visibility: hidden;
+  /*background-color: black;*/
+  background-color:#0a1222;
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+
+  top: -5px;
+  left: 150%;
+
+  /*animation*/
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.relayer-tooltip:hover .tooltiptext {
+  visibility: visible;
+
+  /*animation*/
+  opacity: 1;
+}
