@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getTokenBalance, lockToken, unlockToken, getTokenLock } from '../../actions';
+import { getTokenBalance, lockToken, unlockToken, getTokenLock, getTokenName } from '../../actions';
 import BalancesTable from '../../components/balances-table/balances-table.js';
 
 let destroyTimer = null;
@@ -18,13 +18,13 @@ class BalancesInfo extends Component {
 
         this.updateTokens = this.updateTokens.bind(this);
         this.updateLock = this.updateLock.bind(this);
-        this.getLockStatus = this.getLockStatus.bind(this);
+        this.getTokensInfo = this.getTokensInfo.bind(this);
     }
 
     componentDidMount() {
-        let { updateTokens, getLockStatus } = this;
+        let { updateTokens, getTokensInfo } = this;
         updateTokens();
-        getLockStatus();
+        getTokensInfo();
         startTimer(updateTokens);
     }
 
@@ -39,10 +39,11 @@ class BalancesInfo extends Component {
         });
     }
 
-    getLockStatus() {
-        let { tokenBalances, getTokenLock } = this.props;
+    getTokensInfo() {
+        let { tokenBalances, getTokenLock, getTokenName } = this.props;
         tokenBalances.forEach(b => {
             getTokenLock(b.id);
+            getTokenName(b.id);
         });
     }
 
@@ -78,6 +79,6 @@ let mapStateToProps = ({ tokenBalances }) => ({
     })
 });
 
-let mapDispatchToProps = { getTokenBalance, lockToken, unlockToken, getTokenLock };
+let mapDispatchToProps = { getTokenBalance, lockToken, unlockToken, getTokenLock, getTokenName };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BalancesInfo);

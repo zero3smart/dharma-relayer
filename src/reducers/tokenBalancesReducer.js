@@ -1,27 +1,33 @@
 import * as currencyCodes from '../common/currencyCodes';
-import { GET_TOKEN_BALANCE_SUCCESS, UNLOCK_TOKEN_SUCCESS, LOCK_TOKEN_SUCCESS, GET_TOKEN_LOCK_SUCCESS } from '../actions';
+import {
+    GET_TOKEN_BALANCE_SUCCESS,
+    UNLOCK_TOKEN_SUCCESS,
+    LOCK_TOKEN_SUCCESS,
+    GET_TOKEN_LOCK_SUCCESS,
+    GET_TOKEN_NAME_SUCCESS
+} from '../actions';
 
 
 const usedTokens = {
     [currencyCodes.DAI]: {
         amount: null,
         unlocked: null,
-        name: 'DAI'
+        name: null
     },
     [currencyCodes.MKR]: {
         amount: null,
         unlocked: null,
-        name: 'MKR'
+        name: null
     },
     [currencyCodes.REP]: {
         amount: null,
         unlocked: null,
-        name: 'REP'
+        name: null
     },
     [currencyCodes.ZRX]: {
         amount: null,
         unlocked: null,
-        name: 'ZRX'
+        name: null
     }
 };
 
@@ -61,6 +67,15 @@ export default function (state = usedTokens, action) {
                 {
                     ...state[action.token],
                     unlocked: action.unlocked
+                }
+            };
+        case GET_TOKEN_NAME_SUCCESS:
+            return {
+                ...state,
+                [action.token]:
+                {
+                    ...state[action.token],
+                    name: action.name
                 }
             };
         default:

@@ -18,3 +18,4 @@ export * from './getTokenBalance';
 export * from './unlockToken';
 export * from './lockToken';
 export * from './getTokenLock';
+export * from './getTokenName';
