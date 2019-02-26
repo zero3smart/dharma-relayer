@@ -3,18 +3,18 @@ import './loan-table-small.css';
 import { isFloat, calculateTermInDays, formatLoanscanLink } from '../../common/services/utilities';
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 
-function renderAmount(row) {
-  let amountString = isFloat(row.principalAmount) ? row.principalAmount.toFixed(2) : row.principalAmount;
+function renderDate(row) {
+
   if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
     return (
       <td className="loan-table-small__table-cell">
-        <a href={formatLoanscanLink(row.issuanceHash)}><strong>{amountString}</strong> {row.principalTokenSymbol}</a>
+        <a href={formatLoanscanLink(row.issuanceHash)} target="_blank">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</a>
       </td>
     )
   }
 
   return (
-    <td className="loan-table-small__table-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
+    <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
   )
 }
 
@@ -24,12 +24,11 @@ function renderRows(rows) {
   return rows
     .sort((a, b) => a.date < b.date ? 1 : (-1))
     .map(row => {
-
-
+      let amountString = isFloat(row.principalAmount) ? row.principalAmount.toFixed(2) : row.principalAmount;
       return (
         <tr key={i++}>
-          <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
-          {renderAmount(row)}
+          {renderDate(row)}
+          <td className="loan-table-small__table-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
           <td className="loan-table-small__table-cell"><strong>{row.interestRate.toString()}</strong> %</td>
           <td className="loan-table-small__table-cell"><strong>{calculateTermInDays(row.amortizationUnit, row.termLength)}</strong> d</td>
         </tr>
@@ -45,7 +44,7 @@ function LoanTableSmall(props) {
       </div>
       <table className="loan-table-small__table">
         <thead>
-          <tr>
+          <tr className="loan-table-small__table-headers">
             <th className="loan-table-small__table-header" title={props.dateColumnHeader}>Date</th>
             <th className="loan-table-small__table-header" title="Loan amount">Amount</th>
             <th className="loan-table-small__table-header" title="Interest rate (per payment period)">Interest</th>
