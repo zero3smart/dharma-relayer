@@ -71,10 +71,8 @@ let mapStateToProps = ({ tokenBalances }) => ({
         let value = pair[1];
 
         return {
-            id: key,
-            name: value.name,
-            amount: value.amount,
-            unlocked: value.unlocked
+            ...value,
+            id: key
         }
     })
 });

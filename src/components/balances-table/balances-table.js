@@ -32,7 +32,7 @@ function renderRows(rows, onLockUpdate) {
           </span>
         </td>
         <td className="balances-table__table-cell">
-          <Slider on={row.unlocked} onChange={e => handleUnlockChange(row.id, e, onLockUpdate)} />
+          <Slider on={row.unlocked} onChange={e => handleUnlockChange(row.id, e, onLockUpdate)} loading={row.lockProcessing} />
         </td>
       </tr>
     );

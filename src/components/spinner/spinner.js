@@ -1,17 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './spinner.css';
 
-class Spinner extends Component {
-  render() {
+export default function (props) {
+  let bounceStyle = {};
 
-    return (
-      <div className="spinner">
-        <div className="bounce1"></div>
-        <div className="bounce2"></div>
-        <div className="bounce3"></div>
-      </div>
-    );
+  if (props.size) {
+    bounceStyle.width = bounceStyle.height = props.size;
   }
-}
 
-export default Spinner;
+  return (
+    <div className="spinner">
+      <div className="bounce1" style={bounceStyle}></div>
+      <div className="bounce2" style={bounceStyle}></div>
+      <div className="bounce3" style={bounceStyle}></div>
+    </div>
+  );
+};
