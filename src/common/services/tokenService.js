@@ -52,6 +52,14 @@ export async function getTokenLockAsync(symbol) {
     return allowance.greaterThan(0)
 }
 
+export async function unlockCollateralTokenAsync(symbol, unlock) {
+    const tokenAddress = await getTokenAddressBySymbolAsync(symbol)
+    console.log('unlockCollateralTokenAsync called:', symbol, unlock);
+    return new Promise((resolve, reject) => {
+        resolve();
+    });
+}
+
 export async function getTokenContractBySymbolAsync(symbol) {
     if (symbol in (await supportedTokensPromise)) {
         if (!(symbol in cachedTokens)) {

@@ -9,7 +9,12 @@ import {
   RESET_LOAN_FORM,
   HIDE_LOAN_CONFIRMATION,
   SHOW_LOAN_CONFIRMATION,
-  GET_TOKEN_BALANCE_SUCCESS
+  GET_TOKEN_BALANCE_SUCCESS,
+  CHANGE_DEBT_ORDER_CONFIRMATION_STEP,
+  UNLOCK_COLLATERAL_TOKEN_SUCCESS,
+  LOCK_COLLATERAL_TOKEN_SUCCESS,
+  UNLOCK_COLLATERAL_TOKEN,
+  LOCK_COLLATERAL_TOKEN
 } from '../actions';
 import { getDefaultAccount } from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
@@ -66,15 +71,27 @@ function myOutstandingLoansReducer(state = [], action) {
 }
 
 function debtOrderConfirmationReducer(state = {
-  modalVisible: false
+  modalVisible: false,
+  stepNumber: 1,
+  collateralTokenUnlocked: false,
+  unlockInProgress: false
 }, action) {
   switch (action.type) {
     case SHOW_LOAN_CONFIRMATION:
-      return { ...state, modalVisible: true, ...action.debtOrder };
+      return { ...state, modalVisible: true, stepNumber: 1, collateralTokenUnlocked: false, ...action.debtOrder };
     case HIDE_LOAN_CONFIRMATION:
       return { ...state, modalVisible: false };
     case ALLOW_COLLATERAL_SUCCESS:
       return { ...state, modalVisible: true, ...action.debtOrder };
+    case CHANGE_DEBT_ORDER_CONFIRMATION_STEP:
+      return { ...state, stepNumber: action.step };
+    case UNLOCK_COLLATERAL_TOKEN_SUCCESS:
+      return { ...state, collateralTokenUnlocked: true, unlockInProgress: false };
+    case LOCK_COLLATERAL_TOKEN_SUCCESS:
+      return { ...state, collateralTokenUnlocked: false, unlockInProgress: false };
+    case UNLOCK_COLLATERAL_TOKEN:
+    case LOCK_COLLATERAL_TOKEN:
+      return { ...state, unlockInProgress: true }
     default:
       return state;
   }

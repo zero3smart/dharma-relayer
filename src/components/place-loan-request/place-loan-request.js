@@ -13,7 +13,6 @@ import {
   unlockCollateralToken,
   lockCollateralToken
 } from '../../actions';
-import * as CurrencyCodes from '../../common/currencyCodes';
 import { RELAYER_AMORTIZATION_FREQUENCIES } from '../../common/amortizationFrequencies';
 import { Modal, ModalBody } from '../modal/modal';
 import ConfirmLoanRequest from '../confirm-loan-request/confirm-loan-request';
@@ -22,6 +21,7 @@ import PlaceLoanSuccess from '../place-loan-success/place-loan-success.js';
 import WizardSteps from '../wizard-steps/wizard-steps.js';
 import CheckIcon from '../check-icon/check-icon.js';
 import { calculateCollateralAmount } from '../../common/services/utilities';
+import { SUPPORTED_TOKENS } from '../../common/api/config.js';
 
 const termValues = {
   1: { name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY] },
@@ -47,16 +47,8 @@ class PlaceLoanRequest extends Component {
 
     this.reset = this.reset.bind(this);
     this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
+    this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
   }
-
-  //uncomment when decide to return "collateral" functionality
-  //allowCollateralUseClick(values){
-  //  this.props.allowCollateral({
-  //    ...values,
-  //    amortizationFrequency: values.amortizationFrequency || termValues[values.term].amortizationFrequencies[0],
-  //    collateralAmount: calculateCollateralAmount(values.amount)
-  //  });
-  //}
 
   placeLoanRequestClick(values) {
     this.props.showLoanConfirmation({
@@ -68,7 +60,6 @@ class PlaceLoanRequest extends Component {
   placeLoanRequestHandler(values) {
     let { placeLoanRequest, runGlobalUpdate, changeStep } = this.props;
     placeLoanRequest(values, () => {
-      //this.cancelLoanRequest();
       this.reset();
       changeStep(3);
       runGlobalUpdate();
@@ -95,6 +86,12 @@ class PlaceLoanRequest extends Component {
         }
       </Field>
     );
+  }
+
+  renderCurrencyOptions() {
+    return SUPPORTED_TOKENS.map(symbol => {
+      return (<option key={symbol} value={symbol}>{symbol}</option>);
+    });
   }
 
   termChange(event, newValue) {
@@ -167,11 +164,6 @@ class PlaceLoanRequest extends Component {
           <div className="loan-request-form__label-wrapper">
             <label className="loan-request-form__label">Payment</label>
           </div>
-          {/*<div className="loan-request-form__label-wrapper">*/}
-          {/*<span className="loan-request-form__label">*/}
-          {/*{term ? termValues[term].name : termValues['28'].name} loan*/}
-          {/*</span>*/}
-          {/*</div>*/}
           <div className="loan-request-form__select-wrapper">
             {term && this.renderAmortizationFrequencySelect(term)}
           </div>
@@ -190,35 +182,7 @@ class PlaceLoanRequest extends Component {
               normalize={floatOnly} />
           </div>
         </div>
-        {/*
-        <div className="loan-request-form__row">
-          <div className="loan-request-form__label-wrapper">
-            <span className="loan-request-form__label">
-               Collateral type
-            </span>
-          </div>
-          <div className="loan-request-form__select-wrapper">
-            <Field name="collateralType" className="loan-request-form__select" component="select">
-              <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
-              <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
-              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
-              <option value={CurrencyCodes.ZRX}>{CurrencyCodes.ZRX}</option>
-            </Field>
-          </div>
-        </div>
-        <div className="loan-request-form__row">
-          <div className="loan-request-form__collateral-input-wrapper">
-            <input defaultValue="Collateral value 150%" className="loan-request-form__input"/>
-          </div>
-          <div className="loan-request-form__collateral-btn-wrapper">
-            <button
-              className={"loan-request-form__collateral-btn " + (valid ? "" : "loan-request-form_disabled")}
-              onClick={handleSubmit(this.allowCollateralUseClick.bind(this))}>
-              Allow collateral use
-            </button>
-          </div>
-        </div>
-        */}
+
         <div className="loan-request-form__row loan-request-amount">
           <div className="loan-request-form__label-wrapper">
             <label className="loan-request-form__label loan-request-form__label_collateral">Collateral use (optional)</label>
@@ -233,10 +197,7 @@ class PlaceLoanRequest extends Component {
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="collateralType" className="loan-request-form__select" component="select">
-              <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
-              <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
-              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
-              <option value={CurrencyCodes.ZRX}>{CurrencyCodes.ZRX}</option>
+              {this.renderCurrencyOptions()}
             </Field>
           </div>
         </div>
@@ -255,10 +216,7 @@ class PlaceLoanRequest extends Component {
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="currency" className="loan-request-form__select" component="select">
-              <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
-              <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
-              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
-              <option value={CurrencyCodes.ZRX}>{CurrencyCodes.ZRX}</option>
+              {this.renderCurrencyOptions()}
             </Field>
           </div>
         </div>
@@ -325,7 +283,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'LoanRequestForm',
   initialValues: {
     term: 7,
-    currency: CurrencyCodes.DAI,
-    collateralType: CurrencyCodes.DAI
+    currency: SUPPORTED_TOKENS[0],
+    collateralType: SUPPORTED_TOKENS[0]
   }
 })(PlaceLoanRequest));

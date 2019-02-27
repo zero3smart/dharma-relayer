@@ -1,5 +1,4 @@
 import { unlockCollateralTokenAsync } from '../common/services/tokenService';
-import * as CurrencyCodes from '../common/currencyCodes';
 
 export const UNLOCK_COLLATERAL_TOKEN = 'UNLOCK_COLLATERAL_TOKEN';
 export const UNLOCK_COLLATERAL_TOKEN_SUCCESS = 'UNLOCK_COLLATERAL_TOKEN_SUCCESS';
