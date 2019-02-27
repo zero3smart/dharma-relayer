@@ -88,3 +88,7 @@
   color: #7F879A;
   cursor: not-allowed;
 }
+.loan-request-form__wizard-wrapper{
+  padding: 20px 60px 40px;
+  border-bottom: 2px solid #B3B7BF;
+}

@@ -30,11 +30,13 @@ class ConfirmLoanRequest extends Component {
           <div className="confirm__row">
             <b>Interest rate: </b><strong>{maxInterest}</strong> %
             </div>
-          {/*
+          {
+            collateralAmount && (
               <div className="confirm__row">
-                Collateral amount: {collateralAmount} {collateralType}
+                <b>Collateral amount: </b><strong>{collateralAmount}</strong> {collateralType}
               </div>
-            */}
+            )
+          }
           <div className="confirm__row">
             <b>Total loan repayment amount: </b><strong>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount}</strong> {currency}
           </div>

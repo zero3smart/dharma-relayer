@@ -8,13 +8,20 @@ import {
   resetLoanForm,
   hideLoanConfirmation,
   showLoanConfirmation,
-  runGlobalUpdate
+  runGlobalUpdate,
+  changeDebtOrderConfirmationStep,
+  unlockCollateralToken,
+  lockCollateralToken
 } from '../../actions';
+import * as CurrencyCodes from '../../common/currencyCodes';
 import { RELAYER_AMORTIZATION_FREQUENCIES } from '../../common/amortizationFrequencies';
 import { Modal, ModalBody } from '../modal/modal';
 import ConfirmLoanRequest from '../confirm-loan-request/confirm-loan-request';
+import UnlockCollateralToken from '../unlock-collateral-token/unlock-collateral-token.js';
+import PlaceLoanSuccess from '../place-loan-success/place-loan-success.js';
+import WizardSteps from '../wizard-steps/wizard-steps.js';
+import CheckIcon from '../check-icon/check-icon.js';
 import { calculateCollateralAmount } from '../../common/services/utilities';
-import { SUPPORTED_TOKENS } from '../../common/api/config.js';
 
 const termValues = {
   1: { name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY] },
@@ -40,7 +47,6 @@ class PlaceLoanRequest extends Component {
 
     this.reset = this.reset.bind(this);
     this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
-    this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
   }
 
   //uncomment when decide to return "collateral" functionality
@@ -60,9 +66,11 @@ class PlaceLoanRequest extends Component {
   }
 
   placeLoanRequestHandler(values) {
-    let { placeLoanRequest, runGlobalUpdate } = this.props;
+    let { placeLoanRequest, runGlobalUpdate, changeStep } = this.props;
     placeLoanRequest(values, () => {
-      this.cancelLoanRequest();
+      //this.cancelLoanRequest();
+      this.reset();
+      changeStep(3);
       runGlobalUpdate();
     });
   }
@@ -94,39 +102,51 @@ class PlaceLoanRequest extends Component {
     this.props.changeAmortizationFrequency(newSelectedFrequency);
   }
 
-  renderCurrencyOptions() {
-    return SUPPORTED_TOKENS.map(symbol => {
-      return (<option key={symbol} value={symbol}>{symbol}</option>);
-    });
+  renderModal() {
+    const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation, collateralType } = this.props;
+
+    return (
+      <Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={hideLoanConfirmation}>
+        <div className="loan-request-form__wizard-wrapper">
+          <WizardSteps steps={['Unlock', 'Review', 'Success']} currentStep={debtOrderConfirmation.stepNumber} />
+        </div>
+
+        <ModalBody>
+          {
+            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 1) &&
+            <UnlockCollateralToken
+              collateralType={debtOrderConfirmation.collateralType}
+              collateralTokenUnlocked={debtOrderConfirmation.collateralTokenUnlocked}
+              unlockInProgress={debtOrderConfirmation.unlockInProgress}
+              onCancel={this.cancelLoanRequest.bind(this)}
+              onConfirm={() => changeStep(2)}
+              unlockCollateralToken={unlockCollateralToken} />
+          }
+          {
+            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 2) &&
+            <ConfirmLoanRequest
+              {...debtOrderConfirmation}
+              onCancel={() => changeStep(1)}
+              onConfirm={this.placeLoanRequestHandler.bind(this)}
+              isLoading={placeLoan.isLoading} />
+          }
+          {
+            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 3) &&
+            <PlaceLoanSuccess
+              onConfirm={hideLoanConfirmation} />
+          }
+        </ModalBody>
+      </Modal>
+    );
   }
 
-
   render() {
-    const { handleSubmit, valid, collateralAllowed, term, debtOrderConfirmation, placeLoan } = this.props;
+    const { handleSubmit, valid, collateralAllowed, term } = this.props;
 
     return (
       <div className="loan-request-form">
         <div className="loan-request-form__header">
           New loan request
-        </div>
-        <div className="loan-request-form__row loan-request-amount">
-          <div className="loan-request-form__label-wrapper">
-            <label className="loan-request-form__label">Amount</label>
-          </div>
-          <div className="loan-request-form__input-wrapper">
-            <Field
-              name="amount"
-              className="loan-request-form__input"
-              placeholder="0"
-              component="input"
-              validate={required}
-              normalize={floatOnly} />
-          </div>
-          <div className="loan-request-form__select-wrapper">
-            <Field name="currency" className="loan-request-form__select" component="select">
-              {this.renderCurrencyOptions()}
-            </Field>
-          </div>
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
@@ -199,6 +219,49 @@ class PlaceLoanRequest extends Component {
           </div>
         </div>
         */}
+        <div className="loan-request-form__row loan-request-amount">
+          <div className="loan-request-form__label-wrapper">
+            <label className="loan-request-form__label loan-request-form__label_collateral">Collateral use (optional)</label>
+          </div>
+          <div className="loan-request-form__input-wrapper">
+            <Field
+              name="collateralAmount"
+              className="loan-request-form__input"
+              placeholder="0"
+              component="input"
+              normalize={floatOnly} />
+          </div>
+          <div className="loan-request-form__select-wrapper">
+            <Field name="collateralType" className="loan-request-form__select" component="select">
+              <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
+              <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
+              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
+              <option value={CurrencyCodes.ZRX}>{CurrencyCodes.ZRX}</option>
+            </Field>
+          </div>
+        </div>
+        <div className="loan-request-form__row loan-request-amount">
+          <div className="loan-request-form__label-wrapper">
+            <label className="loan-request-form__label">Amount</label>
+          </div>
+          <div className="loan-request-form__input-wrapper">
+            <Field
+              name="amount"
+              className="loan-request-form__input"
+              placeholder="0"
+              component="input"
+              validate={required}
+              normalize={floatOnly} />
+          </div>
+          <div className="loan-request-form__select-wrapper">
+            <Field name="currency" className="loan-request-form__select" component="select">
+              <option value={CurrencyCodes.DAI}>{CurrencyCodes.DAI}</option>
+              <option value={CurrencyCodes.REP}>{CurrencyCodes.REP}</option>
+              <option value={CurrencyCodes.MKR}>{CurrencyCodes.MKR}</option>
+              <option value={CurrencyCodes.ZRX}>{CurrencyCodes.ZRX}</option>
+            </Field>
+          </div>
+        </div>
         <div className="loan-request-form__place-btn-wrapper">
           <button
             className={"loan-request-form__place-btn " + (valid ? "" : "loan-request-form_disabled")}
@@ -206,15 +269,7 @@ class PlaceLoanRequest extends Component {
             PLACE LOAN REQUEST
           </button>
         </div>
-        <Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={this.props.hideLoanConfirmation}>
-          <ModalBody>
-            {
-              debtOrderConfirmation.modalVisible &&
-              <ConfirmLoanRequest {...debtOrderConfirmation} onCancel={this.cancelLoanRequest.bind(this)} onConfirm={this.placeLoanRequestHandler.bind(this)} isLoading={placeLoan.isLoading} />
-            }
-          </ModalBody>
-        </Modal>
-
+        {this.renderModal()}
       </div>
     );
   }
@@ -251,6 +306,17 @@ let mapDispatchToProps = (dispatch) => ({
   },
   runGlobalUpdate() {
     dispatch(runGlobalUpdate());
+  },
+  changeStep(step) {
+    dispatch(changeDebtOrderConfirmationStep(step));
+  },
+  unlockCollateralToken(token, unlock) {
+    if (unlock) {
+      dispatch(unlockCollateralToken(token))
+    }
+    else {
+      dispatch(lockCollateralToken(token))
+    }
   }
 });
 
@@ -259,7 +325,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'LoanRequestForm',
   initialValues: {
     term: 7,
-    currency: SUPPORTED_TOKENS[0],
-    collateralType: SUPPORTED_TOKENS[0]
+    currency: CurrencyCodes.DAI,
+    collateralType: CurrencyCodes.DAI
   }
 })(PlaceLoanRequest));
