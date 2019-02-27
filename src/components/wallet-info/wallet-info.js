@@ -27,7 +27,7 @@ class WalletInfo extends Component {
   }
 
   renderCurrencyItems(selectedCurrency) {
-    return SUPPORTED_TOKENS.map(currency => {
+    return ['ETH'].concat(SUPPORTED_TOKENS).map(currency => {
       return (
         <div key={currency} className={"wallet-info__currency" + (selectedCurrency === currency ? " wallet-info__currency_active" : "")}
           onClick={() => { this.props.selectCurrency(currency) }}>
