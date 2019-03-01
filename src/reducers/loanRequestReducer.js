@@ -1,10 +1,22 @@
-import { GET_LOAN_REQUESTS, GET_LOAN_REQUESTS_SUCCESS, FILL_LOAN, FILL_LOAN_SUCCESS, FILL_LOAN_FAIL } from '../actions';
+import { GET_LOAN_REQUESTS, GET_LOAN_REQUESTS_SUCCESS, FILL_LOAN, FILL_LOAN_SUCCESS, FILL_LOAN_FAIL, SET_LOAN_REQUEST_OFFSET } from '../actions';
 
-export default function (state = { isLoading: true, values: [] }, action) {
+export default function (state = {
+    isLoading: true,
+    values: [],
+    showPaging: false,
+    offset: 0,
+    itemsTotalCount: 0
+}, action) {
     switch (action.type) {
         case GET_LOAN_REQUESTS_SUCCESS:
+            if (state.offset !== action.offset) {   //that prevents situation when old data request resolved after new one
+                return state;
+            }
             return {
+                ...state,
                 isLoading: false,
+                showPaging: true,
+                itemsTotalCount: action.itemsTotalCount,
                 values: action.loans.map(loan => {
                     return {
                         ...loan,
@@ -12,6 +24,8 @@ export default function (state = { isLoading: true, values: [] }, action) {
                     }
                 })
             };
+        case SET_LOAN_REQUEST_OFFSET:
+            return { ...state, offset: action.offset, isLoading: true };
         case FILL_LOAN:
             return {
                 ...state,

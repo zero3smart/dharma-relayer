@@ -3,9 +3,19 @@ import { API_URL } from './config';
 
 const DEBTS_URL = `${API_URL}/Debts`;
 
+function mapGetResponse(response) {
+  console.log('getResponse headers:', response.headers);
+  let totalItemsCount = response.headers['X-Total-Count'];
+  console.log('getResponse totalItemsCount :', totalItemsCount);
+  return {
+    items: response.data,
+    totalItemsCount: totalItemsCount
+  };
+}
+
 export default {
-  getAll(status) {
-    return axios.get(DEBTS_URL, { params: { status } }).then(resp => resp.data);
+  getAll(status, offset, limit) {
+    return axios.get(DEBTS_URL, { params: { status, offset, limit } }).then(mapGetResponse);
   },
   getForDebtor(status, debtorAddress) {
     return axios.get(DEBTS_URL, { params: { status, debtorAddress } }).then(resp => resp.data);

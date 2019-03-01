@@ -20,12 +20,13 @@ const getIssuedLoansFail = (error) => ({
     error
 });
 
-export function getIssuedLoans() {
+export function getIssuedLoans(offset, limit) {
     return dispatch => {
         dispatch(getIssuedLoansStart());
 
-        return debtsApi.getAll(loanStatuses.FILLED)
-            .then((debts) => {
+        return debtsApi.getAll(loanStatuses.FILLED, offset, limit)
+            .then((resp) => {
+                let { items: debts, totalItemsCount } = resp;
 
                 let promises = debts.map(debt => {
                     return fromDebtOrder(debt).then(debtOrder => {

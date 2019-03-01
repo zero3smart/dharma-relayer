@@ -14,7 +14,8 @@ import {
   UNLOCK_COLLATERAL_TOKEN_SUCCESS,
   LOCK_COLLATERAL_TOKEN_SUCCESS,
   UNLOCK_COLLATERAL_TOKEN,
-  LOCK_COLLATERAL_TOKEN
+  LOCK_COLLATERAL_TOKEN,
+  SET_LOAN_REQUEST_OFFSET
 } from '../actions';
 import { getDefaultAccount } from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
@@ -91,7 +92,7 @@ function debtOrderConfirmationReducer(state = {
       return { ...state, collateralTokenUnlocked: false, unlockInProgress: false };
     case UNLOCK_COLLATERAL_TOKEN:
     case LOCK_COLLATERAL_TOKEN:
-      return { ...state, unlockInProgress: true }
+      return { ...state, unlockInProgress: true };
     default:
       return state;
   }
