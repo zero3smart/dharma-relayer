@@ -1,0 +1,23 @@
+.relayer-pagination{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.relayer-pagination .page-link{
+  background-color:transparent;
+  border:none;
+  color:#ffffff;
+}
+
+.relayer-pagination .page-link:focus{
+  box-shadow:none;
+}
+
+.relayer-pagination .page-item.disabled .page-link{
+  background-color:transparent;
+}
+
+.relayer-pagination .page-item.active .page-link{
+  background-color:#3D4966;
+}

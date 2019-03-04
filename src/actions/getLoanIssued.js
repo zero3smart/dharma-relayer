@@ -10,9 +10,11 @@ const getIssuedLoansStart = () => ({
     type: GET_LOAN_ISSUED
 });
 
-const getIssuedLoansSuccess = (loans) => ({
+const getIssuedLoansSuccess = (loans, offset, totalItemsCount) => ({
     type: GET_LOAN_ISSUED_SUCCESS,
-    loans
+    loans,
+    offset,
+    totalItemsCount
 });
 
 const getIssuedLoansFail = (error) => ({
@@ -39,7 +41,7 @@ export function getIssuedLoans(offset, limit) {
 
                 Promise.all(promises).then(mappedDebts => {
                     let filtered = mappedDebts.filter(d => d !== null);
-                    dispatch(getIssuedLoansSuccess(filtered));
+                    dispatch(getIssuedLoansSuccess(filtered, offset, totalItemsCount));
                 });
             })
             .catch(err => { dispatch(getIssuedLoansFail(err)) });

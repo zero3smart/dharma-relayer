@@ -23,3 +23,4 @@ export * from './changeDebtOrderConfirmationStep';
 export * from './unlockCollateralToken';
 export * from './lockCollateralToken';
 export * from './setLoanRequestsOffset';
+export * from './setIssuedLoansOffset';

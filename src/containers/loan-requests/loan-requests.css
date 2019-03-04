@@ -2,27 +2,3 @@
   position:relative;
   top:200px;
 }
-
-.loan-requests__pagination{
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.loan-requests__pagination .page-link{
-  background-color:transparent;
-  border:none;
-  color:#ffffff;
-}
-
-.loan-requests__pagination .page-link:focus{
-  box-shadow:none;
-}
-
-.loan-requests__pagination .page-item.disabled .page-link{
-  background-color:transparent;
-}
-
-.loan-requests__pagination .page-item.active .page-link{
-  background-color:#3D4966;
-}

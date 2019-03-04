@@ -7,6 +7,7 @@ import ConfirmFund from '../../components/confirm-fund/confirm-fund';
 import Spinner from '../../components/spinner/spinner.js';
 import Paging from '../../components/paging/paging.js';
 import './loan-requests.css';
+import '../../common/styles/pagination.css';
 
 const pageSize = 40;
 
@@ -86,7 +87,7 @@ class LoanRequests extends Component {
         return (
             <div>
                 <LoanRequestsTable header="Loan Requests" rows={loanRequests} onFundClick={showFundConfirmation} />
-                <div className="loan-requests__pagination">
+                <div className="relayer-pagination">
                     {showPaging && this.renderPagination()}
                 </div>
                 <Modal show={fundConfirmation.modalVisible} size="md" onModalClosed={hideFundConfirmation}>
