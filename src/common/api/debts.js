@@ -5,7 +5,7 @@ const DEBTS_URL = `${API_URL}/Debts`;
 
 function mapGetResponse(response) {
   console.log('getResponse headers:', response.headers);
-  let totalItemsCount = response.headers['X-Total-Count'];
+  let totalItemsCount = response.headers['x-total-count'];
   console.log('getResponse totalItemsCount :', totalItemsCount);
   return {
     items: response.data,

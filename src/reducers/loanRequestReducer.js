@@ -5,7 +5,7 @@ export default function (state = {
     values: [],
     showPaging: false,
     offset: 0,
-    itemsTotalCount: 0
+    totalItemsCount: 0
 }, action) {
     switch (action.type) {
         case GET_LOAN_REQUESTS_SUCCESS:
@@ -16,7 +16,7 @@ export default function (state = {
                 ...state,
                 isLoading: false,
                 showPaging: true,
-                itemsTotalCount: action.itemsTotalCount,
+                totalItemsCount: action.totalItemsCount,
                 values: action.loans.map(loan => {
                     return {
                         ...loan,

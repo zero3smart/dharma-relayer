@@ -8,7 +8,7 @@ import Spinner from '../../components/spinner/spinner.js';
 import Paging from '../../components/paging/paging.js';
 import './loan-requests.css';
 
-const pageSize = 10;
+const pageSize = 40;
 
 let destroyTimer = null;
 let startTimer = (func) => {
@@ -53,10 +53,10 @@ class LoanRequests extends Component {
     }
 
     renderPagination() {
-        let { getLoanRequests, setLoanRequestsOffset, offset, itemsTotalCount } = this.props;
+        let { getLoanRequests, setLoanRequestsOffset, offset, totalItemsCount } = this.props;
 
-        let pagesTotal = parseInt(itemsTotalCount / pageSize, 10);
-        pagesTotal = (itemsTotalCount / pageSize - pagesTotal) > 0 ? pagesTotal + 1 : pagesTotal;
+        let pagesTotal = parseInt(totalItemsCount / pageSize, 10);
+        pagesTotal = (totalItemsCount / pageSize - pagesTotal) > 0 ? pagesTotal + 1 : pagesTotal;
         let currentPageNum = Math.floor(offset / pageSize);
 
         return (
@@ -109,7 +109,7 @@ let mapStateToProps = ({ loanRequests, fundConfirmation, fillLoan }) => ({
     fillLoan,
     offset: loanRequests.offset,
     showPaging: loanRequests.showPaging,
-    itemsTotalCount: loanRequests.itemsTotalCount
+    totalItemsCount: loanRequests.totalItemsCount
 });
 
 let mapDispatchToProps = { getLoanRequests, fillLoanRequest, showFundConfirmation, hideFundConfirmation, runGlobalUpdate, getTokenBalance, setLoanRequestsOffset };

@@ -10,11 +10,11 @@ const getLoanRequestsStart = () => ({
     type: GET_LOAN_REQUESTS
 });
 
-const getLoanRequestsSuccess = (loans, offset, itemsTotalCount) => ({
+const getLoanRequestsSuccess = (loans, offset, totalItemsCount) => ({
     type: GET_LOAN_REQUESTS_SUCCESS,
     loans,
     offset,
-    itemsTotalCount
+    totalItemsCount
 });
 
 const getLoanRequestsFail = (error) => ({
