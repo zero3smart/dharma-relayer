@@ -113,6 +113,7 @@ class PlaceLoanRequest extends Component {
             debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 1) &&
             <UnlockCollateralToken
               collateralType={debtOrderConfirmation.collateralType}
+              collateralAmount={debtOrderConfirmation.collateralAmount}
               collateralTokenUnlocked={debtOrderConfirmation.collateralTokenUnlocked}
               unlockInProgress={debtOrderConfirmation.unlockInProgress}
               onCancel={this.cancelLoanRequest.bind(this)}
@@ -268,12 +269,12 @@ let mapDispatchToProps = (dispatch) => ({
   changeStep(step) {
     dispatch(changeDebtOrderConfirmationStep(step));
   },
-  unlockCollateralToken(token, unlock) {
+  unlockCollateralToken(token, amount, unlock) {
     if (unlock) {
-      dispatch(unlockCollateralToken(token))
+      dispatch(unlockCollateralToken(token, amount))
     }
     else {
-      dispatch(lockCollateralToken(token))
+      dispatch(lockCollateralToken(token, amount))
     }
   }
 });

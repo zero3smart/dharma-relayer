@@ -5,7 +5,7 @@ export const UNLOCK_COLLATERAL_TOKEN_SUCCESS = 'UNLOCK_COLLATERAL_TOKEN_SUCCESS'
 export const UNLOCK_COLLATERAL_TOKEN_FAIL = 'UNLOCK_COLLATERAL_TOKEN_FAIL';
 
 
-export function unlockCollateralToken(token) {
+export function unlockCollateralToken(token, amount) {
     return dispatch => {
         dispatch({
             type: UNLOCK_COLLATERAL_TOKEN,
@@ -13,7 +13,7 @@ export function unlockCollateralToken(token) {
         });
 
 
-        unlockCollateralTokenAsync(token, true)
+        unlockCollateralTokenAsync(token, amount, true)
             .then(() => {
                 dispatch({
                     type: UNLOCK_COLLATERAL_TOKEN_SUCCESS,

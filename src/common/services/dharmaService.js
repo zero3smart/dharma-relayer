@@ -10,30 +10,19 @@ import TokenRegistry from '../protocolJson/TokenRegistry.json';
 import DebtToken from '../protocolJson/DebtToken.json';
 import SimpleInterestTermsContract from '../protocolJson/SimpleInterestTermsContract.json';
 import { RELAYER_ADDRESS, RELAYER_FEE, SUPPORTED_TOKENS } from '../api/config.js';
-import { convertFromHumanReadable, convertToHumanReadable } from './tokenService.js';
+import * as tokenService from './tokenService.js';
 
 const dharma = new Dharma(web3Provider);
 
 export async function createDebtOrder(debtOrderInfo) {
-  const tokenRegistry = await dharma.contracts.loadTokenRegistry();
-  const principalTokenAddress = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
-  const amount = await convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
+  let dharmaDebtOrder;
+  const collateral = debtOrderInfo.collateralAmount;
+  if (collateral && new BigNumber(collateral).greaterThan(0)) {
+    dharmaDebtOrder = await createCollateralizedSimpleInterestLoan(debtOrderInfo);
+  } else {
+    dharmaDebtOrder = await createSimpleInterestLoan(debtOrderInfo);
+  }
 
-  const simpleInterestLoan = {
-    ...defaultDebtOrderParams,
-    principalTokenAddress,
-    principalTokenSymbol: debtOrderInfo.principalTokenSymbol,
-    principalAmount: amount,
-    interestRate: new BigNumber(debtOrderInfo.interestRate),
-    amortizationUnit: debtOrderInfo.amortizationUnit,
-    termLength: new BigNumber(debtOrderInfo.termLength),
-    debtor: getDefaultAccount(),
-    debtorFee: new BigNumber(0),
-    creditorFee: new BigNumber(0),
-    salt: BigNumber.random().mul('1e9').floor()
-  };
-
-  const dharmaDebtOrder = await dharma.adapters.simpleInterestLoan.toDebtOrder(simpleInterestLoan);
   dharmaDebtOrder.debtorSignature = await dharma.sign.asDebtor(dharmaDebtOrder, true);
 
   console.log(`Dharma debt order: ${JSON.stringify(dharmaDebtOrder)}`);
@@ -86,10 +75,22 @@ export async function fromDebtOrder(debtOrder) {
 
     dharmaDebtOrder.originalDebtOrder = Object.assign({}, dharmaDebtOrder)
 
-    const simpleInterestDebtOrder = await dharma.adapters.simpleInterestLoan.fromDebtOrder(dharmaDebtOrder);
-    simpleInterestDebtOrder.principalAmount = await convertToHumanReadable(simpleInterestDebtOrder.principalAmount, simpleInterestDebtOrder.principalTokenSymbol);
+    const adapter = await dharma.adapters.getAdapterByTermsContractAddress(dharmaDebtOrder.termsContract);
+    const convertedDebtOrder = await adapter.fromDebtOrder(dharmaDebtOrder);
+    convertedDebtOrder.principalAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.principalAmount, convertedDebtOrder.principalTokenSymbol);
 
-    return simpleInterestDebtOrder;
+    // turned off
+    if (false && convertedDebtOrder.collateralAmount) {
+      let token = await tokenService.getTokenAddressBySymbolAsync(convertedDebtOrder.collateralTokenSymbol)
+      let amount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol)
+      console.log('collateral amount: ' + amount.toNumber())
+      let balance = await tokenService.convertToHumanReadable(await dharma.token.getBalanceAsync(token, convertedDebtOrder.debtor), convertedDebtOrder.collateralTokenSymbol)
+      console.log('balance: ' + balance.toNumber())
+      let allowance = await tokenService.convertToHumanReadable(await dharma.token.getProxyAllowanceAsync(token, convertedDebtOrder.debtor), convertedDebtOrder.collateralTokenSymbol)
+      console.log('allowance: ' + allowance.toNumber())
+    }
+
+    return convertedDebtOrder;
   } catch (e) {
     console.error(e)
     return null;
@@ -144,6 +145,58 @@ export async function getSupportedTokens() {
   }
   console.log('Supported tokens: ' + JSON.stringify(res))
   return res;
+}
+
+async function createSimpleInterestLoan(debtOrderInfo) {
+  const tokenRegistry = await dharma.contracts.loadTokenRegistry();
+  const principalTokenAddress = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
+  const amount = await tokenService.convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
+
+  const simpleInterestLoan = {
+    ...defaultDebtOrderParams,
+    principalTokenAddress,
+    principalTokenSymbol: debtOrderInfo.principalTokenSymbol,
+    principalAmount: amount,
+    interestRate: new BigNumber(debtOrderInfo.interestRate),
+    amortizationUnit: debtOrderInfo.amortizationUnit,
+    termLength: new BigNumber(debtOrderInfo.termLength),
+    debtor: getDefaultAccount(),
+    debtorFee: new BigNumber(0),
+    creditorFee: new BigNumber(0),
+    salt: BigNumber.random().mul('1e9').floor()
+  };
+
+  const dharmaDebtOrder = await dharma.adapters.simpleInterestLoan.toDebtOrder(simpleInterestLoan);
+
+  return dharmaDebtOrder;
+}
+
+async function createCollateralizedSimpleInterestLoan(debtOrderInfo) {
+  const tokenRegistry = await dharma.contracts.loadTokenRegistry();
+  const principalTokenAddress = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
+  const amount = await tokenService.convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
+  const collateralAmount = await tokenService.convertFromHumanReadable(debtOrderInfo.collateralAmount, debtOrderInfo.collateralTokenSymbol);
+
+  const collateralizedSimpleInterestLoan = {
+    ...defaultDebtOrderParams,
+    principalTokenAddress,
+    principalTokenSymbol: debtOrderInfo.principalTokenSymbol,
+    principalAmount: amount,
+    collateralTokenSymbol: debtOrderInfo.collateralTokenSymbol,
+    collateralAmount: collateralAmount,
+    gracePeriodInDays: new BigNumber(0),
+    interestRate: new BigNumber(debtOrderInfo.interestRate),
+    amortizationUnit: debtOrderInfo.amortizationUnit,
+    termLength: new BigNumber(debtOrderInfo.termLength),
+    debtor: getDefaultAccount(),
+    debtorFee: new BigNumber(0),
+    creditorFee: new BigNumber(0),
+    salt: BigNumber.random().mul('1e9').floor()
+  };
+
+  const dharmaDebtOrder = await dharma.adapters.collateralizedSimpleInterestLoan.toDebtOrder(collateralizedSimpleInterestLoan);
+
+  return dharmaDebtOrder;
 }
 
 const defaultDebtOrderParams = {

@@ -35,9 +35,9 @@ export async function getTokenBalanceAsync(symbol, ownerAddress) {
     return convertToHumanReadable(balance, symbol);
 }
 
-export async function unlockTokenAsync(symbol, unlock) {
+export async function principalTokenLockAsync(symbol, unlock) {
     const tokenAddress = await getTokenAddressBySymbolAsync(symbol)
-    console.log('unlockTokenAsync called:', symbol, unlock)
+    console.log('principalTokenLockAsync called:', symbol, unlock)
     if (unlock) {
         await dharmaService.setUnlimitedProxyAllowanceAsync(tokenAddress);
     } else {
@@ -45,19 +45,25 @@ export async function unlockTokenAsync(symbol, unlock) {
     }
 }
 
-export async function getTokenLockAsync(symbol) {
+export async function getPrincipalTokenLockAsync(symbol) {
     const tokenAddress = await getTokenAddressBySymbolAsync(symbol)
     const allowance = await dharmaService.getProxyAllowanceAsync(tokenAddress)
 
     return allowance.greaterThan(0)
 }
 
-export async function unlockCollateralTokenAsync(symbol, unlock) {
-    const tokenAddress = await getTokenAddressBySymbolAsync(symbol)
-    console.log('unlockCollateralTokenAsync called:', symbol, unlock);
-    return new Promise((resolve, reject) => {
-        resolve();
-    });
+export async function unlockCollateralTokenAsync(symbol, amount, unlock) {
+    console.log('unlockCollateralTokenAsync amount: ' + amount);
+    if (amount && new BigNumber(amount).greaterThan(0)) {
+        const tokenAddress = await getTokenAddressBySymbolAsync(symbol)
+        const rawAmount = await convertFromHumanReadable(amount, symbol);
+        if (unlock) {
+            await dharmaService.setUnlimitedProxyAllowanceAsync(tokenAddress);
+            //await dharmaService.setProxyAllowanceAsync(tokenAddress, rawAmount);
+        } else {
+            await dharmaService.setProxyAllowanceAsync(tokenAddress, 0);
+        }
+    }
 }
 
 export async function getTokenContractBySymbolAsync(symbol) {

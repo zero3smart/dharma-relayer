@@ -8,8 +8,8 @@ class UnlockCollateralToken extends Component {
 
     onToggleChange(e) {
         let unlockValue = e.target.checked;
-        let { collateralType, unlockCollateralToken } = this.props;
-        unlockCollateralToken(collateralType, unlockValue);
+        let { collateralType, unlockCollateralToken, collateralAmount } = this.props;
+        unlockCollateralToken(collateralType, collateralAmount, unlockValue);
     }
 
     render() {

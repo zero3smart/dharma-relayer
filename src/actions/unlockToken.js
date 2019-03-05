@@ -1,4 +1,4 @@
-import { unlockTokenAsync } from '../common/services/tokenService';
+import { principalTokenLockAsync } from '../common/services/tokenService';
 
 export const UNLOCK_TOKEN = 'UNLOCK_TOKEN';
 export const UNLOCK_TOKEN_SUCCESS = 'UNLOCK_TOKEN_SUCCESS';
@@ -13,7 +13,7 @@ export function unlockToken(token) {
         });
 
 
-        unlockTokenAsync(token, true)
+        principalTokenLockAsync(token, true)
             .then(() => {
                 dispatch({
                     type: UNLOCK_TOKEN_SUCCESS,
