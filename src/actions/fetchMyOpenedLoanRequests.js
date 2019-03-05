@@ -11,17 +11,20 @@ const fetchMyOpenedLoanRequestsStart = () => ({
     type: FETCH_MY_OPEN_LOAN_REQUESTS
 });
 
-const fetchMyOpenedLoanRequestsSuccess = (debts) => ({
+const fetchMyOpenedLoanRequestsSuccess = (debts, offset, totalItemsCount) => ({
     type: FETCH_MY_OPEN_LOAN_REQUESTS_SUCCESS,
-    debts
+    debts,
+    offset,
+    totalItemsCount
 });
 
-export function fetchMyOpenedLoanRequests() {
+export function fetchMyOpenedLoanRequests(offset, limit) {
     return dispatch => {
         dispatch(fetchMyOpenedLoanRequestsStart());
 
-        return debtsApi.getForDebtor(loanStatuses.SIGNED_BY_DEBTOR, getDefaultAccount())
-            .then((debts) => {
+        return debtsApi.getForDebtor(loanStatuses.SIGNED_BY_DEBTOR, getDefaultAccount(), offset, limit)
+            .then((response) => {
+                let { items: debts, totalItemsCount } = response;
                 let promises = debts.map(debt => {
                     return fromDebtOrder(debt).then(dharmaDebt => {
                         if (dharmaDebt) {
@@ -36,7 +39,7 @@ export function fetchMyOpenedLoanRequests() {
 
                 Promise.all(promises).then(mappedDebts => {
                     let filtered = mappedDebts.filter(d => d !== null);
-                    dispatch(fetchMyOpenedLoanRequestsSuccess(filtered));
+                    dispatch(fetchMyOpenedLoanRequestsSuccess(filtered, offset, totalItemsCount));
                 });
             });
     }

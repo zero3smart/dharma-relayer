@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchMyOutstandingLoans } from '../../actions';
+import { fetchMyOutstandingLoans, setMyOutstandingLoansOffset } from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 
-let destroyTimer = null;
+const pageSize = 20;
 
+let destroyTimer = null;
 let startTimer = (func) => {
   destroyTimer = setTimeout(() => {
     func();
@@ -13,19 +14,33 @@ let startTimer = (func) => {
 };
 
 class OutstandingLoans extends Component {
+  constructor(props) {
+    super(props);
+
+    this.getOutstandingLoansForCurrentPage = this.getOutstandingLoansForCurrentPage.bind(this);
+  }
 
   componentDidMount() {
-    let { fetchMyOutstandingLoans } = this.props;
-    fetchMyOutstandingLoans();
-    startTimer(fetchMyOutstandingLoans);
+    let { getOutstandingLoansForCurrentPage } = this;
+    getOutstandingLoansForCurrentPage();
+    startTimer(getOutstandingLoansForCurrentPage);
   }
 
   componentWillUnmount() {
     destroyTimer && destroyTimer();
   }
 
+  getOutstandingLoansForCurrentPage() {
+    let { offset, fetchMyOutstandingLoans } = this.props;
+    let currentPageNum = Math.floor(offset / pageSize);
+
+    fetchMyOutstandingLoans(pageSize * currentPageNum, pageSize);
+  }
+
   render() {
-    let rows = this.props.myOutstandingLoans.map(loan => ({
+    let { myOutstandingLoans, showPaging, isLoading, offset, totalItemsCount, setMyOutstandingLoansOffset, fetchMyOutstandingLoans } = this.props;
+
+    let rows = myOutstandingLoans.map(loan => ({
       date: new Date(loan.issuanceBlockTime),
       principalAmount: loan.principalAmount.toNumber(),
       principalTokenSymbol: loan.principalTokenSymbol,
@@ -35,16 +50,39 @@ class OutstandingLoans extends Component {
       issuanceHash: loan.issuanceHash
     }));
 
+    let pagesTotal = null;
+    let currentPageNum = null;
+    if (showPaging) {
+      pagesTotal = parseInt(totalItemsCount / pageSize, 10);
+      pagesTotal = (totalItemsCount / pageSize - pagesTotal) > 0 ? pagesTotal + 1 : pagesTotal;
+      currentPageNum = Math.floor(offset / pageSize);
+    }
+
     return (
-      <LoanTableSmall header="My outstanding loans" dateColumnHeader="Date loan issued" rows={rows} />
+      <LoanTableSmall
+        header="My outstanding loans"
+        dateColumnHeader="Date loan issued"
+        rows={rows}
+        isLoading={isLoading}
+        showPaging={showPaging}
+        currentPageNum={currentPageNum}
+        pagesTotal={pagesTotal}
+        onPageClick={(pageNum) => {
+          setMyOutstandingLoansOffset(pageSize * pageNum);
+          fetchMyOutstandingLoans(pageSize * pageNum, pageSize);
+        }} />
     );
   }
 }
 
-let mapStateToProps = ({ myOutstandingLoans }) => ({
-  myOutstandingLoans
+let mapStateToProps = ({ myOutstandingLoans: { values, isLoading, offset, showPaging, totalItemsCount } }) => ({
+  myOutstandingLoans: values,
+  isLoading,
+  offset,
+  showPaging,
+  totalItemsCount
 });
 
-let mapDispatchToProps = { fetchMyOutstandingLoans };
+let mapDispatchToProps = { fetchMyOutstandingLoans, setMyOutstandingLoansOffset };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OutstandingLoans);

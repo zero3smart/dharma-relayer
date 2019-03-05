@@ -5,7 +5,6 @@ import {
   SELECT_CURRENCY_SUCCESS,
   ALLOW_COLLATERAL_SUCCESS,
   GET_WALLET_INFO_SUCCESS,
-  FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
   RESET_LOAN_FORM,
   HIDE_LOAN_CONFIRMATION,
   SHOW_LOAN_CONFIRMATION,
@@ -23,6 +22,7 @@ import loanIssuedReducer from './loanIssuedReducer';
 import fundConfirmationReducer from './fundConfirmationReducer';
 import myOpenLoanRequestsReducer from './myOpenLoanRequestsReducer';
 import myFundedLoansReducer from './myFundedLoansReducer';
+import myOutstandingLoansReducer from './myOutstandingLoansReducer';
 import placeLoanReducer from './placeLoanReducer';
 import fillLoanReducer from './fillLoanReducer';
 import tokenBalancesReducer from './tokenBalancesReducer';
@@ -57,15 +57,6 @@ function collateralAllowedReducer(state = false, action) {
       return true;
     case RESET_LOAN_FORM:
       return false;
-    default:
-      return state;
-  }
-}
-
-function myOutstandingLoansReducer(state = [], action) {
-  switch (action.type) {
-    case FETCH_MY_OUTSTANDING_LOANS_SUCCESS:
-      return action.debts;
     default:
       return state;
   }

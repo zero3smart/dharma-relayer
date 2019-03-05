@@ -11,17 +11,20 @@ const fetchMyFundedLoansStart = () => ({
   type: FETCH_MY_FUNDED_LOANS
 });
 
-const fetchMyFundedLoansSuccess = (debts) => ({
+const fetchMyFundedLoansSuccess = (debts, offset, totalItemsCount) => ({
   type: FETCH_MY_FUNDED_LOANS_SUCCESS,
-  debts
+  debts,
+  offset,
+  totalItemsCount
 });
 
-export function fetchMyFundedLoans() {
+export function fetchMyFundedLoans(offset, limit) {
   return dispatch => {
     dispatch(fetchMyFundedLoansStart());
 
-    return debtsApi.getForCreditor(loanStatuses.FILLED, getDefaultAccount())
-      .then((debts) => {
+    return debtsApi.getForCreditor(loanStatuses.FILLED, getDefaultAccount(), offset, limit)
+      .then((response) => {
+        let { items: debts, totalItemsCount } = response;
         let promises = debts.map(debt => {
           return fromDebtOrder(debt).then(dharmaDebt => {
             if (dharmaDebt) {
@@ -38,7 +41,7 @@ export function fetchMyFundedLoans() {
 
         Promise.all(promises).then(mappedDebts => {
           let filtered = mappedDebts.filter(d => d !== null);
-          dispatch(fetchMyFundedLoansSuccess(filtered));
+          dispatch(fetchMyFundedLoansSuccess(filtered, offset, totalItemsCount));
         });
       });
   }

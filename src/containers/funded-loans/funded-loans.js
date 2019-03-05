@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchMyFundedLoans } from '../../actions';
+import { fetchMyFundedLoans, setMyFundedLoansOffset } from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
+import Spinner from '../../components/spinner/spinner.js';
+import Paging from '../../components/paging/paging.js';
+
+const pageSize = 20;
 
 let destroyTimer = null;
-
 let startTimer = (func) => {
   destroyTimer = setTimeout(() => {
     func();
@@ -13,10 +16,23 @@ let startTimer = (func) => {
 };
 
 class FundedLoans extends Component {
+  constructor(props) {
+    super(props);
+
+    this.getFundedLoansForCurrentPage = this.getFundedLoansForCurrentPage.bind(this);
+  }
+
   componentDidMount() {
-    let { fetchMyFundedLoans } = this.props;
-    fetchMyFundedLoans();
-    startTimer(fetchMyFundedLoans);
+    let { getFundedLoansForCurrentPage } = this;
+    getFundedLoansForCurrentPage();
+    startTimer(getFundedLoansForCurrentPage);
+  }
+
+  getFundedLoansForCurrentPage() {
+    let { offset, fetchMyFundedLoans } = this.props;
+    let currentPageNum = Math.floor(offset / pageSize);
+
+    fetchMyFundedLoans(pageSize * currentPageNum, pageSize);
   }
 
   componentWillUnmount() {
@@ -24,8 +40,9 @@ class FundedLoans extends Component {
   }
 
   render() {
+    let { myFundedLoans, showPaging, isLoading, offset, totalItemsCount, setMyFundedLoansOffset, fetchMyFundedLoans } = this.props;
 
-    let rows = this.props.myFundedLoans.map(loan => ({
+    let rows = myFundedLoans.map(loan => ({
       date: new Date(loan.issuanceBlockTime),
       principalAmount: loan.principalAmount.toNumber(),
       principalTokenSymbol: loan.principalTokenSymbol,
@@ -35,16 +52,39 @@ class FundedLoans extends Component {
       issuanceHash: loan.issuanceHash
     }));
 
+    let pagesTotal = null;
+    let currentPageNum = null;
+    if (showPaging) {
+      pagesTotal = parseInt(totalItemsCount / pageSize, 10);
+      pagesTotal = (totalItemsCount / pageSize - pagesTotal) > 0 ? pagesTotal + 1 : pagesTotal;
+      currentPageNum = Math.floor(offset / pageSize);
+    }
+
     return (
-      <LoanTableSmall header="My funded loans" dateColumnHeader="Date loan issued" rows={rows} />
+      <LoanTableSmall
+        header="My funded loans"
+        dateColumnHeader="Date loan issued"
+        rows={rows}
+        isLoading={isLoading}
+        showPaging={showPaging}
+        currentPageNum={currentPageNum}
+        pagesTotal={pagesTotal}
+        onPageClick={(pageNum) => {
+          setMyFundedLoansOffset(pageSize * pageNum);
+          fetchMyFundedLoans(pageSize * pageNum, pageSize);
+        }} />
     );
   }
 }
 
-let mapStateToProps = ({ myFundedLoans }) => ({
-  myFundedLoans
+let mapStateToProps = ({ myFundedLoans: { values, isLoading, offset, showPaging, totalItemsCount } }) => ({
+  myFundedLoans: values,
+  isLoading,
+  offset,
+  showPaging,
+  totalItemsCount
 });
 
-let mapDispatchToProps = { fetchMyFundedLoans };
+let mapDispatchToProps = { fetchMyFundedLoans, setMyFundedLoansOffset };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundedLoans);

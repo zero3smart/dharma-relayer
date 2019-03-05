@@ -11,19 +11,23 @@ const fetchMyOutstandingLoansStart = () => ({
   type: FETCH_MY_OUTSTANDING_LOANS
 });
 
-const fetchMyOutstandingLoansSuccess = (debts) => ({
+const fetchMyOutstandingLoansSuccess = (debts, offset, totalItemsCount) => ({
   type: FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
-  debts
+  debts,
+  offset,
+  totalItemsCount
 });
 
-export function fetchMyOutstandingLoans() {
+export function fetchMyOutstandingLoans(offset, limit) {
   return dispatch => {
     dispatch(fetchMyOutstandingLoansStart());
 
     let defaultAccount = getDefaultAccount();
     if (defaultAccount) {
-      return debtsApi.getForDebtor(loanStatuses.FILLED, defaultAccount)
-        .then((debts) => {
+      return debtsApi.getForDebtor(loanStatuses.FILLED, defaultAccount, offset, limit)
+        .then((response) => {
+          let { items: debts, totalItemsCount } = response;
+
           let promises = debts.map(debt => {
             return fromDebtOrder(debt).then(dharmaDebt => {
               if (dharmaDebt) {
@@ -40,7 +44,7 @@ export function fetchMyOutstandingLoans() {
 
           Promise.all(promises).then(mappedDebts => {
             let filtered = mappedDebts.filter(d => d !== null);
-            dispatch(fetchMyOutstandingLoansSuccess(filtered));
+            dispatch(fetchMyOutstandingLoansSuccess(filtered, offset, totalItemsCount));
           });
         });
     }
