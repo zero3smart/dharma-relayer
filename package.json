@@ -19,6 +19,9 @@
     "tiny-promisify": "^1.0.0",
     "truffle-contract": "^3.0.4"
   },
+  "resolutions": {
+    "@dharmaprotocol/dharma.js/web3": "git+https://github.com/confirmationlabs/web3.js.git"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
