@@ -15,7 +15,7 @@ export default function (state = {
       return {
         ...state,
         isLoading: false,
-        showPaging: (action.debts && action.debts.length > 0),
+        showPaging: action.debts && (action.debts.length > 0) && (action.debts.length !== action.totalItemsCount),
         totalItemsCount: action.totalItemsCount,
         values: action.debts
       };

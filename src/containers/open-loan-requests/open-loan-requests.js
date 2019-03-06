@@ -49,14 +49,6 @@ class OpenLoanRequests extends Component {
       interestRate: loan.interestRate
     }));
 
-    let pagesTotal = null;
-    let currentPageNum = null;
-    if (showPaging) {
-      pagesTotal = parseInt(totalItemsCount / pageSize, 10);
-      pagesTotal = (totalItemsCount / pageSize - pagesTotal) > 0 ? pagesTotal + 1 : pagesTotal;
-      currentPageNum = Math.floor(offset / pageSize);
-    }
-
     return (
       <LoanTableSmall
         header="My open loan requests"
@@ -64,8 +56,9 @@ class OpenLoanRequests extends Component {
         rows={rows}
         isLoading={isLoading}
         showPaging={showPaging}
-        currentPageNum={currentPageNum}
-        pagesTotal={pagesTotal}
+        offset={offset}
+        totalItemsCount={totalItemsCount}
+        pageSize={pageSize}
         onPageClick={(pageNum) => {
           setMyOpenedLoanRequestsOffset(pageSize * pageNum);
           fetchMyOpenedLoanRequests(pageSize * pageNum, pageSize);

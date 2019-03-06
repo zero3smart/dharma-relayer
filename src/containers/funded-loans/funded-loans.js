@@ -52,14 +52,6 @@ class FundedLoans extends Component {
       issuanceHash: loan.issuanceHash
     }));
 
-    let pagesTotal = null;
-    let currentPageNum = null;
-    if (showPaging) {
-      pagesTotal = parseInt(totalItemsCount / pageSize, 10);
-      pagesTotal = (totalItemsCount / pageSize - pagesTotal) > 0 ? pagesTotal + 1 : pagesTotal;
-      currentPageNum = Math.floor(offset / pageSize);
-    }
-
     return (
       <LoanTableSmall
         header="My funded loans"
@@ -67,8 +59,9 @@ class FundedLoans extends Component {
         rows={rows}
         isLoading={isLoading}
         showPaging={showPaging}
-        currentPageNum={currentPageNum}
-        pagesTotal={pagesTotal}
+        offset={offset}
+        totalItemsCount={totalItemsCount}
+        pageSize={pageSize}
         onPageClick={(pageNum) => {
           setMyFundedLoansOffset(pageSize * pageNum);
           fetchMyFundedLoans(pageSize * pageNum, pageSize);

@@ -40,13 +40,14 @@ function renderRows(rows) {
     });
 }
 
-function renderPagination({ currentPageNum, pagesTotal, onPageClick }) {
+function renderPagination({ offset, totalItemsCount, pageSize, onPageClick }) {
   return (
     <div className="relayer-pagination">
       <Paging
-        currentPageNum={currentPageNum}
+        offset={offset}
+        totalItemsCount={totalItemsCount}
+        pageSize={pageSize}
         onPageClick={onPageClick}
-        pagesTotal={pagesTotal}
         visiblePagesCount={5} />
     </div>
   );
@@ -55,7 +56,9 @@ function renderPagination({ currentPageNum, pagesTotal, onPageClick }) {
 function LoanTableSmall(props) {
   if (props.isLoading) {
     return (
-      <Spinner />
+      <div className="loan-table-small__spinner-container">
+        <Spinner />
+      </div>
     );
   }
   return (

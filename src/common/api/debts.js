@@ -9,7 +9,7 @@ function mapGetResponse(response) {
   //console.log('getResponse totalItemsCount :', totalItemsCount);
   return {
     items: response.data,
-    totalItemsCount: totalItemsCount
+    totalItemsCount: parseInt(totalItemsCount, 10)
   };
 }
 

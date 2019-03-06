@@ -1,9 +1,10 @@
-.loan-table-small__header {
+
+.loan-table-small__header{
   font-size: 16px;
   margin: 10px 5px;
 }
 
-.loan-table-small__table {
+.loan-table-small__table{
   width: 100%;
   font-size: 11px;
   color: #B3B7BF;
@@ -13,10 +14,9 @@
   border-bottom: 2px solid #2A364D;
 }
 
-.loan-table-small__table-header,
-.loan-table-small__table-cell {
+.loan-table-small__table-header, .loan-table-small__table-cell {
   padding: 5px;
-  text-align: left;
+  text-align:left;
 }
 
 .loan-table-small__table-cell strong {
@@ -24,26 +24,28 @@
   font-weight: normal;
 }
 
-.loan-table-small__table-header:first-child,
-.loan-table-small__table-cell:first-child {
+.loan-table-small__table-header:first-child, .loan-table-small__table-cell:first-child{
   width: 48%;
   white-space: nowrap;
 }
 
-.loan-table-small__table-header:nth-child(2),
-.loan-table-small__table-cell:nth-child(2) {
+.loan-table-small__table-header:nth-child(2), .loan-table-small__table-cell:nth-child(2){
   width: 20%;
   white-space: nowrap;
 }
 
-.loan-table-small__table-header:nth-child(3),
-.loan-table-small__table-cell:nth-child(3),
-.loan-table-small__table-header:nth-child(4),
-.loan-table-small__table-cell:nth-child(4) {
+.loan-table-small__table-header:nth-child(3), .loan-table-small__table-cell:nth-child(3),
+.loan-table-small__table-header:nth-child(4), .loan-table-small__table-cell:nth-child(4){
   text-align: right;
   width: 16%;
 }
 
-.loan-table-small__table-body {
-  max-height: 220px;
+.loan-table-small__table-body{
+  max-height:220px;
+}
+
+.loan-table-small__spinner-container{
+  /*position:relative;*/
+  /*top:50px;*/
+  margin-top:50px;
 }
