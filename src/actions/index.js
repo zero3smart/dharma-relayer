@@ -1,5 +1,4 @@
 export * from './selectCurrency';
-export * from './allowCollateral';
 export * from './getWalletInfo';
 export * from './placeLoanRequest';
 export * from './fetchMyOpenedLoanRequests';
@@ -22,8 +21,3 @@ export * from './getTokenName';
 export * from './changeDebtOrderConfirmationStep';
 export * from './unlockCollateralToken';
 export * from './lockCollateralToken';
-export * from './setLoanRequestsOffset';
-export * from './setIssuedLoansOffset';
-export * from './setMyFundedLoansOffset';
-export * from './setMyOpenedLoanRequestsOffset';
-export * from './setMyOutstandingLoansOffset';

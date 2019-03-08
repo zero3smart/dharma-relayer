@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
 import './place-loan-request.css';
 import {
-  allowCollateral,
   placeLoanRequest,
   resetLoanForm,
   hideLoanConfirmation,
@@ -139,7 +138,7 @@ class PlaceLoanRequest extends Component {
   }
 
   render() {
-    const { handleSubmit, valid, collateralAllowed, term } = this.props;
+    const { handleSubmit, valid, term } = this.props;
 
     return (
       <div className="loan-request-form">
@@ -240,14 +239,10 @@ let mapStateToProps = state => ({
   amount: selector(state, 'amount'),
   term: selector(state, 'term'),
   amortizationFrequency: selector(state, 'amortizationFrequency'),
-  collateralAllowed: state.collateralAllowed,
   debtOrderConfirmation: state.debtOrderConfirmation,
   placeLoan: state.placeLoan
 });
 let mapDispatchToProps = (dispatch) => ({
-  allowCollateral(amount, token) {
-    dispatch(allowCollateral(amount, token))
-  },
   placeLoanRequest(order, callback) {
     dispatch(placeLoanRequest(order, callback))
   },

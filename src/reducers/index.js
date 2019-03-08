@@ -3,8 +3,8 @@ import { reducer as formReducer } from 'redux-form';
 import {
   SELECT_CURRENCY,
   SELECT_CURRENCY_SUCCESS,
-  ALLOW_COLLATERAL_SUCCESS,
   GET_WALLET_INFO_SUCCESS,
+  FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
   RESET_LOAN_FORM,
   HIDE_LOAN_CONFIRMATION,
   SHOW_LOAN_CONFIRMATION,
@@ -13,8 +13,7 @@ import {
   UNLOCK_COLLATERAL_TOKEN_SUCCESS,
   LOCK_COLLATERAL_TOKEN_SUCCESS,
   UNLOCK_COLLATERAL_TOKEN,
-  LOCK_COLLATERAL_TOKEN,
-  SET_LOAN_REQUEST_OFFSET
+  LOCK_COLLATERAL_TOKEN
 } from '../actions';
 import { getDefaultAccount } from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
@@ -22,7 +21,6 @@ import loanIssuedReducer from './loanIssuedReducer';
 import fundConfirmationReducer from './fundConfirmationReducer';
 import myOpenLoanRequestsReducer from './myOpenLoanRequestsReducer';
 import myFundedLoansReducer from './myFundedLoansReducer';
-import myOutstandingLoansReducer from './myOutstandingLoansReducer';
 import placeLoanReducer from './placeLoanReducer';
 import fillLoanReducer from './fillLoanReducer';
 import tokenBalancesReducer from './tokenBalancesReducer';
@@ -51,12 +49,10 @@ function walletInfoReducer(state = {
   }
 }
 
-function collateralAllowedReducer(state = false, action) {
+function myOutstandingLoansReducer(state = [], action) {
   switch (action.type) {
-    case ALLOW_COLLATERAL_SUCCESS:
-      return true;
-    case RESET_LOAN_FORM:
-      return false;
+    case FETCH_MY_OUTSTANDING_LOANS_SUCCESS:
+      return action.debts;
     default:
       return state;
   }
@@ -73,8 +69,6 @@ function debtOrderConfirmationReducer(state = {
       return { ...state, modalVisible: true, stepNumber: 1, collateralTokenUnlocked: false, ...action.debtOrder };
     case HIDE_LOAN_CONFIRMATION:
       return { ...state, modalVisible: false };
-    case ALLOW_COLLATERAL_SUCCESS:
-      return { ...state, modalVisible: true, ...action.debtOrder };
     case CHANGE_DEBT_ORDER_CONFIRMATION_STEP:
       return { ...state, stepNumber: action.step };
     case UNLOCK_COLLATERAL_TOKEN_SUCCESS:
@@ -83,7 +77,7 @@ function debtOrderConfirmationReducer(state = {
       return { ...state, collateralTokenUnlocked: false, unlockInProgress: false };
     case UNLOCK_COLLATERAL_TOKEN:
     case LOCK_COLLATERAL_TOKEN:
-      return { ...state, unlockInProgress: true };
+      return { ...state, unlockInProgress: true }
     default:
       return state;
   }
@@ -91,7 +85,6 @@ function debtOrderConfirmationReducer(state = {
 
 const rootReducer = combineReducers({
   walletInfo: walletInfoReducer,
-  collateralAllowed: collateralAllowedReducer,
   myOpenLoanRequests: myOpenLoanRequestsReducer,
   myFundedLoans: myFundedLoansReducer,
   loanRequests: loanRequestReducer,

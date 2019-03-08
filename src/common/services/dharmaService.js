@@ -1,14 +1,6 @@
 import Dharma from '@dharmaprotocol/dharma.js';
-import web3Provider, { getNetwork, getDefaultAccount } from '../services/web3Service';
-import promisify from 'tiny-promisify';
+import web3Provider, { getDefaultAccount } from '../services/web3Service';
 import BigNumber from 'bignumber.js';
-import DebtRegistry from '../protocolJson/DebtRegistry.json';
-import DebtKernel from '../protocolJson/DebtKernel.json';
-import RepaymentRouter from '../protocolJson/RepaymentRouter.json';
-import TokenTransferProxy from '../protocolJson/TokenTransferProxy.json';
-import TokenRegistry from '../protocolJson/TokenRegistry.json';
-import DebtToken from '../protocolJson/DebtToken.json';
-import SimpleInterestTermsContract from '../protocolJson/SimpleInterestTermsContract.json';
 import { RELAYER_ADDRESS, RELAYER_FEE, SUPPORTED_TOKENS } from '../api/config.js';
 import * as tokenService from './tokenService.js';
 
