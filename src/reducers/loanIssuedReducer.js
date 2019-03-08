@@ -13,7 +13,7 @@ export default function (state = {
             return {
                 ...state,
                 isLoading: false,
-                showPaging: true,
+                showPaging: action.loans && (action.loans.length > 0) && (action.loans.length !== action.totalItemsCount),
                 totalItemsCount: action.totalItemsCount,
                 values: action.loans
                     .map(loan => ({ ...loan, issuanceBlockTimeParsed: new Date(loan.issuanceBlockTime) }))
