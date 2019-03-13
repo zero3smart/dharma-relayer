@@ -5,17 +5,20 @@ import web3Provider from './web3Service.js';
 import * as dharmaService from './dharmaService.js';
 
 const supportedTokensPromise = dharmaService.getSupportedTokens();
-const cachedTokens = {};
+const TokenContract = contract({
+    abi: TOKEN_ABI
+});
+TokenContract.setProvider(web3Provider);
 
 export async function convertToHumanReadable(amount, tokenSymbol) {
     const decimals = await getTokenDecimals(tokenSymbol);
-    const res = new BigNumber(amount || 0).mul('1e-' + decimals.toNumber())
+    const res = new BigNumber(amount || 0).mul('1e-' + decimals)
     return res;
 }
 
 export async function convertFromHumanReadable(amount, tokenSymbol) {
     const decimals = await getTokenDecimals(tokenSymbol);
-    const res = new BigNumber(amount || 0).mul('1e' + decimals.toNumber())
+    const res = new BigNumber(amount || 0).mul('1e' + decimals)
     return res;
 }
 
@@ -66,23 +69,35 @@ export async function unlockCollateralTokenAsync(symbol, amount, unlock) {
     }
 }
 
-export async function getTokenContractBySymbolAsync(symbol) {
+const cachedTokens = {};
+async function getTokenContractBySymbolAsync(symbol) {
     if (symbol in (await supportedTokensPromise)) {
-        if (!(symbol in cachedTokens)) {
-            const TokenContract = contract({
-                abi: TOKEN_ABI
-            });
-            TokenContract.setProvider(web3Provider);
-            cachedTokens[symbol] = TokenContract.at((await supportedTokensPromise)[symbol]);
+        if (symbol in cachedTokens) {
+            return cachedTokens[symbol];
         }
+        const token = await TokenContract.at((await supportedTokensPromise)[symbol]);
+        cachedTokens[symbol] = token;
 
-        return cachedTokens[symbol];
+        return token;
     }
     return null;
 }
 
+const decimalsCache = {
+    'REP': 18,
+    'ZRX': 18,
+    'MKR': 18
+};
 async function getTokenDecimals(symbol) {
-    const token = await getTokenContractBySymbolAsync(symbol);
+    if (symbol in decimalsCache) {
+        return decimalsCache[symbol];
+    }
 
-    return token.decimals();
+    const token = await getTokenContractBySymbolAsync(symbol);
+    const decimals = (await token.decimals()).toNumber();
+    decimalsCache[symbol] = decimals;
+
+    console.log(`getTokenDecimals cache miss: ${symbol}:${decimals}`)
+
+    return decimals;
 }
