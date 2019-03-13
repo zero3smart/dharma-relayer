@@ -43,7 +43,8 @@ function renderUnlockedTooltip() {
     <div className="balances-table__unlocked-tooltip-text">
       Unlocking Tokens
       <ul className="balances-table__unlocked-tooltip-list">
-        <li>Creditors have to unlock their tokens to allow tokens transfer when funding a loan (lending).</li>
+        <li>Borrowers have to unlock their tokens to allow tokens transfer if such tokens are designated as collateral.</li>
+        <li>Creditors have to unlock their tokens to enable lending of designated tokens.</li>
         <li>To unlock your tokens click the toggle next to the token you would like to lend.</li>
       </ul>
     </div>
