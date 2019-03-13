@@ -80,7 +80,7 @@ export async function fromDebtOrder(debtOrder) {
     var t3 = performance.now();
     convertedDebtOrder.principalAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.principalAmount, convertedDebtOrder.principalTokenSymbol);
     var t4 = performance.now();
-    if (process.env.NODE_ENV !== "production") {
+    if (false && process.env.NODE_ENV !== "production") {
       console.log(`fromDebtOrder timing: ${Math.ceil(t1 - t0)} ${Math.ceil(t2 - t1)} ${Math.ceil(t3 - t2)} ${Math.ceil(t4 - t3)}`)
     }
 
@@ -110,7 +110,7 @@ export async function fillDebtOrder(debtOrder) {
 
   originalDebtOrder.creditor = creditor;
 
-  console.log(JSON.stringify(originalDebtOrder));
+  console.log("fillDebtOrder: " + JSON.stringify(originalDebtOrder));
   const txHash = await dharma.order.fillAsync(originalDebtOrder, { from: creditor });
   const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
 
@@ -156,12 +156,12 @@ export async function getSupportedTokens() {
 
 async function createSimpleInterestLoan(debtOrderInfo) {
   const tokenRegistry = await dharma.contracts.loadTokenRegistry();
-  const principalTokenAddress = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
+  const principalToken = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
   const amount = await tokenService.convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
 
   const simpleInterestLoan = {
     ...defaultDebtOrderParams,
-    principalTokenAddress,
+    principalToken,
     principalTokenSymbol: debtOrderInfo.principalTokenSymbol,
     principalAmount: amount,
     interestRate: new BigNumber(debtOrderInfo.interestRate),
@@ -180,13 +180,13 @@ async function createSimpleInterestLoan(debtOrderInfo) {
 
 async function createCollateralizedSimpleInterestLoan(debtOrderInfo) {
   const tokenRegistry = await dharma.contracts.loadTokenRegistry();
-  const principalTokenAddress = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
+  const principalToken = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
   const amount = await tokenService.convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
   const collateralAmount = await tokenService.convertFromHumanReadable(debtOrderInfo.collateralAmount, debtOrderInfo.collateralTokenSymbol);
 
   const collateralizedSimpleInterestLoan = {
     ...defaultDebtOrderParams,
-    principalTokenAddress,
+    principalToken,
     principalTokenSymbol: debtOrderInfo.principalTokenSymbol,
     principalAmount: amount,
     collateralTokenSymbol: debtOrderInfo.collateralTokenSymbol,
