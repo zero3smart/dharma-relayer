@@ -15,12 +15,15 @@
   flex-basis: 25%;
   line-height: 28px;
 }
+.loan-request-form__label-title{
+  line-height: 28px;
+}
 .loan-request-form__label{
   color: #B3B7BF;
 }
 .loan-request-form__label_collateral{
   line-height:14px;
-  font-size:10px;
+  color: #fff;
 }
 .loan-request-form__input-wrapper{
   flex-basis: 75%;

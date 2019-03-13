@@ -203,14 +203,14 @@ class PlaceLoanRequest extends Component {
         </div>
 
         <div className="loan-request-form__row loan-request-amount">
-          <div className="loan-request-form__label-wrapper">
-            <label className="loan-request-form__label loan-request-form__label_collateral">Collateral use (optional)</label>
+          <div className="loan-request-form__label-title">
+            <label className="loan-request-form__label loan-request-form__label_collateral">Collateral (optional)</label>
           </div>
         </div>
 
         <div className="loan-request-form__row loan-request-amount">
           <div className="loan-request-form__label-wrapper">
-            <label className="loan-request-form__label loan-request-form__label_collateral">Amount</label>
+            <label className="loan-request-form__label">Amount</label>
           </div>
           <div className="loan-request-form__input-wrapper">
             <Field
