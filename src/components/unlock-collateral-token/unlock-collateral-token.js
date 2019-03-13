@@ -13,7 +13,7 @@ class UnlockCollateralToken extends Component {
     }
 
     render() {
-        let { onConfirm, onCancel, collateralTokenUnlocked, unlockInProgress } = this.props;
+        let { onConfirm, onCancel, collateralTokenUnlocked, unlockInProgress, collateralType } = this.props;
 
         return (
             <div className="unlock-tokens">
@@ -35,7 +35,7 @@ class UnlockCollateralToken extends Component {
                             <Slider on={collateralTokenUnlocked} onChange={this.onToggleChange.bind(this)} loading={unlockInProgress} />
                         </div>
                         <div className="unlock-tokens__toggle-label">
-                            Toggle to UNLOCK token type used in collateral.
+                            Toggle to unlock {collateralType} tokens you are using as collateral.
             </div>
                     </div>
 
