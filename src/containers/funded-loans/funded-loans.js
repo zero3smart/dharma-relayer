@@ -5,7 +5,7 @@ import LoanTableSmall from '../../components/loan-table-small/loan-table-small.j
 import Spinner from '../../components/spinner/spinner.js';
 import Paging from '../../components/paging/paging.js';
 
-const pageSize = 20;
+const pageSize = 5;
 
 let destroyTimer = null;
 let startTimer = (func) => {

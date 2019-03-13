@@ -9,7 +9,7 @@ import Paging from '../../components/paging/paging.js';
 import './loan-requests.css';
 import '../../common/styles/pagination.css';
 
-const pageSize = 40;
+const pageSize = 18;
 
 let destroyTimer = null;
 let startTimer = (func) => {

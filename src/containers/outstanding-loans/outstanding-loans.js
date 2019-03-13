@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchMyOutstandingLoans, setMyOutstandingLoansOffset } from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 
-const pageSize = 20;
+const pageSize = 5;
 
 let destroyTimer = null;
 let startTimer = (func) => {
