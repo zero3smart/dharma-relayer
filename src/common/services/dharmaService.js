@@ -70,6 +70,7 @@ export async function fromDebtOrder(debtOrder) {
       underwriterRiskRating: new BigNumber(debtOrder.underwriterRiskRating || defaultDebtOrderParams.underwriterRiskRating),
       underwriterFee: new BigNumber(debtOrder.underwriterFee || defaultDebtOrderParams.underwriterFee),
       underwriterSignature: debtOrder.underwriterSignature ? JSON.parse(debtOrder.underwriterSignature) : defaultDebtOrderParams.underwriterSignature,
+      creditorFee: debtOrder.creditorFee,
     };
 
     dharmaDebtOrder.originalDebtOrder = Object.assign({}, dharmaDebtOrder)
