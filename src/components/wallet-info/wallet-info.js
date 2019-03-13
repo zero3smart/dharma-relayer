@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './wallet-info.css';
-import { isFloat } from '../../common/services/utilities';
 import Spinner from '../spinner/spinner';
 import { SUPPORTED_TOKENS } from '../../common/api/config';
 
@@ -42,8 +41,7 @@ class WalletInfo extends Component {
 
     let amountString;
     if (amount) {
-      let amountNumber = amount.toNumber();
-      amountString = (isFloat(amountNumber) ? amountNumber.toFixed(5) : amountNumber);
+      amountString = amount.isInteger() ? amount.toFormat() : amount.toFormat(5);
     }
 
     return (

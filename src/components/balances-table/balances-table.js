@@ -2,7 +2,6 @@ import React from 'react';
 import './balances-table.css';
 import Slider from '../slider/slider.js';
 import InfoIcon from '../info-icon/info-icon.js';
-import { isFloat } from '../../common/services/utilities';
 
 function handleUnlockChange(assetId, e, callback) {
   let unlockValue = e.target.checked;
@@ -16,8 +15,7 @@ function renderRows(rows, onLockUpdate) {
 
     let amountString;
     if (row.amount) {
-      let amountNumber = row.amount.toNumber();
-      amountString = (isFloat(amountNumber) ? amountNumber.toFixed(5) : amountNumber);
+      amountString = row.amount.isInteger() ? row.amount.toFormat() : row.amount.toFormat(5);
     }
 
     return (
