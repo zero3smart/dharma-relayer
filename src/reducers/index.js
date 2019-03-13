@@ -4,7 +4,6 @@ import {
   SELECT_CURRENCY,
   SELECT_CURRENCY_SUCCESS,
   GET_WALLET_INFO_SUCCESS,
-  FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
   RESET_LOAN_FORM,
   HIDE_LOAN_CONFIRMATION,
   SHOW_LOAN_CONFIRMATION,
@@ -13,7 +12,9 @@ import {
   UNLOCK_COLLATERAL_TOKEN_SUCCESS,
   LOCK_COLLATERAL_TOKEN_SUCCESS,
   UNLOCK_COLLATERAL_TOKEN,
-  LOCK_COLLATERAL_TOKEN
+  LOCK_COLLATERAL_TOKEN,
+  SET_LOAN_REQUEST_OFFSET,
+  FETCH_MY_OUTSTANDING_LOANS_SUCCESS
 } from '../actions';
 import { getDefaultAccount } from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
@@ -21,6 +22,7 @@ import loanIssuedReducer from './loanIssuedReducer';
 import fundConfirmationReducer from './fundConfirmationReducer';
 import myOpenLoanRequestsReducer from './myOpenLoanRequestsReducer';
 import myFundedLoansReducer from './myFundedLoansReducer';
+import myOutstandingLoansReducer from './myOutstandingLoansReducer';
 import placeLoanReducer from './placeLoanReducer';
 import fillLoanReducer from './fillLoanReducer';
 import tokenBalancesReducer from './tokenBalancesReducer';
@@ -49,15 +51,6 @@ function walletInfoReducer(state = {
   }
 }
 
-function myOutstandingLoansReducer(state = [], action) {
-  switch (action.type) {
-    case FETCH_MY_OUTSTANDING_LOANS_SUCCESS:
-      return action.debts;
-    default:
-      return state;
-  }
-}
-
 function debtOrderConfirmationReducer(state = {
   modalVisible: false,
   stepNumber: 1,
@@ -77,7 +70,7 @@ function debtOrderConfirmationReducer(state = {
       return { ...state, collateralTokenUnlocked: false, unlockInProgress: false };
     case UNLOCK_COLLATERAL_TOKEN:
     case LOCK_COLLATERAL_TOKEN:
-      return { ...state, unlockInProgress: true }
+      return { ...state, unlockInProgress: true };
     default:
       return state;
   }
