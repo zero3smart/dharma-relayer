@@ -2,6 +2,18 @@ import React from 'react';
 import './loan-request-table.css';
 import { calculateRepaymentAmount, calculateTermInDays, convertToRelayerAmortizationFrequency, isFloat } from '../../common/services/utilities';
 
+function renderCollateral(dharmaDebtOrder) {
+    if (dharmaDebtOrder.collateralAmount) {
+        const amount = dharmaDebtOrder.collateralAmount.toNumber()
+        let amountString = isFloat(amount) ? amount.toFixed(2) : amount;
+        return (<td className="loan-table__table-cell loan-table__primary-cell text-right">
+            <strong>{amountString}</strong> {dharmaDebtOrder.collateralTokenSymbol}
+        </td>);
+    }
+
+    return (<td className="loan-table__table-cell loan-table__primary-cell text-right">No</td>);
+}
+
 function renderRows(rows, fundFunction) {
     let i = 0;
 
@@ -25,7 +37,7 @@ function renderRows(rows, fundFunction) {
                     <td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{termInDays}</strong> days</td>
                     <td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{repaymentString}</strong> {row.dharmaDebtOrder.principalTokenSymbol}</td>
                     <td className="loan-table__table-cell loan-table__primary-cell text-right loan-table__large-cell"><strong>{interestRate}</strong> %</td>
-                    {/*<td className="loan-table__table-cell">N/A</td>*/}
+                    {renderCollateral(row.dharmaDebtOrder)}
                     <td className="loan-table__table-cell loan-table__large-cell">{paymentPeriodFrequency}</td>
                     <td className="loan-table__table-cell">
                         <button className={"loan-request-fund " + (row.isLoading && "loan-request-fund_disabled")} disabled={row.isLoading} onClick={fundFunction.bind(this, row)}>FUND</button>
@@ -49,7 +61,7 @@ function LoanRequestsTable(props) {
                         <th className="loan-table__table-header text-right" title="Term">Term</th>
                         <th className="loan-table__table-header text-right" title="Total repayment">Total repayment</th>
                         <th className="loan-table__table-header text-right loan-table__large-cell" title="Interest per loan term">Interest per loan term</th>
-                        {/*<th className="loan-table__table-header">Collateral name and amount</th>*/}
+                        <th className="loan-table__table-header">Collateral</th>
                         <th className="loan-table__table-header loan-table__large-cell" title="Repayment frequency">Repayment frequency</th>
                         <th className="loan-table__table-header"></th>
                     </tr>

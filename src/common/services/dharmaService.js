@@ -71,15 +71,15 @@ export async function fromDebtOrder(debtOrder) {
     const convertedDebtOrder = await adapter.fromDebtOrder(dharmaDebtOrder);
     convertedDebtOrder.principalAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.principalAmount, convertedDebtOrder.principalTokenSymbol);
 
-    // turned off
-    if (false && convertedDebtOrder.collateralAmount) {
-      let token = await tokenService.getTokenAddressBySymbolAsync(convertedDebtOrder.collateralTokenSymbol)
-      let amount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol)
-      console.log('collateral amount: ' + amount.toNumber())
-      let balance = await tokenService.convertToHumanReadable(await dharma.token.getBalanceAsync(token, convertedDebtOrder.debtor), convertedDebtOrder.collateralTokenSymbol)
-      console.log('balance: ' + balance.toNumber())
-      let allowance = await tokenService.convertToHumanReadable(await dharma.token.getProxyAllowanceAsync(token, convertedDebtOrder.debtor), convertedDebtOrder.collateralTokenSymbol)
-      console.log('allowance: ' + allowance.toNumber())
+
+    if (convertedDebtOrder.collateralAmount) {
+      convertedDebtOrder.collateralAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol);
+      // console.log('collateral amount: ' + amount.toNumber())
+      // let token = await tokenService.getTokenAddressBySymbolAsync(convertedDebtOrder.collateralTokenSymbol)
+      // let balance = await tokenService.convertToHumanReadable(await dharma.token.getBalanceAsync(token, convertedDebtOrder.debtor), convertedDebtOrder.collateralTokenSymbol)
+      // console.log('balance: ' + balance.toNumber())
+      // let allowance = await tokenService.convertToHumanReadable(await dharma.token.getProxyAllowanceAsync(token, convertedDebtOrder.debtor), convertedDebtOrder.collateralTokenSymbol)
+      // console.log('allowance: ' + allowance.toNumber())
     }
 
     return convertedDebtOrder;
