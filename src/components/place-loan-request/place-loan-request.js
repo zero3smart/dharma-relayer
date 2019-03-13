@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector, change as changeForm } from 'redux-form';
 import './place-loan-request.css';
 import {
-  allowCollateral,
   placeLoanRequest,
   resetLoanForm,
   hideLoanConfirmation,
@@ -139,12 +138,31 @@ class PlaceLoanRequest extends Component {
   }
 
   render() {
-    const { handleSubmit, valid, collateralAllowed, term } = this.props;
+    const { handleSubmit, valid, term } = this.props;
 
     return (
       <div className="loan-request-form">
         <div className="loan-request-form__header">
           New loan request
+        </div>
+        <div className="loan-request-form__row loan-request-amount">
+          <div className="loan-request-form__label-wrapper">
+            <label className="loan-request-form__label">Amount</label>
+          </div>
+          <div className="loan-request-form__input-wrapper">
+            <Field
+              name="amount"
+              className="loan-request-form__input"
+              placeholder="0"
+              component="input"
+              validate={required}
+              normalize={floatOnly} />
+          </div>
+          <div className="loan-request-form__select-wrapper">
+            <Field name="currency" className="loan-request-form__select" component="select">
+              {this.renderCurrencyOptions()}
+            </Field>
+          </div>
         </div>
         <div className="loan-request-form__row">
           <div className="loan-request-form__label-wrapper">
@@ -188,6 +206,12 @@ class PlaceLoanRequest extends Component {
           <div className="loan-request-form__label-wrapper">
             <label className="loan-request-form__label loan-request-form__label_collateral">Collateral use (optional)</label>
           </div>
+        </div>
+
+        <div className="loan-request-form__row loan-request-amount">
+          <div className="loan-request-form__label-wrapper">
+            <label className="loan-request-form__label loan-request-form__label_collateral">Amount</label>
+          </div>
           <div className="loan-request-form__input-wrapper">
             <Field
               name="collateralAmount"
@@ -198,25 +222,6 @@ class PlaceLoanRequest extends Component {
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="collateralType" className="loan-request-form__select" component="select">
-              {this.renderCurrencyOptions()}
-            </Field>
-          </div>
-        </div>
-        <div className="loan-request-form__row loan-request-amount">
-          <div className="loan-request-form__label-wrapper">
-            <label className="loan-request-form__label">Amount</label>
-          </div>
-          <div className="loan-request-form__input-wrapper">
-            <Field
-              name="amount"
-              className="loan-request-form__input"
-              placeholder="0"
-              component="input"
-              validate={required}
-              normalize={floatOnly} />
-          </div>
-          <div className="loan-request-form__select-wrapper">
-            <Field name="currency" className="loan-request-form__select" component="select">
               {this.renderCurrencyOptions()}
             </Field>
           </div>
@@ -240,14 +245,10 @@ let mapStateToProps = state => ({
   amount: selector(state, 'amount'),
   term: selector(state, 'term'),
   amortizationFrequency: selector(state, 'amortizationFrequency'),
-  collateralAllowed: state.collateralAllowed,
   debtOrderConfirmation: state.debtOrderConfirmation,
   placeLoan: state.placeLoan
 });
 let mapDispatchToProps = (dispatch) => ({
-  allowCollateral(amount, token) {
-    dispatch(allowCollateral(amount, token))
-  },
   placeLoanRequest(order, callback) {
     dispatch(placeLoanRequest(order, callback))
   },
