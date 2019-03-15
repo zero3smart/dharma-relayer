@@ -22,36 +22,36 @@ class ConfirmLoanRequest extends Component {
           isLoading={isLoading}>
 
           <div className="confirm__row">
-            <b>Loan amount: </b><strong>{isFloat(amount) ? amount.toFixed(5) : amount}</strong> {currency}
+            Loan amount: <strong>{isFloat(amount) ? amount.toFixed(5) : amount}</strong> {currency}
           </div>
           <div className="confirm__row">
-            <b>Loan term: </b><strong>{term}</strong> days
+            Loan term: <strong>{term}</strong> days
             </div>
           <div className="confirm__row">
-            <b>Interest rate: </b><strong>{maxInterest}</strong> %
+            Interest rate: <strong>{maxInterest}</strong> %
             </div>
           {
             collateralAmount && (
               <div className="confirm__row">
-                <b>Collateral amount: </b><strong>{collateralAmount}</strong> {collateralType}
+                Collateral amount: <strong>{collateralAmount}</strong> {collateralType}
               </div>
             )
           }
           <div className="confirm__row">
-            <b>Total loan repayment amount: </b><strong>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount}</strong> {currency}
+            Total loan repayment amount: <strong>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount}</strong> {currency}
           </div>
           <div className="confirm__row">
-            <b>Number of payments: </b><strong>{numberOfPayments}</strong>
+            Number of payments: <strong>{numberOfPayments}</strong>
           </div>
           <div className="confirm__row">
-            <b>Payment frequency: </b><strong>{amortizationFrequency}</strong>
+            Payment frequency: <strong>{amortizationFrequency}</strong>
           </div>
           <div className="confirm__row">
-            <b>Payment amount: </b><strong>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount}</strong> {currency}
+            Payment amount: <strong>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount}</strong> {currency}
           </div>
           <br />
           <div className="confirm__row">
-            <b>Relayer fees: </b><strong>0.00%</strong>
+            Relayer fees: <strong>0.00%</strong>
           </div>
           <hr />
         </Confirm>
