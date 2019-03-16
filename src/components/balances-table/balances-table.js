@@ -41,7 +41,7 @@ function renderRows(rows, onLockUpdate) {
 function renderUnlockedTooltip() {
   return (
     <div className="balances-table__unlocked-tooltip-text">
-      Unlocking Tokens
+      <b>Unlocking tokens</b>
       <ul className="balances-table__unlocked-tooltip-list">
         <li>Borrowers have to unlock their tokens to allow tokens transfer if such tokens are designated as collateral.</li>
         <li>Creditors have to unlock their tokens to enable lending of designated tokens.</li>
