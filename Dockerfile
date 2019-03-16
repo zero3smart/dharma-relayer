@@ -9,7 +9,6 @@ ENV PORT 80
 # Install all dependencies of the current project with yarn.
 COPY package*.json ./
 COPY yarn.lock .
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.5.1
 RUN yarn
 
 # Copy all local files into the image.
