@@ -11,6 +11,9 @@
   display: flex;
   margin-bottom: 8px;
 }
+.loan-request-input-wrapper {
+  width: 75%;
+}
 .loan-request-form__label-wrapper{
   flex-basis: 25%;
   line-height: 28px;

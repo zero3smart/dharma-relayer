@@ -21,6 +21,7 @@ import WizardSteps from '../wizard-steps/wizard-steps.js';
 import CheckIcon from '../check-icon/check-icon.js';
 import { calculateCollateralAmount } from '../../common/services/utilities';
 import { SUPPORTED_TOKENS } from '../../common/api/config.js';
+import { DAYS, PERIODS } from "./constants"
 
 const termValues = {
   1: { name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY] },
@@ -32,7 +33,9 @@ const termValues = {
 };
 
 const floatOnly = (value) => {
-  if (value === null || value === '' || value === undefined) { return '' }
+  if (value === null || value === '' || value === undefined) {
+    return ''
+  }
   let v = value.toString().replace(/[^\d.]/g, '')
   v = v.slice(0, v.indexOf('.') >= 0 ? v.indexOf('.') + 6 : undefined)
   return v
@@ -47,7 +50,6 @@ class PlaceLoanRequest extends Component {
     this.reset = this.reset.bind(this);
     this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
     this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
-    this.placeLoanRequestHandler = this.placeLoanRequestHandler.bind(this);
   }
 
   placeLoanRequestClick(values) {
@@ -58,9 +60,10 @@ class PlaceLoanRequest extends Component {
   }
 
   placeLoanRequestHandler(values) {
-    let { placeLoanRequest, runGlobalUpdate, changeStep, debtOrderConfirmation: { stepNumber } } = this.props;
+    let { placeLoanRequest, runGlobalUpdate, changeStep } = this.props;
     placeLoanRequest(values, () => {
-      changeStep(stepNumber + 1);
+      this.reset();
+      changeStep(3);
       runGlobalUpdate();
     });
   }
@@ -93,67 +96,43 @@ class PlaceLoanRequest extends Component {
     });
   }
 
-  termChange(event, newValue) {
-    let newSelectedFrequency = termValues[newValue].amortizationFrequencies[0];
-    this.props.changeAmortizationFrequency(newSelectedFrequency);
-  }
-
-  renderWizardWithUnlockStep(currentStepNumber) {
-    return (
-      <WizardSteps steps={['Unlock', 'Review', 'Success']} currentStep={currentStepNumber} />
-    );
-  }
-
-  renderWizardNoUnockStep(currentStepNumber) {
-    return (
-      <WizardSteps steps={['Review', 'Success']} currentStep={currentStepNumber} />
-    );
+  termChange({ target }, newValue) {
+    this.props.changeAmortizationFrequency(target.value);
   }
 
   renderModal() {
     const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation, collateralType } = this.props;
-    let collateralExists = debtOrderConfirmation.collateralAmount > 0;
-
-    let renderUnlockStep = false;
-    let renderReviewStep = false;
-    let renderFinalStep = false;
-    if (debtOrderConfirmation.modalVisible) {
-      renderUnlockStep = collateralExists && (debtOrderConfirmation.stepNumber === 1);
-      renderReviewStep = (collateralExists && debtOrderConfirmation.stepNumber === 2) || (!collateralExists && debtOrderConfirmation.stepNumber === 1);
-      renderFinalStep = (collateralExists && debtOrderConfirmation.stepNumber === 3) || (!collateralExists && debtOrderConfirmation.stepNumber === 2);
-    }
 
     return (
       <Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={hideLoanConfirmation}>
         <div className="loan-request-form__wizard-wrapper">
-          {collateralExists ? this.renderWizardWithUnlockStep(debtOrderConfirmation.stepNumber) : this.renderWizardNoUnockStep(debtOrderConfirmation.stepNumber)}
+          <WizardSteps steps={['Unlock', 'Review', 'Success']} currentStep={debtOrderConfirmation.stepNumber} />
         </div>
 
         <ModalBody>
           {
-            renderUnlockStep &&
+            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 1) &&
             <UnlockCollateralToken
               collateralType={debtOrderConfirmation.collateralType}
               collateralAmount={debtOrderConfirmation.collateralAmount}
               collateralTokenUnlocked={debtOrderConfirmation.collateralTokenUnlocked}
               unlockInProgress={debtOrderConfirmation.unlockInProgress}
-              onCancel={this.cancelLoanRequest}
+              onCancel={this.cancelLoanRequest.bind(this)}
               onConfirm={() => changeStep(2)}
               unlockCollateralToken={unlockCollateralToken} />
           }
           {
-            renderReviewStep &&
+            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 2) &&
             <ConfirmLoanRequest
               {...debtOrderConfirmation}
-              onCancel={() => { collateralExists ? changeStep(1) : this.cancelLoanRequest() }}
-              onConfirm={this.placeLoanRequestHandler}
+              onCancel={() => changeStep(1)}
+              onConfirm={this.placeLoanRequestHandler.bind(this)}
               isLoading={placeLoan.isLoading} />
           }
           {
-            renderFinalStep &&
+            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 3) &&
             <PlaceLoanSuccess
-              onConfirm={this.cancelLoanRequest}
-              withCollateral={collateralExists} />
+              onConfirm={hideLoanConfirmation} />
           }
         </ModalBody>
       </Modal>
@@ -161,7 +140,10 @@ class PlaceLoanRequest extends Component {
   }
 
   render() {
-    const { handleSubmit, valid, term } = this.props;
+    const { handleSubmit, valid, term, amortizationFrequency } = this.props;
+
+    console.log("this.props")
+    console.log(this.props)
 
     return (
       <div className="loan-request-form">
@@ -191,14 +173,17 @@ class PlaceLoanRequest extends Component {
           <div className="loan-request-form__label-wrapper">
             <label className="loan-request-form__label">Term</label>
           </div>
-          <div className="loan-request-form__select-wrapper">
-            <Field name="term" className="loan-request-form__select" component="select" onChange={this.termChange.bind(this)}>
-              <option value="1">{termValues['1'].name}</option>
-              <option value="7">{termValues['7'].name}</option>
-              <option value="28">{termValues['28'].name}</option>
-              <option value="90">{termValues['90'].name}</option>
-              <option value="180">{termValues['180'].name}</option>
-              <option value="360">{termValues['360'].name}</option>
+          <div className="loan-request-form__row loan-request-amount loan-request-input-wrapper">
+            <Field name="term" className="loan-request-form__select" component="select">
+              {
+                DAYS.map(day => <option key={day} value={day}>{day}</option>)
+              }
+            </Field>
+            <Field name="term_period" className="loan-request-form__select" component="select"
+              onChange={this.termChange.bind(this)}>
+              {
+                PERIODS.map(({ title, value }) => <option key={title} value={value}>{title}</option>)
+              }
             </Field>
           </div>
         </div>
@@ -207,7 +192,9 @@ class PlaceLoanRequest extends Component {
             <label className="loan-request-form__label">Payment</label>
           </div>
           <div className="loan-request-form__select-wrapper">
-            {term && this.renderAmortizationFrequencySelect(term)}
+            <Field name="amortizationFrequency" className="loan-request-form__select" component="select">
+              <option value={this.props.amortizationFrequency}>{this.props.amortizationFrequency}</option>
+            </Field>
           </div>
         </div>
         <div className="loan-request-form__row">
@@ -227,7 +214,8 @@ class PlaceLoanRequest extends Component {
 
         <div className="loan-request-form__row loan-request-amount">
           <div className="loan-request-form__label-title">
-            <label className="loan-request-form__label loan-request-form__label_collateral">Collateral (optional)</label>
+            <label className="loan-request-form__label loan-request-form__label_collateral">Collateral
+              (optional)</label>
           </div>
         </div>
 
