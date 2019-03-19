@@ -47,6 +47,7 @@ class PlaceLoanRequest extends Component {
     this.reset = this.reset.bind(this);
     this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
     this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
+    this.placeLoanRequestHandler = this.placeLoanRequestHandler.bind(this);
   }
 
   placeLoanRequestClick(values) {
@@ -57,10 +58,9 @@ class PlaceLoanRequest extends Component {
   }
 
   placeLoanRequestHandler(values) {
-    let { placeLoanRequest, runGlobalUpdate, changeStep } = this.props;
+    let { placeLoanRequest, runGlobalUpdate, changeStep, debtOrderConfirmation: { stepNumber } } = this.props;
     placeLoanRequest(values, () => {
-      this.reset();
-      changeStep(3);
+      changeStep(stepNumber + 1);
       runGlobalUpdate();
     });
   }
@@ -98,39 +98,62 @@ class PlaceLoanRequest extends Component {
     this.props.changeAmortizationFrequency(newSelectedFrequency);
   }
 
+  renderWizardWithUnlockStep(currentStepNumber) {
+    return (
+      <WizardSteps steps={['Unlock', 'Review', 'Success']} currentStep={currentStepNumber} />
+    );
+  }
+
+  renderWizardNoUnockStep(currentStepNumber) {
+    return (
+      <WizardSteps steps={['Review', 'Success']} currentStep={currentStepNumber} />
+    );
+  }
+
   renderModal() {
     const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation, collateralType } = this.props;
+    let collateralExists = debtOrderConfirmation.collateralAmount > 0;
+
+    let renderUnlockStep = false;
+    let renderReviewStep = false;
+    let renderFinalStep = false;
+    if (debtOrderConfirmation.modalVisible) {
+      renderUnlockStep = collateralExists && (debtOrderConfirmation.stepNumber === 1);
+      renderReviewStep = (collateralExists && debtOrderConfirmation.stepNumber === 2) || (!collateralExists && debtOrderConfirmation.stepNumber === 1);
+      renderFinalStep = (collateralExists && debtOrderConfirmation.stepNumber === 3) || (!collateralExists && debtOrderConfirmation.stepNumber === 2);
+    }
 
     return (
       <Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={hideLoanConfirmation}>
         <div className="loan-request-form__wizard-wrapper">
-          <WizardSteps steps={['Unlock', 'Review', 'Success']} currentStep={debtOrderConfirmation.stepNumber} />
+          {collateralExists ? this.renderWizardWithUnlockStep(debtOrderConfirmation.stepNumber) : this.renderWizardNoUnockStep(debtOrderConfirmation.stepNumber)}
         </div>
 
         <ModalBody>
           {
-            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 1) &&
+            renderUnlockStep &&
             <UnlockCollateralToken
               collateralType={debtOrderConfirmation.collateralType}
               collateralAmount={debtOrderConfirmation.collateralAmount}
               collateralTokenUnlocked={debtOrderConfirmation.collateralTokenUnlocked}
               unlockInProgress={debtOrderConfirmation.unlockInProgress}
-              onCancel={this.cancelLoanRequest.bind(this)}
+              onCancel={this.cancelLoanRequest}
               onConfirm={() => changeStep(2)}
               unlockCollateralToken={unlockCollateralToken} />
           }
           {
-            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 2) &&
+            renderReviewStep &&
             <ConfirmLoanRequest
               {...debtOrderConfirmation}
-              onCancel={() => changeStep(1)}
-              onConfirm={this.placeLoanRequestHandler.bind(this)}
+              onCancel={() => { collateralExists ? changeStep(1) : this.cancelLoanRequest() }}
+              onConfirm={this.placeLoanRequestHandler}
               isLoading={placeLoan.isLoading} />
           }
           {
-            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 3) &&
+            renderFinalStep &&
             <PlaceLoanSuccess
-              onConfirm={hideLoanConfirmation} />
+              onConfirm={this.cancelLoanRequest}
+              withCollateral={collateralExists} />
           }
         </ModalBody>
       </Modal>
