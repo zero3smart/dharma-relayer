@@ -3,8 +3,8 @@ export const RELAYER_AMORTIZATION_FREQUENCIES = {
   HOURLY: 'Hourly',
   DAILY: 'Daily',
   WEEKLY: 'Weekly',
-  YEARLY: 'yearly',
-  MONTHLY: 'Monthly'
+  MONTHLY: 'Monthly',
+  YEARLY: 'Yearly'
 };
 
 export const DHARMA_AMORTIZATION_UNITS = {

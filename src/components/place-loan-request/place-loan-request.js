@@ -140,10 +140,7 @@ class PlaceLoanRequest extends Component {
   }
 
   render() {
-    const { handleSubmit, valid, term, amortizationFrequency } = this.props;
-
-    console.log("this.props")
-    console.log(this.props)
+    const { handleSubmit, valid, amortizationFrequency } = this.props;
 
     return (
       <div className="loan-request-form">
@@ -193,7 +190,7 @@ class PlaceLoanRequest extends Component {
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="amortizationFrequency" className="loan-request-form__select" component="select">
-              <option value={this.props.amortizationFrequency}>{this.props.amortizationFrequency}</option>
+              <option value={amortizationFrequency}>{amortizationFrequency}</option>
             </Field>
           </div>
         </div>
