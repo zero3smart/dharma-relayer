@@ -11,7 +11,7 @@ function renderCollateral(dharmaDebtOrder) {
         </td>);
     }
 
-    return (<td className="loan-table__table-cell loan-table__primary-cell loan-table__small-cell text-right">No</td>);
+    return (<td className="loan-table__table-cell loan-table__primary-cell loan-table__small-cell text-right">—</td>);
 }
 
 function renderRows(rows, fundFunction) {
@@ -25,7 +25,7 @@ function renderRows(rows, fundFunction) {
             let interestRate = row.dharmaDebtOrder.interestRate.toNumber();
             let amount = row.dharmaDebtOrder.principalAmount.toNumber();
             let repayment = calculateRepaymentAmount(amount, interestRate);
-            let termInDays = calculateTermInDays(row.dharmaDebtOrder.amortizationUnit, termLength);
+            let termInDays = calculateTermInDays(row.dharmaDebtOrder.amortizationUnit, termLength).toFixed(2);
             let paymentPeriodFrequency = convertToRelayerAmortizationFrequency(row.dharmaDebtOrder.amortizationUnit);
             let repaymentString = isFloat(repayment) ? repayment.toFixed(2) : repayment;
             let amountString = isFloat(amount) ? amount.toFixed(2) : amount;
