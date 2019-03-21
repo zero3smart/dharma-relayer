@@ -4,7 +4,19 @@ import {
   SELECT_CURRENCY,
   SELECT_CURRENCY_SUCCESS,
   GET_WALLET_INFO_SUCCESS,
-  GET_TOKEN_BALANCE_SUCCESS
+  RESET_LOAN_FORM,
+  HIDE_LOAN_CONFIRMATION,
+  SHOW_LOAN_CONFIRMATION,
+  GET_TOKEN_BALANCE_SUCCESS,
+  CHANGE_DEBT_ORDER_CONFIRMATION_STEP,
+  UNLOCK_COLLATERAL_TOKEN_SUCCESS,
+  LOCK_COLLATERAL_TOKEN_SUCCESS,
+  UNLOCK_COLLATERAL_TOKEN,
+  LOCK_COLLATERAL_TOKEN,
+  SET_LOAN_REQUEST_OFFSET,
+  FETCH_MY_OUTSTANDING_LOANS_SUCCESS,
+  GET_COLLATERAL_TOKEN_LOCK,
+  GET_COLLATERAL_TOKEN_LOCK_SUCCESS,
 } from '../actions';
 import { getDefaultAccount } from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
@@ -16,7 +28,6 @@ import myOutstandingLoansReducer from './myOutstandingLoansReducer';
 import placeLoanReducer from './placeLoanReducer';
 import fillLoanReducer from './fillLoanReducer';
 import tokenBalancesReducer from './tokenBalancesReducer';
-import debtOrderConfirmationReducer from './debtOrderConfirmationReducer';
 import { SUPPORTED_TOKENS } from '../common/api/config';
 
 function walletInfoReducer(state = {
@@ -42,6 +53,33 @@ function walletInfoReducer(state = {
   }
 }
 
+function debtOrderConfirmationReducer(state = {
+  modalVisible: false,
+  stepNumber: 1,
+  collateralTokenUnlocked: false,
+  unlockInProgress: false
+}, action) {
+  switch (action.type) {
+    case SHOW_LOAN_CONFIRMATION:
+      return { ...state, modalVisible: true, stepNumber: 1, collateralTokenUnlocked: false, ...action.debtOrder };
+    case HIDE_LOAN_CONFIRMATION:
+      return { ...state, modalVisible: false };
+    case CHANGE_DEBT_ORDER_CONFIRMATION_STEP:
+      return { ...state, stepNumber: action.step };
+    case UNLOCK_COLLATERAL_TOKEN_SUCCESS:
+      return { ...state, collateralTokenUnlocked: true, unlockInProgress: false };
+    case LOCK_COLLATERAL_TOKEN_SUCCESS:
+      return { ...state, collateralTokenUnlocked: false, unlockInProgress: false };
+    case UNLOCK_COLLATERAL_TOKEN:
+    case LOCK_COLLATERAL_TOKEN:
+      return { ...state, unlockInProgress: true };
+    case GET_COLLATERAL_TOKEN_LOCK_SUCCESS:
+      return { ...state, collateralTokenUnlocked: action.unlocked };
+    case GET_COLLATERAL_TOKEN_LOCK:
+    default:
+      return state;
+  }
+}
 
 const rootReducer = combineReducers({
   walletInfo: walletInfoReducer,
