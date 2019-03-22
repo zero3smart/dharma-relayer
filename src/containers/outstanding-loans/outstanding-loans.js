@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { fetchMyOutstandingLoans, setMyOutstandingLoansOffset } from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
+import RepayLoanModal from './RepayLoanModal'
 
 const pageSize = 5;
 
@@ -14,6 +15,10 @@ let startTimer = (func) => {
 };
 
 class OutstandingLoans extends Component {
+  state = {
+    isRepayModalOpened: false,
+  }
+
   constructor(props) {
     super(props);
 
@@ -37,6 +42,12 @@ class OutstandingLoans extends Component {
     fetchMyOutstandingLoans(pageSize * currentPageNum, pageSize);
   }
 
+  handleRepayModal = () =>
+    this.setState(prevState => ({
+      isRepayModalOpened: !prevState.isRepayModalOpened
+    })
+    )
+
   render() {
     let { myOutstandingLoans, showPaging, isLoading, offset, totalItemsCount, setMyOutstandingLoansOffset, fetchMyOutstandingLoans } = this.props;
 
@@ -51,20 +62,27 @@ class OutstandingLoans extends Component {
     }));
 
     return (
-      <LoanTableSmall
-        header="My outstanding loans"
-        dateColumnHeader="Date loan issued"
-        repayAvailable={true}
-        rows={rows}
-        isLoading={isLoading}
-        showPaging={showPaging}
-        offset={offset}
-        totalItemsCount={totalItemsCount}
-        pageSize={pageSize}
-        onPageClick={(pageNum) => {
-          setMyOutstandingLoansOffset(pageSize * pageNum);
-          fetchMyOutstandingLoans(pageSize * pageNum, pageSize);
-        }} />
+      <Fragment>
+        <LoanTableSmall
+          header="My outstanding loans"
+          dateColumnHeader="Date loan issued"
+          repayAvailable={true}
+          handleRepay={this.handleRepayModal}
+          rows={rows}
+          isLoading={isLoading}
+          showPaging={showPaging}
+          offset={offset}
+          totalItemsCount={totalItemsCount}
+          pageSize={pageSize}
+          onPageClick={(pageNum) => {
+            setMyOutstandingLoansOffset(pageSize * pageNum);
+            fetchMyOutstandingLoans(pageSize * pageNum, pageSize);
+          }} />
+        <RepayLoanModal
+          isOpen={this.state.isRepayModalOpened}
+          handleClose={this.handleRepayModal}
+        />
+      </Fragment>
     );
   }
 }
