@@ -2,6 +2,8 @@ import React from "react"
 import { Modal, ModalBody } from "../../components/modal/modal"
 import { SUPPORTED_TOKENS } from "../../common/api/config";
 import "./repay-modal.css"
+import { connect } from "react-redux";
+import { selectCurrency, getWalletInfo } from '../../actions';
 
 const initialState = {
     amount: "",
@@ -14,8 +16,14 @@ class RepayLoanModal extends React.Component {
     getFormattedIssuanceHash = issuanceHash =>
         `${issuanceHash.substr(0, 5)}...${issuanceHash.substr(-5)}`
 
-    onChange = ({ target }) =>
-        this.setState({ [target.name]: target.value })
+    onAmountChange = ({ target }) => {
+        this.setState({ amount: target.value })
+    }
+
+    onTokenChange = ({ target }) => {
+        this.setState({ token: target.value })
+        this.props.selectCurrency(target.value)
+    }
 
     handleRepay = () => {
         this.props.onRepay({
@@ -25,8 +33,17 @@ class RepayLoanModal extends React.Component {
         this.setState(initialState)
     }
 
+    componentDidMount() {
+        this.props.getWalletInfo()
+    }
+
     render() {
-        const { loan, handleClose, isOpen } = this.props
+        const { loan, handleClose, isOpen, amount, selectedCurrency } = this.props
+        const amountString =
+            amount && (amount.isInteger() ? amount.toFormat() : amount.toFormat(5))
+
+        console.log("this.props")
+        console.log(this.props)
 
         return (
             <Modal show={isOpen} size="md" onModalClosed={handleClose}>
@@ -45,7 +62,7 @@ class RepayLoanModal extends React.Component {
                                     <strong> {loan.issuanceHash && this.getFormattedIssuanceHash(loan.issuanceHash)}</strong>.
                                 </p>
                                 <p>
-                                    You owe
+                                    You owe: <strong>{amountString} {selectedCurrency}</strong>
                                 </p>
                                 <p>
                                     How large of repayment would you like to make?
@@ -58,9 +75,9 @@ class RepayLoanModal extends React.Component {
                                     placeholder="Amount (e.g. 12.32)"
                                     name="amount"
                                     value={this.state.amount}
-                                    onChange={this.onChange}
+                                    onChange={this.onAmountChange}
                                 />
-                                <select name="token" onChange={this.onChange}>
+                                <select name="token" onChange={this.onTokenChange}>
                                     {
                                         SUPPORTED_TOKENS.map(token =>
                                             <option key={token} value={token}>{token}</option>)
@@ -91,4 +108,8 @@ class RepayLoanModal extends React.Component {
     }
 }
 
-export default RepayLoanModal
+const mapStateToProps = ({ walletInfo }) => ({ ...walletInfo });
+
+const mapDispatchToProps = { selectCurrency, getWalletInfo };
+
+export default connect(mapStateToProps, mapDispatchToProps)(RepayLoanModal)
