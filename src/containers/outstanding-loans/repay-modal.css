@@ -1,0 +1,5 @@
+.disabled {
+  background: #3D4966;
+  color: #7F879A;
+  cursor: not-allowed;
+}

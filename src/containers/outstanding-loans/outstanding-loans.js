@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchMyOutstandingLoans, setMyOutstandingLoansOffset } from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 import RepayLoanModal from './RepayLoanModal'
+import { repayLoan } from "../../common/services/dharmaService";
 
 const pageSize = 5;
 
@@ -16,6 +17,7 @@ let startTimer = (func) => {
 
 class OutstandingLoans extends Component {
   state = {
+    loan: null,
     isRepayModalOpened: false,
   }
 
@@ -42,11 +44,27 @@ class OutstandingLoans extends Component {
     fetchMyOutstandingLoans(pageSize * currentPageNum, pageSize);
   }
 
-  handleRepayModal = () =>
+  handleOpenModal = () =>
     this.setState(prevState => ({
-      isRepayModalOpened: !prevState.isRepayModalOpened
+      isRepayModalOpened: true
     })
     )
+
+  handleCloseModal = () =>
+    this.setState(prevState => ({
+      isRepayModalOpened: false
+    })
+    )
+
+  handleRepayModal = loan => {
+    this.setState(prevState => ({ loan }))
+    this.handleOpenModal()
+  }
+
+  onRepay = ({ issuanceHash, amount, token }) => {
+    this.handleCloseModal()
+    repayLoan(issuanceHash, amount, token)
+  }
 
   render() {
     let { myOutstandingLoans, showPaging, isLoading, offset, totalItemsCount, setMyOutstandingLoansOffset, fetchMyOutstandingLoans } = this.props;
@@ -79,8 +97,10 @@ class OutstandingLoans extends Component {
             fetchMyOutstandingLoans(pageSize * pageNum, pageSize);
           }} />
         <RepayLoanModal
+          loan={this.state.loan}
           isOpen={this.state.isRepayModalOpened}
-          handleClose={this.handleRepayModal}
+          handleClose={this.handleCloseModal}
+          onRepay={this.onRepay}
         />
       </Fragment>
     );

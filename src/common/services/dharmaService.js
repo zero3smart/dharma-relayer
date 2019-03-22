@@ -85,15 +85,8 @@ export async function fromDebtOrder(debtOrder) {
       console.log(`fromDebtOrder timing: ${Math.ceil(t1 - t0)} ${Math.ceil(t2 - t1)} ${Math.ceil(t3 - t2)} ${Math.ceil(t4 - t3)}`)
     }
 
-    // turned off
-    if (false && convertedDebtOrder.collateralAmount) {
-      let token = await tokenService.getTokenAddressBySymbolAsync(convertedDebtOrder.collateralTokenSymbol)
-      let amount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol)
-      console.log('collateral amount: ' + amount.toNumber())
-      let balance = await tokenService.convertToHumanReadable(await dharma.token.getBalanceAsync(token, convertedDebtOrder.debtor), convertedDebtOrder.collateralTokenSymbol)
-      console.log('balance: ' + balance.toNumber())
-      let allowance = await tokenService.convertToHumanReadable(await dharma.token.getProxyAllowanceAsync(token, convertedDebtOrder.debtor), convertedDebtOrder.collateralTokenSymbol)
-      console.log('allowance: ' + allowance.toNumber())
+    if (convertedDebtOrder.collateralAmount) {
+      convertedDebtOrder.collateralAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol);
     }
 
     debtOrdersCache[debtOrder.id] = convertedDebtOrder;
@@ -230,4 +223,11 @@ const defaultDebtOrderParams = {
     "s": "",
     "v": 0
   },
+}
+
+export const repayLoan = (issuanceHash, amount, token) => {
+  console.log("repayLoan")
+  console.log("issuanceHash:", issuanceHash)
+  console.log("amount:", amount)
+  console.log("token:", token)
 }
