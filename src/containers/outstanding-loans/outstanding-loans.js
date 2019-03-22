@@ -54,6 +54,7 @@ class OutstandingLoans extends Component {
       <LoanTableSmall
         header="My outstanding loans"
         dateColumnHeader="Date loan issued"
+        repayAvailable={true}
         rows={rows}
         isLoading={isLoading}
         showPaging={showPaging}

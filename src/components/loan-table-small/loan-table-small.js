@@ -6,35 +6,45 @@ import Paging from '../../components/paging/paging.js';
 import Spinner from '../../components/spinner/spinner.js';
 
 
-function renderAmount(row) {
-  let amountString = isFloat(row.principalAmount) ? row.principalAmount.toFixed(2) : row.principalAmount;
+function renderDate(row) {
+
   if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
     return (
       <td className="loan-table-small__table-cell">
-        <a href={formatLoanscanLink(row.issuanceHash)} target="_blank"><strong>{amountString}</strong> {row.principalTokenSymbol}</a>
+        <a href={formatLoanscanLink(row.issuanceHash)}
+          target="_blank">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</a>
       </td>
     )
   }
 
   return (
-    <td className="loan-table-small__table-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
+    <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
   )
 }
 
-function renderRows(rows) {
+function renderRows({ rows, repayAvailable }) {
   let i = 0;
 
   return rows
     .sort((a, b) => a.date < b.date ? 1 : (-1))
     .map(row => {
-
-
+      let amountString = isFloat(row.principalAmount) ? row.principalAmount.toFixed(2) : row.principalAmount;
       return (
         <tr key={i++}>
-          <td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
-          {renderAmount(row)}
+          {renderDate(row)}
+          <td className="loan-table-small__table-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
+          {
+            repayAvailable &&
+            <td className="loan-table-small__table-cell">
+              <button className="table-btn">Repay</button>
+            </td>
+          }
           <td className="loan-table-small__table-cell"><strong>{row.interestRate.toString()}</strong> %</td>
-          <td className="loan-table-small__table-cell"><strong>{calculateTermInDays(row.amortizationUnit, row.termLength)}</strong> d</td>
+          <td className="loan-table-small__table-cell">
+            <p className="ellipsis-wrap">
+              <strong>{calculateTermInDays(row.amortizationUnit, row.termLength).toFixed(4)}</strong> d
+            </p>
+          </td>
         </tr>
       );
     });
@@ -72,12 +82,18 @@ function LoanTableSmall(props) {
             <tr>
               <th className="loan-table-small__table-header" title={props.dateColumnHeader}>Date</th>
               <th className="loan-table-small__table-header" title="Loan amount">Amount</th>
+              {
+                props.repayAvailable &&
+                <th className="loan-table-small__table-header" title="Loan amount">
+                  Repay
+              </th>
+              }
               <th className="loan-table-small__table-header" title="Interest rate (per payment period)">Interest</th>
               <th className="loan-table-small__table-header" title="Loan term (days)">Term</th>
             </tr>
           </thead>
           <tbody className="loan-table-small__table-body scrollable-table__table-body scrollable">
-            {renderRows(props.rows)}
+            {renderRows(props)}
           </tbody>
         </table>
       </div>

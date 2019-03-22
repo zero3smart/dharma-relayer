@@ -49,3 +49,10 @@
   /*top:50px;*/
   margin-top:50px;
 }
+
+.table-btn {
+  background-color: #399A08;
+  color: #fff;
+  border-radius: 2px;
+  padding: 0 5px;
+}
