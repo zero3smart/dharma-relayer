@@ -11,7 +11,7 @@ import {
   changeDebtOrderConfirmationStep,
   unlockCollateralToken,
   lockCollateralToken,
-  geCollateralTokenLock,
+  getCollateralTokenLock,
 } from '../../actions';
 import { RELAYER_AMORTIZATION_FREQUENCIES } from '../../common/amortizationFrequencies';
 import { Modal, ModalBody } from '../modal/modal';
@@ -57,8 +57,8 @@ class PlaceLoanRequest extends Component {
     });
   }
 
-  placeLoanRequestHandler(values) {
-    let { placeLoanRequest, runGlobalUpdate, changeStep } = this.props;
+  placeLoanRequestHandler(values){
+    let {placeLoanRequest, runGlobalUpdate, changeStep} = this.props;
     placeLoanRequest(values, () => {
       this.reset();
       changeStep(3);
@@ -99,7 +99,7 @@ class PlaceLoanRequest extends Component {
     this.props.changeAmortizationFrequency(newSelectedFrequency);
   }
 
-  renderModal() {
+  renderModal(){
     const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation, collateralType } = this.props;
 
     return (
@@ -118,7 +118,7 @@ class PlaceLoanRequest extends Component {
               unlockInProgress={debtOrderConfirmation.unlockInProgress}
               onCancel={this.cancelLoanRequest.bind(this)}
               onConfirm={() => changeStep(2)}
-              unlockCollateralToken={unlockCollateralToken} />
+              unlockCollateralToken={unlockCollateralToken}/>
           }
           {
             debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 2) &&
@@ -131,15 +131,15 @@ class PlaceLoanRequest extends Component {
           {
             debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 3) &&
             <PlaceLoanSuccess
-              onConfirm={hideLoanConfirmation} />
+              onConfirm={hideLoanConfirmation}/>
           }
         </ModalBody>
       </Modal>
     );
   }
 
-  render() {
-    const { handleSubmit, valid, term } = this.props;
+  render(){
+    const { handleSubmit, valid, term} = this.props;
 
     return (
       <div className="loan-request-form">
@@ -157,7 +157,7 @@ class PlaceLoanRequest extends Component {
               placeholder="0"
               component="input"
               validate={required}
-              normalize={floatOnly} />
+              normalize={floatOnly}/>
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="currency" className="loan-request-form__select" component="select">
@@ -219,7 +219,7 @@ class PlaceLoanRequest extends Component {
               className="loan-request-form__input"
               placeholder="0"
               component="input"
-              normalize={floatOnly} />
+              normalize={floatOnly}/>
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="collateralType" className="loan-request-form__select" component="select">
@@ -264,19 +264,19 @@ let mapDispatchToProps = (dispatch) => ({
   },
   showLoanConfirmation(debtOrder) {
     dispatch(showLoanConfirmation(debtOrder));
-    dispatch(geCollateralTokenLock(debtOrder.currency));
+    dispatch(getCollateralTokenLock(debtOrder.collateralType));
   },
   runGlobalUpdate() {
     dispatch(runGlobalUpdate());
   },
-  changeStep(step) {
+  changeStep(step){
     dispatch(changeDebtOrderConfirmationStep(step));
   },
-  unlockCollateralToken(token, amount, unlock) {
-    if (unlock) {
+  unlockCollateralToken(token, amount, unlock){
+    if(unlock){
       dispatch(unlockCollateralToken(token, amount))
     }
-    else {
+    else{
       dispatch(lockCollateralToken(token, amount))
     }
   }
