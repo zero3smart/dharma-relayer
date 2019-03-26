@@ -18,6 +18,9 @@
   flex-basis: 25%;
   line-height: 28px;
 }
+.loan-request-select-wrapper {
+  margin-right: 4px;
+}
 .loan-request-form__label-title{
   line-height: 28px;
 }

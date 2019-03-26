@@ -10,7 +10,8 @@ import {
   runGlobalUpdate,
   changeDebtOrderConfirmationStep,
   unlockCollateralToken,
-  lockCollateralToken
+  lockCollateralToken,
+  getCollateralTokenLock,
 } from '../../actions';
 import { RELAYER_AMORTIZATION_FREQUENCIES } from '../../common/amortizationFrequencies';
 import { Modal, ModalBody } from '../modal/modal';
@@ -68,7 +69,7 @@ class PlaceLoanRequest extends Component {
   placeLoanRequestHandler(values) {
     let { placeLoanRequest, runGlobalUpdate, changeStep, debtOrderConfirmation: { stepNumber } } = this.props;
     placeLoanRequest(values, () => {
-      changeStep(stepNumber + 2);
+      changeStep(stepNumber + 1);
       runGlobalUpdate();
     });
   }
@@ -127,7 +128,7 @@ class PlaceLoanRequest extends Component {
     if (debtOrderConfirmation.modalVisible) {
       renderUnlockStep = collateralExists && (debtOrderConfirmation.stepNumber === 1);
       renderReviewStep = (collateralExists && debtOrderConfirmation.stepNumber === 2) || (!collateralExists && debtOrderConfirmation.stepNumber === 1);
-      renderFinalStep = (collateralExists && debtOrderConfirmation.stepNumber === 4) || (!collateralExists && debtOrderConfirmation.stepNumber === 3);
+      renderFinalStep = (collateralExists && debtOrderConfirmation.stepNumber === 3) || (!collateralExists && debtOrderConfirmation.stepNumber === 2);
     }
 
     return (
@@ -199,7 +200,7 @@ class PlaceLoanRequest extends Component {
             <label className="loan-request-form__label">Term</label>
           </div>
           <div className="loan-request-form__row loan-request-amount loan-request-input-wrapper">
-            <Field name="term" className="loan-request-form__select" component="select">
+            <Field name="term" className="loan-request-form__select loan-request-select-wrapper" component="select">
               {
                 DAYS.map(day => <option key={day} value={day}>{day}</option>)
               }
@@ -299,6 +300,7 @@ let mapDispatchToProps = (dispatch) => ({
   },
   showLoanConfirmation(debtOrder) {
     dispatch(showLoanConfirmation(debtOrder));
+    dispatch(getCollateralTokenLock(debtOrder.collateralType));
   },
   runGlobalUpdate() {
     dispatch(runGlobalUpdate());
