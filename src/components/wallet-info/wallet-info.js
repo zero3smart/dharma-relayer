@@ -41,7 +41,7 @@ class WalletInfo extends Component {
 
     let amountString;
     if (amount) {
-      amountString = amount.isInteger() ? amount.toFormat() : amount.toFormat(5);
+      amountString = amount.toFormat(3);
     }
 
     return (

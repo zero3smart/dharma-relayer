@@ -15,7 +15,7 @@ function renderRows(rows, onLockUpdate) {
 
     let amountString;
     if (row.amount) {
-      amountString = row.amount.isInteger() ? row.amount.toFormat() : row.amount.toFormat(5);
+      amountString = row.amount.toFormat(3);
     }
 
     return (
