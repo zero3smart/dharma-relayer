@@ -68,8 +68,7 @@ class PlaceLoanRequest extends Component {
   placeLoanRequestHandler(values) {
     let { placeLoanRequest, runGlobalUpdate, changeStep, debtOrderConfirmation: { stepNumber } } = this.props;
     placeLoanRequest(values, () => {
-      this.reset();
-      changeStep(4);
+      changeStep(stepNumber + 1);
       runGlobalUpdate();
     });
   }
@@ -158,7 +157,7 @@ class PlaceLoanRequest extends Component {
               isLoading={placeLoan.isLoading} />
           }
           {
-            debtOrderConfirmation.modalVisible && (debtOrderConfirmation.stepNumber === 4) &&
+            renderFinalStep &&
             <PlaceLoanSuccess
               onConfirm={this.cancelLoanRequest}
               withCollateral={collateralExists} />
