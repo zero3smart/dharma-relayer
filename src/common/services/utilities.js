@@ -32,12 +32,10 @@ export const convertToRelayerAmortizationFrequency = (dharmaAmortizationUnits) =
     return RELAYER_AMORTIZATION_FREQUENCIES.MONTHLY;
   }
   if (dharmaAmortizationUnits === DHARMA_AMORTIZATION_UNITS.HOURS) {
-    console.error("Currently we don't support 'hours' units");
-    return null;
+    return RELAYER_AMORTIZATION_FREQUENCIES.HOURLY;
   }
   if (dharmaAmortizationUnits === DHARMA_AMORTIZATION_UNITS.YEARS) {
-    console.error("Currently we don't support 'years' units");
-    return null;
+    return RELAYER_AMORTIZATION_FREQUENCIES.YEARLY;
   }
   console.error(`Relayer units corresponding to ${dharmaAmortizationUnits} weren't found`);
   return null;
