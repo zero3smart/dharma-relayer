@@ -68,7 +68,7 @@ class PlaceLoanRequest extends Component {
   placeLoanRequestHandler(values) {
     let { placeLoanRequest, runGlobalUpdate, changeStep, debtOrderConfirmation: { stepNumber } } = this.props;
     placeLoanRequest(values, () => {
-      changeStep(stepNumber + 1);
+      changeStep(stepNumber + 2);
       runGlobalUpdate();
     });
   }
@@ -127,7 +127,7 @@ class PlaceLoanRequest extends Component {
     if (debtOrderConfirmation.modalVisible) {
       renderUnlockStep = collateralExists && (debtOrderConfirmation.stepNumber === 1);
       renderReviewStep = (collateralExists && debtOrderConfirmation.stepNumber === 2) || (!collateralExists && debtOrderConfirmation.stepNumber === 1);
-      renderFinalStep = (collateralExists && debtOrderConfirmation.stepNumber === 3) || (!collateralExists && debtOrderConfirmation.stepNumber === 2);
+      renderFinalStep = (collateralExists && debtOrderConfirmation.stepNumber === 4) || (!collateralExists && debtOrderConfirmation.stepNumber === 3);
     }
 
     return (
