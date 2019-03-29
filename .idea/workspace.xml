@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab5f2936-fa24-430d-9e45-804b8064491e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/loan-table-small/loan-table-small.js" afterPath="$PROJECT_DIR$/src/components/loan-table-small/loan-table-small.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/wallet-info/wallet-info.js" afterPath="$PROJECT_DIR$/src/components/wallet-info/wallet-info.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js" afterPath="$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js" afterPath="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js" afterPath="$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,7 +21,7 @@
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
-              <caret line="18" column="27" lean-forward="true" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+              <caret line="18" column="27" lean-forward="false" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -31,9 +30,21 @@
       <file leaf-file-name="place-loan-request.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="43" column="49" lean-forward="true" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
+            <state relative-caret-position="338">
+              <caret line="320" column="28" lean-forward="false" selection-start-line="320" selection-start-column="28" selection-end-line="320" selection-end-column="28" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wizard-steps.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -59,14 +70,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="open-loan-requests.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="open-loan-requests.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="306">
+              <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
-                <marker date="1553825911370" expanded="true" signature="452:1011" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -91,9 +101,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js" />
         <option value="$PROJECT_DIR$/src/components/loan-table-small/loan-table-small.js" />
         <option value="$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js" />
+        <option value="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js" />
+        <option value="$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js" />
       </list>
     </option>
   </component>
@@ -174,6 +185,7 @@
     <property name="node.js.path.for.package.standard" value="$USER_HOME$/.nvm/v8.10.0/bin/node" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.standard" value="$PROJECT_DIR$/node_modules/eslint" />
+    <property name="SearchEverywhereHistoryKey" value="/components/place-loan-request/place-loan-request.js&#9;FILE&#9;file:///home/skyblue/Workspaces/akli_work/dharma-relayer-frontend(cryptocurrency)/src/components/place-loan-request/place-loan-request.js" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -190,6 +202,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ab5f2936-fa24-430d-9e45-804b8064491e" name="Default" comment="" />
@@ -198,12 +213,12 @@
       <option name="presentableId" value="Default" />
       <updated>1525777128638</updated>
       <workItem from="1525777130577" duration="2521000" />
-      <workItem from="1553825841681" duration="53000" />
+      <workItem from="1553825841681" duration="218000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2574000" />
+    <option name="totallyTimeSpent" value="2739000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1366" y="-4" width="1440" height="904" extended-state="6" />
@@ -259,7 +274,7 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
-          <caret line="18" column="27" lean-forward="true" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+          <caret line="18" column="27" lean-forward="false" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
           <folding />
         </state>
       </provider>
@@ -268,14 +283,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="779" column="7" lean-forward="true" selection-start-line="779" selection-start-column="7" selection-end-line="779" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="43" column="49" lean-forward="true" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -300,11 +307,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="306">
+          <caret line="18" column="8" lean-forward="true" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <marker date="1553825911370" expanded="true" signature="452:1011" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="320" column="28" lean-forward="false" selection-start-line="320" selection-start-column="28" selection-end-line="320" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
