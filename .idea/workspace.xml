@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab5f2936-fa24-430d-9e45-804b8064491e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js" afterPath="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js" afterPath="$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/App/App.js" afterPath="$PROJECT_DIR$/src/components/App/App.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/outstanding-loans/outstanding-loans.js" afterPath="$PROJECT_DIR$/src/containers/outstanding-loans/outstanding-loans.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -37,13 +38,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wizard-steps.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="wizard-steps.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+            <state relative-caret-position="219">
+              <caret line="23" column="14" lean-forward="true" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/App/App.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="36" column="44" lean-forward="true" selection-start-line="36" selection-start-column="44" selection-end-line="36" selection-end-column="44" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="outstanding-loans.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/containers/outstanding-loans/outstanding-loans.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="457">
+              <caret line="128" column="78" lean-forward="false" selection-start-line="128" selection-start-column="78" selection-end-line="128" selection-end-column="78" />
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
+                <marker date="1553826147230" expanded="true" signature="569:625" ph="{...}" />
+                <marker date="1553826147230" expanded="true" signature="580:625" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -105,6 +132,8 @@
         <option value="$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js" />
         <option value="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js" />
         <option value="$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js" />
+        <option value="$PROJECT_DIR$/src/components/App/App.js" />
+        <option value="$PROJECT_DIR$/src/containers/outstanding-loans/outstanding-loans.js" />
       </list>
     </option>
   </component>
@@ -213,12 +242,12 @@
       <option name="presentableId" value="Default" />
       <updated>1525777128638</updated>
       <workItem from="1525777130577" duration="2521000" />
-      <workItem from="1553825841681" duration="218000" />
+      <workItem from="1553825841681" duration="288000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2739000" />
+    <option name="totallyTimeSpent" value="2809000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1366" y="-4" width="1440" height="904" extended-state="6" />
@@ -325,10 +354,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+        <state relative-caret-position="219">
+          <caret line="23" column="14" lean-forward="true" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/App/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="36" column="44" lean-forward="true" selection-start-line="36" selection-start-column="44" selection-end-line="36" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/outstanding-loans/outstanding-loans.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="128" column="78" lean-forward="false" selection-start-line="128" selection-start-column="78" selection-end-line="128" selection-end-column="78" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+            <marker date="1553826147230" expanded="true" signature="569:625" ph="{...}" />
+            <marker date="1553826147230" expanded="true" signature="580:625" ph="{...}" />
           </folding>
         </state>
       </provider>
