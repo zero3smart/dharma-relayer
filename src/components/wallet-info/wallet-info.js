@@ -67,7 +67,6 @@ class WalletInfo extends Component {
             </div>
           </div>
         </div>
-
       </div>
     );
   }
