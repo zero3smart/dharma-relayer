@@ -4,51 +4,49 @@ import { SUPPORTED_TOKENS } from "../../common/api/config";
 import "./repay-modal.css"
 import { connect } from "react-redux";
 import { selectCurrency, getWalletInfo } from '../../actions';
+import Spinner from "../../components/spinner/spinner"
 
 const initialState = {
-    amount: "",
-    token: SUPPORTED_TOKENS[0]
+	amount: "",
+	token: SUPPORTED_TOKENS[0]
 }
 
 class RepayLoanModal extends React.Component {
-    state = initialState
-
-    getFormattedIssuanceHash = issuanceHash =>
-        `${issuanceHash.substr(0, 5)}...${issuanceHash.substr(-5)}`
-
-    onAmountChange = ({ target }) => {
-        this.setState({ amount: target.value })
-    }
-
-    onTokenChange = ({ target }) => {
-        this.setState({ token: target.value })
-        this.props.selectCurrency(target.value)
-    }
-
-    handleRepay = () => {
-        this.props.onRepay({
-            issuanceHash: this.props.loan.issuanceHash,
-            ...this.state,
-        })
-        this.setState(initialState)
-    }
-
-    componentDidMount() {
-        this.props.getWalletInfo()
-    }
-
-    render() {
-        const { loan, handleClose, isOpen, amount, selectedCurrency } = this.props
-        const amountString =
-            amount && (amount.isInteger() ? amount.toFormat() : amount.toFormat(5))
-
-        console.log("this.props")
-        console.log(this.props)
-
-        return (
+	state = initialState
+	
+	getFormattedIssuanceHash = issuanceHash =>
+		`${issuanceHash.substr(0, 5)}...${issuanceHash.substr(-5)}`
+	
+	onAmountChange = ({ target }) => {
+		this.setState({ amount: target.value })
+	}
+	
+	onTokenChange = ({ target }) => {
+		this.setState({ token: target.value })
+		this.props.selectCurrency(target.value)
+	}
+	
+	handleRepay = () => {
+		this.props.onRepay({
+			issuanceHash: this.props.loan.issuanceHash,
+			...this.state,
+		})
+		this.setState(initialState)
+	}
+	
+	componentDidMount() {
+		this.props.getWalletInfo()
+	}
+	
+	render() {
+		const { loan, handleClose, isOpen, amount, selectedCurrency, isLoading } = this.props
+		const amountString =
+			amount && (amount.isInteger() ? amount.toFormat() : amount.toFormat(5))
+		
+		return (
             <Modal show={isOpen} size="md" onModalClosed={handleClose}>
-                {
-                    loan &&
+				{
+					loan &&
                     <ModalBody>
                         <div className="confirm">
                             <div className="confirm__row">
@@ -68,7 +66,7 @@ class RepayLoanModal extends React.Component {
                                     How large of repayment would you like to make?
                                 </p>
                             </div>
-                            <br />
+                            <br/>
                             <div className="confirm__row">
                                 <input
                                     type="text"
@@ -78,10 +76,10 @@ class RepayLoanModal extends React.Component {
                                     onChange={this.onAmountChange}
                                 />
                                 <select name="token" onChange={this.onTokenChange}>
-                                    {
-                                        SUPPORTED_TOKENS.map(token =>
+									{
+										SUPPORTED_TOKENS.map(token =>
                                             <option key={token} value={token}>{token}</option>)
-                                    }
+									}
                                 </select>
                             </div>
                             <div className="confirm__buttons">
@@ -96,16 +94,25 @@ class RepayLoanModal extends React.Component {
                                         className={`confirm__btn confirm__btn_confirm ${!this.state.amount ? "disabled" : ""}`}
                                         onClick={this.handleRepay}
                                     >
-                                        MAKE REPAYMENT
+										{
+											isLoading
+												? (
+                                                    <div className="confirm-btn-spinner">
+                                                        <Spinner size="13px"/>
+                                                    </div>)
+												: <span>
+                        MAKE REPAYMENT
+                      </span>
+										}
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </ModalBody>
-                }
+				}
             </Modal>
-        )
-    }
+		)
+	}
 }
 
 const mapStateToProps = ({ walletInfo }) => ({ ...walletInfo });
