@@ -37,10 +37,6 @@ class OpenLoanRequests extends Component {
 		fetchMyOpenedLoanRequests(pageSize * currentPageNum, pageSize);
 	}
 	
-	cancelLoanRequest = () => {
-		console.log("cancelLoanRequest")
-	}
-	
 	render() {
 		let { myOpenLoanRequests, showPaging, isLoading, offset, totalItemsCount, setMyOpenedLoanRequestsOffset, fetchMyOpenedLoanRequests } = this.props;
 		
@@ -54,18 +50,16 @@ class OpenLoanRequests extends Component {
 		}));
 		
 		return (
-            <LoanTableSmall
-                header="My open loan requests"
-                dateColumnHeader="Date loan requested"
-                rows={rows}
-                isLoading={isLoading}
-                showPaging={showPaging}
-                offset={offset}
-                totalItemsCount={totalItemsCount}
-                availableForDelete={true}
-                onDelete={this.cancelLoanRequest}
-                pageSize={pageSize}
-                onPageClick={(pageNum) => {
+			<LoanTableSmall
+				header="My open loan requests"
+				dateColumnHeader="Date loan requested"
+				rows={rows}
+				isLoading={isLoading}
+				showPaging={showPaging}
+				offset={offset}
+				totalItemsCount={totalItemsCount}
+				pageSize={pageSize}
+				onPageClick={(pageNum) => {
 					setMyOpenedLoanRequestsOffset(pageSize * pageNum);
 					fetchMyOpenedLoanRequests(pageSize * pageNum, pageSize);
 				}}/>
