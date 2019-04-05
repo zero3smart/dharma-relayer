@@ -101,3 +101,11 @@
   padding: 20px 60px 40px;
   border-bottom: 2px solid #B3B7BF;
 }
+.loan-request-link {
+  font-size: 12px;
+}
+.loan-textarea {
+  width: 100%;
+  line-height: 16px;
+  padding: 8px;
+}
