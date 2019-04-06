@@ -27,7 +27,7 @@ function renderRows(rows) {
 				{renderDate(row)}
 				<td className="issued-table__table-cell"><strong>{amountString}</strong> {row.token} </td>
 				<td className="issued-table__table-cell"><strong>{row.interest * 100}</strong> %</td>
-				<td className="issued-table__table-cell"><strong>{row.term}</strong> d</td>
+				<td className="issued-table__table-cell"><strong>{row.termLength}</strong> {row.amortizationUnit}</td>
 			</tr>
 		);
 	});
@@ -44,8 +44,8 @@ function IssuedLoanTable(props) {
 				<tr className="issued-table__headers">
 					<th className="issued-table__table-header" title="Date loan issued">Date</th>
 					<th className="issued-table__table-header" title="Loan amount">Amount</th>
-					<th className="issued-table__table-header" title="Interest rate (per payment period)">Interest</th>
-					<th className="issued-table__table-header" title="Loan amount (days)">Term</th>
+					<th className="issued-table__table-header" title="Interest rate per loan term">Interest</th>
+					<th className="issued-table__table-header" title="Loan term">Term</th>
 				</tr>
 				</thead>
 				<tbody className="issued-table__table-body scrollable-table__table-body scrollable">

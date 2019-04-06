@@ -34,8 +34,8 @@
       <file leaf-file-name="placeLoanRequest.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/actions/placeLoanRequest.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="30" column="10" lean-forward="true" selection-start-line="30" selection-start-column="10" selection-end-line="30" selection-end-column="10" />
+            <state relative-caret-position="380">
+              <caret line="35" column="44" lean-forward="true" selection-start-line="35" selection-start-column="44" selection-end-line="35" selection-end-column="44" />
               <folding>
                 <element signature="e#0#65#0" expanded="true" />
               </folding>
@@ -46,8 +46,8 @@
       <file leaf-file-name="utilities.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/common/services/utilities.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="31" column="56" lean-forward="true" selection-start-line="31" selection-start-column="56" selection-end-line="31" selection-end-column="56" />
+            <state relative-caret-position="210">
+              <caret line="30" column="55" lean-forward="false" selection-start-line="30" selection-start-column="55" selection-end-line="30" selection-end-column="55" />
               <folding>
                 <element signature="e#0#115#0" expanded="true" />
               </folding>
@@ -58,8 +58,8 @@
       <file leaf-file-name="issued-loan-table.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/issued-loan-table/issued-loan-table.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="46" column="30" lean-forward="false" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+            <state relative-caret-position="257">
+              <caret line="42" column="12" lean-forward="false" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -70,8 +70,8 @@
       <file leaf-file-name="loan-request-table.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/loan-request-table/loan-request-table.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="66" column="21" lean-forward="true" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
+            <state relative-caret-position="295">
+              <caret line="61" column="26" lean-forward="true" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -79,11 +79,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loan-table-small.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="loan-table-small.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/loan-table-small/loan-table-small.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="567">
-              <caret line="88" column="30" lean-forward="false" selection-start-line="88" selection-start-column="30" selection-end-line="88" selection-end-column="30" />
+            <state relative-caret-position="397">
+              <caret line="79" column="31" lean-forward="false" selection-start-line="79" selection-start-column="31" selection-end-line="79" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -102,10 +102,11 @@
       <file leaf-file-name="wizard-steps.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="22" column="4" lean-forward="true" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+            <state relative-caret-position="323">
+              <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
+                <marker date="1554435052688" expanded="true" signature="171:1072" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -114,18 +115,21 @@
       <file leaf-file-name="open-loan-requests.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="63" column="42" lean-forward="true" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="42" />
-              <folding />
+            <state relative-caret-position="210">
+              <caret line="58" column="4" lean-forward="false" selection-start-line="58" selection-start-column="4" selection-end-line="58" selection-end-column="4" />
+              <folding>
+                <marker date="1554264121703" expanded="true" signature="329:331" ph="{...}" />
+                <marker date="1554264121703" expanded="true" signature="2102:2119" ph="{&quot;myOpenLoanRequests&quot;: values...}" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loanIssuedReducer.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="loanIssuedReducer.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/reducers/loanIssuedReducer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="17" column="25" lean-forward="false" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
+            <state relative-caret-position="567">
+              <caret line="38" column="1" lean-forward="false" selection-start-line="38" selection-start-column="1" selection-end-line="38" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -162,15 +166,15 @@
         <option value="$PROJECT_DIR$/src/components/place-loan-request/ShareLoanModal.js" />
         <option value="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.css" />
         <option value="$PROJECT_DIR$/src/components/place-loan-request/place-loan-request.js" />
-        <option value="$PROJECT_DIR$/src/common/services/utilities.js" />
-        <option value="$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js" />
-        <option value="$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js" />
-        <option value="$PROJECT_DIR$/src/reducers/loanIssuedReducer.js" />
         <option value="$PROJECT_DIR$/src/common/services/dharmaService.js" />
         <option value="$PROJECT_DIR$/src/actions/placeLoanRequest.js" />
+        <option value="$PROJECT_DIR$/src/common/services/utilities.js" />
         <option value="$PROJECT_DIR$/src/components/issued-loan-table/issued-loan-table.js" />
         <option value="$PROJECT_DIR$/src/components/loan-request-table/loan-request-table.js" />
         <option value="$PROJECT_DIR$/src/components/loan-table-small/loan-table-small.js" />
+        <option value="$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js" />
+        <option value="$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js" />
+        <option value="$PROJECT_DIR$/src/reducers/loanIssuedReducer.js" />
       </list>
     </option>
   </component>
@@ -276,12 +280,12 @@
       <workItem from="1553947455203" duration="942000" />
       <workItem from="1554434820127" duration="423000" />
       <workItem from="1554091422712" duration="565000" />
-      <workItem from="1554518715834" duration="498000" />
+      <workItem from="1554518715834" duration="671000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5495000" />
+    <option name="totallyTimeSpent" value="5668000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1452" y="156" width="1682" height="1062" extended-state="6" />
@@ -389,6 +393,7 @@
           <caret line="16" column="30" lean-forward="true" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
+            <marker date="1554435052688" expanded="true" signature="171:1072" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -492,6 +497,7 @@
           <caret line="23" column="14" lean-forward="true" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
+            <marker date="1554435052688" expanded="true" signature="171:1072" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -644,42 +650,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/common/services/utilities.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="31" column="56" lean-forward="true" selection-start-line="31" selection-start-column="56" selection-end-line="31" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#115#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="22" column="4" lean-forward="true" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="63" column="42" lean-forward="true" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/reducers/loanIssuedReducer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="17" column="25" lean-forward="false" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/common/services/dharmaService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
@@ -692,18 +662,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/actions/placeLoanRequest.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="30" column="10" lean-forward="true" selection-start-line="30" selection-start-column="10" selection-end-line="30" selection-end-column="10" />
+        <state relative-caret-position="380">
+          <caret line="35" column="44" lean-forward="true" selection-start-line="35" selection-start-column="44" selection-end-line="35" selection-end-column="44" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/common/services/utilities.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="30" column="55" lean-forward="false" selection-start-line="30" selection-start-column="55" selection-end-line="30" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#115#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/issued-loan-table/issued-loan-table.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="46" column="30" lean-forward="false" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+        <state relative-caret-position="257">
+          <caret line="42" column="12" lean-forward="false" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -712,8 +692,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/loan-request-table/loan-request-table.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="66" column="21" lean-forward="true" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
+        <state relative-caret-position="295">
+          <caret line="61" column="26" lean-forward="true" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -722,8 +702,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/loan-table-small/loan-table-small.js">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="79" column="31" lean-forward="false" selection-start-line="79" selection-start-column="31" selection-end-line="79" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/wizard-steps/wizard-steps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+            <marker date="1554435052688" expanded="true" signature="171:1072" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/open-loan-requests/open-loan-requests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="58" column="4" lean-forward="false" selection-start-line="58" selection-start-column="4" selection-end-line="58" selection-end-column="4" />
+          <folding>
+            <marker date="1554264121703" expanded="true" signature="329:331" ph="{...}" />
+            <marker date="1554264121703" expanded="true" signature="2102:2119" ph="{&quot;myOpenLoanRequests&quot;: values...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reducers/loanIssuedReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="567">
-          <caret line="88" column="30" lean-forward="false" selection-start-line="88" selection-start-column="30" selection-end-line="88" selection-end-column="30" />
+          <caret line="38" column="1" lean-forward="false" selection-start-line="38" selection-start-column="1" selection-end-line="38" selection-end-column="1" />
           <folding />
         </state>
       </provider>
