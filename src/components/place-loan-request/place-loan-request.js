@@ -19,7 +19,6 @@ import ConfirmLoanRequest from '../confirm-loan-request/confirm-loan-request';
 import UnlockCollateralToken from '../unlock-collateral-token/unlock-collateral-token.js';
 import PlaceLoanSuccess from '../place-loan-success/place-loan-success.js';
 import WizardSteps from '../wizard-steps/wizard-steps.js';
-import CheckIcon from '../check-icon/check-icon.js';
 import { SUPPORTED_TOKENS } from '../../common/api/config.js';
 import { DAYS, PERIODS } from "./constants"
 
@@ -46,19 +45,19 @@ const percentFormat = value => value * 100;
 const required = value => (value ? false : true);
 
 class PlaceLoanRequest extends Component {
-	
+
 	constructor(props) {
 		super(props);
-		
+
 		this.reset = this.reset.bind(this);
 		this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
 		this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
 		this.placeLoanRequestHandler = this.placeLoanRequestHandler.bind(this);
 	}
-	
+
 	getAmortizationPeriod = amortizationFrequency =>
 		PERIODS.find(period => period.value === amortizationFrequency)
-	
+
 	placeLoanRequestClick(values) {
 		const amortizationPeriod = this.getAmortizationPeriod(values.amortizationFrequency)
 		this.props.showLoanConfirmation({
@@ -67,25 +66,25 @@ class PlaceLoanRequest extends Component {
 			amortizationUnit: amortizationPeriod && amortizationPeriod.dharmaUnit,
 		});
 	}
-	
-	placeLoanRequestHandler(values){
-		let {placeLoanRequest, runGlobalUpdate, changeStep, debtOrderConfirmation:{stepNumber}} = this.props;
+
+	placeLoanRequestHandler(values) {
+		let { placeLoanRequest, runGlobalUpdate, changeStep, debtOrderConfirmation: { stepNumber } } = this.props;
 		placeLoanRequest(values, () => {
 			changeStep(stepNumber + 1);
 			runGlobalUpdate();
 		});
 	}
-	
+
 	cancelLoanRequest() {
 		this.reset();
 		this.props.hideLoanConfirmation();
 	}
-	
+
 	reset() {
 		this.props.reset();
 		this.props.resetLoanForm();
 	}
-	
+
 	renderAmortizationFrequencySelect(selectedTerm) {
 		return (
 			<Field name="amortizationFrequency" className="loan-request-form__select" component="select">
@@ -97,48 +96,48 @@ class PlaceLoanRequest extends Component {
 			</Field>
 		);
 	}
-	
+
 	renderCurrencyOptions() {
 		return SUPPORTED_TOKENS.map(symbol => {
 			return (<option key={symbol} value={symbol}>{symbol}</option>);
 		});
 	}
-	
+
 	termChange({ target }, newValue) {
 		this.props.changeAmortizationFrequency(target.value);
 	}
-	
-	renderWizardWithUnlockStep(currentStepNumber){
+
+	renderWizardWithUnlockStep(currentStepNumber) {
 		return (
 			<WizardSteps steps={['Unlock', 'Review', 'Success']} currentStep={currentStepNumber} />
 		);
 	}
-	
-	renderWizardNoUnockStep(currentStepNumber){
+
+	renderWizardNoUnockStep(currentStepNumber) {
 		return (
 			<WizardSteps steps={['Review', 'Success']} currentStep={currentStepNumber} />
 		);
 	}
-	
-	renderModal(){
-		const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation, collateralType } = this.props;
+
+	renderModal() {
+		const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation } = this.props;
 		let collateralExists = debtOrderConfirmation.collateralAmount > 0;
-		
+
 		let renderUnlockStep = false;
 		let renderReviewStep = false;
 		let renderFinalStep = false;
-		if(debtOrderConfirmation.modalVisible){
+		if (debtOrderConfirmation.modalVisible) {
 			renderUnlockStep = collateralExists && (debtOrderConfirmation.stepNumber === 1);
 			renderReviewStep = (collateralExists && debtOrderConfirmation.stepNumber === 2) || (!collateralExists && debtOrderConfirmation.stepNumber === 1);
 			renderFinalStep = (collateralExists && debtOrderConfirmation.stepNumber === 3) || (!collateralExists && debtOrderConfirmation.stepNumber === 2);
 		}
-		
+
 		return (
 			<Modal show={debtOrderConfirmation.modalVisible} size="md" onModalClosed={hideLoanConfirmation}>
 				<div className="loan-request-form__wizard-wrapper">
 					{collateralExists ? this.renderWizardWithUnlockStep(debtOrderConfirmation.stepNumber) : this.renderWizardNoUnockStep(debtOrderConfirmation.stepNumber)}
 				</div>
-				
+
 				<ModalBody>
 					{
 						renderUnlockStep &&
@@ -149,13 +148,13 @@ class PlaceLoanRequest extends Component {
 							unlockInProgress={debtOrderConfirmation.unlockInProgress}
 							onCancel={this.cancelLoanRequest}
 							onConfirm={() => changeStep(2)}
-							unlockCollateralToken={unlockCollateralToken}/>
+							unlockCollateralToken={unlockCollateralToken} />
 					}
 					{
 						renderReviewStep &&
 						<ConfirmLoanRequest
 							{...debtOrderConfirmation}
-							onCancel={() => {collateralExists ? changeStep(1) : this.cancelLoanRequest()} }
+							onCancel={() => { collateralExists ? changeStep(1) : this.cancelLoanRequest() }}
 							onConfirm={this.placeLoanRequestHandler}
 							isLoading={placeLoan.isLoading} />
 					}
@@ -163,21 +162,21 @@ class PlaceLoanRequest extends Component {
 						renderFinalStep &&
 						<PlaceLoanSuccess
 							onConfirm={this.cancelLoanRequest}
-							withCollateral={collateralExists}/>
+							withCollateral={collateralExists} />
 					}
 				</ModalBody>
 			</Modal>
 		);
 	}
-	
+
 	render() {
 		const { handleSubmit, valid, amortizationFrequency } = this.props;
-		
+
 		return (
 			<div className="loan-request-form">
 				<div className="loan-request-form__header">
 					New loan request
-				</div>
+        </div>
 				<div className="loan-request-form__row loan-request-amount">
 					<div className="loan-request-form__label-wrapper">
 						<label className="loan-request-form__label">Amount</label>
@@ -189,7 +188,7 @@ class PlaceLoanRequest extends Component {
 							placeholder="0"
 							component="input"
 							validate={required}
-							normalize={floatOnly}/>
+							normalize={floatOnly} />
 					</div>
 					<div className="loan-request-form__select-wrapper">
 						<Field name="currency" className="loan-request-form__select" component="select">
@@ -208,7 +207,7 @@ class PlaceLoanRequest extends Component {
 							}
 						</Field>
 						<Field name="term_period" className="loan-request-form__select" component="select"
-							   onChange={this.termChange.bind(this)}>
+							onChange={this.termChange.bind(this)}>
 							{
 								PERIODS.map(({ title, value }) => <option key={title} value={value}>{title}</option>)
 							}
@@ -237,17 +236,17 @@ class PlaceLoanRequest extends Component {
 							component="input"
 							validate={required}
 							format={percentFormat}
-							normalize={percentNormalize}/>
+							normalize={percentNormalize} />
 					</div>
 				</div>
-				
+
 				<div className="loan-request-form__row loan-request-amount">
 					<div className="loan-request-form__label-title">
 						<label className="loan-request-form__label loan-request-form__label_collateral">Collateral
-							(optional)</label>
+              (optional)</label>
 					</div>
 				</div>
-				
+
 				<div className="loan-request-form__row loan-request-amount">
 					<div className="loan-request-form__label-wrapper">
 						<label className="loan-request-form__label">Amount</label>
@@ -258,7 +257,7 @@ class PlaceLoanRequest extends Component {
 							className="loan-request-form__input"
 							placeholder="0"
 							component="input"
-							normalize={floatOnly}/>
+							normalize={floatOnly} />
 					</div>
 					<div className="loan-request-form__select-wrapper">
 						<Field name="collateralType" className="loan-request-form__select" component="select">
@@ -271,7 +270,7 @@ class PlaceLoanRequest extends Component {
 						className={"loan-request-form__place-btn " + (valid ? "" : "loan-request-form_disabled")}
 						onClick={handleSubmit(this.placeLoanRequestClick.bind(this))}>
 						PLACE LOAN REQUEST
-					</button>
+          </button>
 				</div>
 				{this.renderModal()}
 			</div>
@@ -308,10 +307,10 @@ let mapDispatchToProps = (dispatch) => ({
 	runGlobalUpdate() {
 		dispatch(runGlobalUpdate());
 	},
-	changeStep(step){
+	changeStep(step) {
 		dispatch(changeDebtOrderConfirmationStep(step));
 	},
-	unlockCollateralToken(token, amount, unlock){
+	unlockCollateralToken(token, amount, unlock) {
 		if (unlock) {
 			dispatch(unlockCollateralToken(token, amount))
 		}

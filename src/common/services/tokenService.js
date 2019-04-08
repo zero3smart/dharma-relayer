@@ -59,7 +59,7 @@ export async function unlockCollateralTokenAsync(symbol, amount, unlock) {
     console.log('unlockCollateralTokenAsync amount: ' + amount);
     if (amount && new BigNumber(amount).greaterThan(0)) {
         const tokenAddress = await getTokenAddressBySymbolAsync(symbol)
-        const rawAmount = await convertFromHumanReadable(amount, symbol);
+        //const rawAmount = await convertFromHumanReadable(amount, symbol);
         if (unlock) {
             await dharmaService.setUnlimitedProxyAllowanceAsync(tokenAddress);
             //await dharmaService.setProxyAllowanceAsync(tokenAddress, rawAmount);

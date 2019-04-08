@@ -1,4 +1,4 @@
-import { GET_LOAN_REQUESTS, GET_LOAN_REQUESTS_SUCCESS, FILL_LOAN, FILL_LOAN_SUCCESS, FILL_LOAN_FAIL, SET_LOAN_REQUEST_OFFSET } from '../actions';
+import { GET_LOAN_REQUESTS_SUCCESS, FILL_LOAN, FILL_LOAN_SUCCESS, FILL_LOAN_FAIL, SET_LOAN_REQUEST_OFFSET } from '../actions';
 
 export default function (state = {
     isLoading: true,

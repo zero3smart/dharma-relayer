@@ -10,13 +10,13 @@ function renderCollateral(dharmaDebtOrder) {
 			<strong>{amountString}</strong> {dharmaDebtOrder.collateralTokenSymbol}
 		</td>);
 	}
-	
+
 	return (<td className="loan-table__table-cell loan-table__primary-cell loan-table__small-cell text-right">—</td>);
 }
 
 function renderRows(rows, fundFunction) {
 	let i = 0;
-	
+
 	return rows
 		.map(row => ({ ...row, creationTimeParsed: new Date(row.creationTime) }))
 		.sort((a, b) => a.creationTimeParsed < b.creationTimeParsed ? 1 : (-1))
@@ -28,13 +28,13 @@ function renderRows(rows, fundFunction) {
 			let paymentPeriodFrequency = convertToRelayerAmortizationFrequency(row.dharmaDebtOrder.amortizationUnit);
 			let repaymentString = isFloat(totalRepayment) ? totalRepayment.toFixed(2) : totalRepayment;
 			let amountString = isFloat(amount) ? amount.toFixed(2) : amount;
-			
+
 			return (
 				<tr key={i++}>
 					<td className="loan-table__table-cell loan-table__large-cell">{row.creationTimeParsed.toLocaleDateString()} {row.creationTimeParsed.toLocaleTimeString()}</td>
 					<td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{amountString}</strong> {row.dharmaDebtOrder.principalTokenSymbol}</td>
 					<td className="loan-table__table-cell loan-table__primary-cell text-right">
-						<strong>{row.dharmaDebtOrder.termLength.toNumber()}</strong> {row.dharmaDebtOrder.amortizationUnit}
+						<strong>{termLength}</strong> {row.dharmaDebtOrder.amortizationUnit}
 					</td>
 					<td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{repaymentString}</strong> {row.dharmaDebtOrder.principalTokenSymbol}</td>
 					<td className="loan-table__table-cell loan-table__primary-cell text-right loan-table__large-cell"><strong>{interestRate * 100}</strong> %</td>
@@ -56,19 +56,19 @@ function LoanRequestsTable(props) {
 			</div>
 			<table className="loan-table__table loan-table__stripe">
 				<thead>
-				<tr className="loan-table__headers">
-					<th className="loan-table__table-header loan-table__large-cell" title="Created">Created</th>
-					<th className="loan-table__table-header text-right" title="Amount">Amount</th>
-					<th className="loan-table__table-header text-right" title="Loan term">Loan term</th>
-					<th className="loan-table__table-header text-right" title="Total repayment">Total repayment</th>
-					<th className="loan-table__table-header text-right loan-table__large-cell" title="Interest rate per loan term">Interest rate per loan term</th>
-					<th className="loan-table__table-header text-right loan-table__small-cell">Collateral</th>
-					<th className="loan-table__table-header loan-table__large-cell" title="Repayment frequency">Repayment frequency</th>
-					<th className="loan-table__table-header loan-table__small-cell"></th>
-				</tr>
+					<tr className="loan-table__headers">
+						<th className="loan-table__table-header loan-table__large-cell" title="Created">Created</th>
+						<th className="loan-table__table-header text-right" title="Amount">Amount</th>
+						<th className="loan-table__table-header text-right" title="Loan term">Loan term</th>
+						<th className="loan-table__table-header text-right" title="Total repayment">Total repayment</th>
+						<th className="loan-table__table-header text-right loan-table__large-cell" title="Interest rate per loan term">Interest rate per loan term</th>
+						<th className="loan-table__table-header text-right loan-table__small-cell">Collateral</th>
+						<th className="loan-table__table-header loan-table__large-cell" title="Repayment frequency">Repayment frequency</th>
+						<th className="loan-table__table-header loan-table__small-cell"></th>
+					</tr>
 				</thead>
 				<tbody className="loan-table__table-body scrollable-table__table-body scrollable">
-				{renderRows(props.rows, props.onFundClick)}
+					{renderRows(props.rows, props.onFundClick)}
 				</tbody>
 			</table>
 		</div>

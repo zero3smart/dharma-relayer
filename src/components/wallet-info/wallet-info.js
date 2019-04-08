@@ -25,6 +25,10 @@ class WalletInfo extends Component {
     startTimer(getWalletInfo);
   }
 
+  componentWillUnmount() {
+    destroyTimer && destroyTimer();
+  }
+
   renderCurrencyItems(selectedCurrency) {
     return ['ETH'].concat(SUPPORTED_TOKENS).map(currency => {
       return (
@@ -67,6 +71,7 @@ class WalletInfo extends Component {
             </div>
           </div>
         </div>
+
       </div>
     );
   }

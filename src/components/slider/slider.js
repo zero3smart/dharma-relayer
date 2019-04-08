@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './slider.css';
 import Spinner from '../spinner/spinner.js';
 

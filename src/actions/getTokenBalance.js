@@ -1,4 +1,4 @@
-import { getWalletBalanceAsync, getDefaultAccount } from '../common/services/web3Service';
+import { getDefaultAccount } from '../common/services/web3Service';
 import { getTokenBalanceAsync } from '../common/services/tokenService';
 
 export const GET_TOKEN_BALANCE = 'GET_TOKEN_BALANCE';

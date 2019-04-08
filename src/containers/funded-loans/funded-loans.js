@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchMyFundedLoans, setMyFundedLoansOffset } from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
-import Spinner from '../../components/spinner/spinner.js';
-import Paging from '../../components/paging/paging.js';
 
 const pageSize = 5;
 

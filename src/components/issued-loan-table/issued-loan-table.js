@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './issued-loan-table.css';
 import { isFloat, formatLoanscanLink } from '../../common/services/utilities';
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 
 function renderDate(row) {
-	
+
 	if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
 		return (
 			<td className="issued-table__table-cell">
@@ -12,7 +12,7 @@ function renderDate(row) {
 			</td>
 		)
 	}
-	
+
 	return (
 		<td className="issued-table__table-cell">{row.date}</td>
 	)
@@ -41,15 +41,15 @@ function IssuedLoanTable(props) {
 			</div>
 			<table className="issued-table__table issued-table_stripe">
 				<thead>
-				<tr className="issued-table__headers">
-					<th className="issued-table__table-header" title="Date loan issued">Date</th>
-					<th className="issued-table__table-header" title="Loan amount">Amount</th>
-					<th className="issued-table__table-header" title="Interest rate per loan term">Interest</th>
-					<th className="issued-table__table-header" title="Loan term">Term</th>
-				</tr>
+					<tr className="issued-table__headers">
+						<th className="issued-table__table-header" title="Date loan issued">Date</th>
+						<th className="issued-table__table-header" title="Loan amount">Amount</th>
+						<th className="issued-table__table-header" title="Interest rate per loan term">Interest</th>
+						<th className="issued-table__table-header" title="Loan term">Term</th>
+					</tr>
 				</thead>
 				<tbody className="issued-table__table-body scrollable-table__table-body scrollable">
-				{renderRows(props.rows)}
+					{renderRows(props.rows)}
 				</tbody>
 			</table>
 		</div>
