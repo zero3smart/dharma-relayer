@@ -2,16 +2,13 @@ import React, { Component } from 'react';
 import WalletInfoContainer from '../../containers/wallet-info-container/wallet-info-container';
 import PlaceLoanRequest from '../place-loan-request/place-loan-request.js';
 import BalancesInfo from '../../containers/balances-info/balances-info';
-import OpenLoanRequests from '../../containers/open-loan-requests/open-loan-requests';
-import OutstandingLoans from '../../containers/outstanding-loans/outstanding-loans';
-import FundedLoans from '../../containers/funded-loans/funded-loans';
 import './user-info.css';
 
 class UserInfo extends Component {
   render() {
     return (
       <div>
-        <div className="">
+        <div>
           <WalletInfoContainer />
         </div>
         <div>
@@ -19,15 +16,6 @@ class UserInfo extends Component {
         </div>
         <div>
           <BalancesInfo />
-        </div>
-        <div className="user-info__small-table">
-          <OpenLoanRequests />
-        </div>
-        <div className="user-info__small-table">
-          <OutstandingLoans />
-        </div>
-        <div className="user-info__small-table">
-          <FundedLoans />
         </div>
       </div>
     );

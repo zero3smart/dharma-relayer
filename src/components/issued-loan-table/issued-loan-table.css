@@ -2,7 +2,7 @@
     color: #B1B4BB;
 }
 
-.issued-table__table {
+.issued-table__table{
     width: 100%;
     font-size: 11px;
     color: #B3B7BF;
@@ -12,10 +12,9 @@
     border-bottom: 2px solid #2A364D;
 }
 
-.issued-table__table-header,
-.issued-table__table-cell {
+.issued-table__table-header, .issued-table__table-cell {
     padding: 5px;
-    text-align: left;
+    text-align:left;
 }
 
 .issued-table__table-cell strong {
@@ -23,26 +22,22 @@
     font-weight: normal;
 }
 
-.issued-table__table-header:first-child,
-.issued-table__table-cell:first-child {
+.issued-table__table-header:first-child, .issued-table__table-cell:first-child{
     width: 48%;
     white-space: nowrap;
 }
 
-.issued-table__table-header:nth-child(2),
-.issued-table__table-cell:nth-child(2) {
+.issued-table__table-header:nth-child(2), .issued-table__table-cell:nth-child(2){
     width: 20%;
     white-space: nowrap;
 }
 
-.issued-table__table-header:nth-child(3),
-.issued-table__table-cell:nth-child(3),
-.issued-table__table-header:nth-child(4),
-.issued-table__table-cell:nth-child(4) {
+.issued-table__table-header:nth-child(3), .issued-table__table-cell:nth-child(3),
+.issued-table__table-header:nth-child(4), .issued-table__table-cell:nth-child(4){
     text-align: right;
     width: 16%;
 }
 
-.issued-table__table-body {
-    max-height: 680px;
+.issued-table__table-body{
+    max-height:650px;
 }
