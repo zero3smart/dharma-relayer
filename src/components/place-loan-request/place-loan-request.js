@@ -21,6 +21,7 @@ import PlaceLoanSuccess from '../place-loan-success/place-loan-success.js';
 import WizardSteps from '../wizard-steps/wizard-steps.js';
 import { SUPPORTED_TOKENS } from '../../common/api/config.js';
 import { DAYS, PERIODS } from "./constants"
+import ShareLoanModal from "./ShareLoanModal"
 
 const termValues = {
 	1: { name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY] },
@@ -53,6 +54,10 @@ class PlaceLoanRequest extends Component {
 		this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
 		this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
 		this.placeLoanRequestHandler = this.placeLoanRequestHandler.bind(this);
+	}
+
+	state = {
+		isShareLoanModalOpen: false,
 	}
 
 	getAmortizationPeriod = amortizationFrequency =>
@@ -119,8 +124,21 @@ class PlaceLoanRequest extends Component {
 		);
 	}
 
+	openShareModal = () =>
+		this.setState({ isShareLoanModalOpen: true })
+
+	closeShareModal = () =>
+		this.setState({ isShareLoanModalOpen: false })
+
+	handleSignedLoanRequest = () =>
+		this.openShareModal()
+
+	submitShareLoan = (e) => {
+		e.preventDefault()
+	}
+
 	renderModal() {
-		const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation } = this.props;
+		const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation, collateralType } = this.props;
 		let collateralExists = debtOrderConfirmation.collateralAmount > 0;
 
 		let renderUnlockStep = false;
@@ -154,7 +172,9 @@ class PlaceLoanRequest extends Component {
 						renderReviewStep &&
 						<ConfirmLoanRequest
 							{...debtOrderConfirmation}
-							onCancel={() => { collateralExists ? changeStep(1) : this.cancelLoanRequest() }}
+							onCancel={() => {
+								collateralExists ? changeStep(1) : this.cancelLoanRequest()
+							}}
 							onConfirm={this.placeLoanRequestHandler}
 							isLoading={placeLoan.isLoading} />
 					}
@@ -175,8 +195,15 @@ class PlaceLoanRequest extends Component {
 		return (
 			<div className="loan-request-form">
 				<div className="loan-request-form__header">
-					New loan request
-        </div>
+					New loan request <br />
+					<a
+						className="loan-request-link"
+						href="javascript:void(0)"
+						onClick={this.handleSignedLoanRequest}
+					>
+						Already have signed loan request?
+          </a>
+				</div>
 				<div className="loan-request-form__row loan-request-amount">
 					<div className="loan-request-form__label-wrapper">
 						<label className="loan-request-form__label">Amount</label>
@@ -206,9 +233,7 @@ class PlaceLoanRequest extends Component {
 								DAYS.map(day => <option key={day} value={day}>{day}</option>)
 							}
 						</Field>
-						<Field name="term_period"
-							className="loan-request-form__select loan-request-term-amount"
-							component="select"
+						<Field name="term_period" className="loan-request-form__select" component="select"
 							onChange={this.termChange.bind(this)}>
 							{
 								PERIODS.map(({ title, value }) => <option key={title} value={value}>{title}</option>)
@@ -275,6 +300,11 @@ class PlaceLoanRequest extends Component {
           </button>
 				</div>
 				{this.renderModal()}
+				<ShareLoanModal
+					isOpen={this.state.isShareLoanModalOpen}
+					handleClose={this.closeShareModal}
+					onSubmit={this.submitShareLoan}
+				/>
 			</div>
 		);
 	}
