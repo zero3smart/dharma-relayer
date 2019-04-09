@@ -135,6 +135,9 @@ class PlaceLoanRequest extends Component {
 
 	submitShareLoan = (e) => {
 		e.preventDefault()
+		const { requestJson } = e.target.elements
+		console.log("requestJson")
+		console.log(requestJson && requestJson.value)
 	}
 
 	renderModal() {
