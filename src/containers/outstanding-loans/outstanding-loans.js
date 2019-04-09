@@ -10,7 +10,7 @@ import {
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
 import RepayLoanModal from './RepayLoanModal'
 import { repayLoan } from "../../common/services/dharmaService";
-import {} from "../../actions/repayLoan";
+import { } from "../../actions/repayLoan";
 
 const pageSize = 5;
 
@@ -27,47 +27,47 @@ class OutstandingLoans extends Component {
 		loan: null,
 		isRepayModalOpened: false,
 	}
-	
+
 	constructor(props) {
 		super(props);
-		
+
 		this.getOutstandingLoansForCurrentPage = this.getOutstandingLoansForCurrentPage.bind(this);
 	}
-	
+
 	componentDidMount() {
 		let { getOutstandingLoansForCurrentPage } = this;
 		getOutstandingLoansForCurrentPage();
 		startTimer(getOutstandingLoansForCurrentPage);
 	}
-	
+
 	componentWillUnmount() {
 		destroyTimer && destroyTimer();
 	}
-	
+
 	getOutstandingLoansForCurrentPage() {
 		let { offset, fetchMyOutstandingLoans } = this.props;
 		let currentPageNum = Math.floor(offset / pageSize);
-		
+
 		fetchMyOutstandingLoans(pageSize * currentPageNum, pageSize);
 	}
-	
+
 	handleOpenModal = () =>
 		this.setState(prevState => ({
-				isRepayModalOpened: true
-			})
+			isRepayModalOpened: true
+		})
 		)
-	
+
 	handleCloseModal = () =>
 		this.setState(prevState => ({
-				isRepayModalOpened: false
-			})
+			isRepayModalOpened: false
+		})
 		)
-	
+
 	handleRepayModal = loan => {
 		this.setState(prevState => ({ loan }))
 		this.handleOpenModal()
 	}
-	
+
 	onRepay = ({ issuanceHash, amount, token }) => {
 		this.props.repayLoanInit()
 		repayLoan(issuanceHash, amount, token)
@@ -76,14 +76,14 @@ class OutstandingLoans extends Component {
 				this.props.repayLoanSuccess(loan)
 			})
 			.catch(err => {
-				console.error(err)
+				alert(err)
 				this.props.repayLoanFail(err)
 			})
 	}
-	
+
 	render() {
 		let { myOutstandingLoans, showPaging, isLoading, offset, totalItemsCount, setMyOutstandingLoansOffset, fetchMyOutstandingLoans } = this.props;
-		
+
 		let rows = myOutstandingLoans.map(loan => ({
 			date: new Date(loan.issuanceBlockTime),
 			principalAmount: loan.principalAmount.toNumber(),
@@ -93,7 +93,7 @@ class OutstandingLoans extends Component {
 			interestRate: loan.interestRate,
 			issuanceHash: loan.issuanceHash
 		}));
-		
+
 		return (
 			<Fragment>
 				<LoanTableSmall
@@ -110,7 +110,7 @@ class OutstandingLoans extends Component {
 					onPageClick={(pageNum) => {
 						setMyOutstandingLoansOffset(pageSize * pageNum);
 						fetchMyOutstandingLoans(pageSize * pageNum, pageSize);
-					}}/>
+					}} />
 				<RepayLoanModal
 					loan={this.state.loan}
 					isOpen={this.state.isRepayModalOpened}
@@ -123,7 +123,7 @@ class OutstandingLoans extends Component {
 	}
 }
 
-let mapStateToProps = ({ myOutstandingLoans:{ values, isLoading, offset, showPaging, totalItemsCount }, repayLoan }) => ({
+let mapStateToProps = ({ myOutstandingLoans: { values, isLoading, offset, showPaging, totalItemsCount }, repayLoan }) => ({
 	myOutstandingLoans: values,
 	isLoading,
 	offset,

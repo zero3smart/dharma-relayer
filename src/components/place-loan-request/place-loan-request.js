@@ -206,7 +206,9 @@ class PlaceLoanRequest extends Component {
 								DAYS.map(day => <option key={day} value={day}>{day}</option>)
 							}
 						</Field>
-						<Field name="term_period" className="loan-request-form__select" component="select"
+						<Field name="term_period"
+							className="loan-request-form__select loan-request-term-amount"
+							component="select"
 							onChange={this.termChange.bind(this)}>
 							{
 								PERIODS.map(({ title, value }) => <option key={title} value={value}>{title}</option>)
