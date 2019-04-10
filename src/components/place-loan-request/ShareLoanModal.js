@@ -9,12 +9,12 @@ const ShareLoanModal = ({ handleClose, isOpen, onSubmit }) => (
 					<div className="confirm__header">
 						<h1>
 							Share your loan request with lenders on BloqBoard
-            </h1>
+            			</h1>
 					</div>
 				</div>
 				<div>
 					Get lenders to fill your loan request by placing your loan request to our board.
-        </div>
+        		</div>
 				<br />
 				<div>
 					<textarea
@@ -28,7 +28,7 @@ const ShareLoanModal = ({ handleClose, isOpen, onSubmit }) => (
 				<br />
 				<button className="confirm__btn confirm__btn_confirm">
 					Continue
-        </button>
+        		</button>
 			</form>
 		</ModalBody>
 	</Modal>

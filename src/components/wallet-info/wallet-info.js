@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './wallet-info.css';
 import Spinner from '../spinner/spinner';
 import { SUPPORTED_TOKENS } from '../../common/api/config';
+import { isFloat } from '../../common/services/utilities';
 
 let destroyTimer = null;
 
@@ -45,7 +46,8 @@ class WalletInfo extends Component {
 
     let amountString;
     if (amount) {
-      amountString = amount.toFormat(3);
+      amount = amount.toNumber();
+      amountString = isFloat(amount) ? amount.toFixed(2) : amount;
     }
 
     return (
@@ -62,16 +64,15 @@ class WalletInfo extends Component {
           <p>Balance</p>
           <div>
             {isProcessing ? <Spinner></Spinner> :
-              <b className="wallet-info__balance" title={`${amountString} ${selectedCurrency}`}>
-                {amountString} {selectedCurrency}
-              </b>
+              <span className="wallet-info__balance" title={`${amountString} ${selectedCurrency}`}>
+                <strong>{amountString}</strong> {selectedCurrency}
+              </span>
             }
             <div className="wallet-info__currency-container">
               {this.renderCurrencyItems(selectedCurrency)}
             </div>
           </div>
         </div>
-
       </div>
     );
   }
