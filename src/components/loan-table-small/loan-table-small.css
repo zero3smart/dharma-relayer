@@ -26,12 +26,12 @@
 
 
 .loan-table-small__table-header, .loan-table-small__table-cell{
-  width: 15%;
+  width: 18%;
   text-align:right;
 }
 
 .loan-table-small__table-header:first-child, .loan-table-small__table-cell:first-child{
-  width: 25%;
+  width: 28%;
   white-space: nowrap;
   text-align:left;
 }

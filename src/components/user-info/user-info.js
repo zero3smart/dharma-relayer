@@ -7,15 +7,15 @@ import './user-info.css';
 class UserInfo extends Component {
   render() {
     return (
-      <div>
+      <div className="user-info">
         <div>
           <WalletInfoContainer />
         </div>
-        <div>
-          <PlaceLoanRequest />
+        <div className="user-info__balances-container">
+          <BalancesInfo />
         </div>
         <div>
-          <BalancesInfo />
+          <PlaceLoanRequest />
         </div>
       </div>
     );
