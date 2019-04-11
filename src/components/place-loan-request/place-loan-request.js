@@ -23,6 +23,7 @@ import { SUPPORTED_TOKENS } from '../../common/api/config.js';
 import { DAYS, PERIODS } from "./constants"
 import ShareLoanModal from "./ShareLoanModal"
 import { convertToRelayer } from "../../utils/relayer-adapter";
+import { fromDebtOrder } from "../../common/services/dharmaService";
 
 const termValues = {
 	1: { name: '1 day', amortizationFrequencies: [RELAYER_AMORTIZATION_FREQUENCIES.DAILY] },
@@ -54,7 +55,6 @@ class PlaceLoanRequest extends Component {
 		this.reset = this.reset.bind(this);
 		this.cancelLoanRequest = this.cancelLoanRequest.bind(this);
 		this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
-		this.placeLoanRequestHandler = this.placeLoanRequestHandler.bind(this);
 	}
 
 	state = {
@@ -64,7 +64,7 @@ class PlaceLoanRequest extends Component {
 	getAmortizationPeriod = amortizationFrequency =>
 		PERIODS.find(period => period.value === amortizationFrequency)
 
-	placeLoanRequestClick(values) {
+	placeLoanRequestClick = (values) => {
 		const amortizationPeriod = this.getAmortizationPeriod(values.amortizationFrequency)
 		this.props.showLoanConfirmation({
 			...values,
@@ -139,9 +139,15 @@ class PlaceLoanRequest extends Component {
 		const { requestJson } = e.target.elements
 		try {
 			if (requestJson) {
-				const resp = convertToRelayer(requestJson.value)
-				console.log("resp")
-				console.log(resp)
+				const relayer = convertToRelayer(JSON.parse(requestJson.value))
+				fromDebtOrder(relayer)
+					.then(res => {
+						console.log("res")
+						console.log(res)
+						// this.placeLoanRequestClick(res)
+					})
+				this.closeShareModal()
+				// this.placeLoanRequestClick(relayer)
 			}
 		} catch (err) {
 			alert(err)
