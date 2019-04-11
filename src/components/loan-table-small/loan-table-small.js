@@ -22,7 +22,7 @@ function renderDate(row) {
 	)
 }
 
-function renderRows(rows) {
+function renderRows({ rows, handleRepay, repayAvailable }) {
 	let i = 0;
 
 	return rows
@@ -39,9 +39,16 @@ function renderRows(rows) {
 				<tr key={i++}>
 					{renderDate(row)}
 					<td className="loan-table-small__table-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
+					{
+						repayAvailable &&
+						<td className="loan-table-small__table-cell">
+							<button onClick={() => handleRepay(row)} className="table-btn">Repay</button>
+						</td>
+					}
 					<td className="loan-table-small__table-cell"><strong>{interestRate * 100}</strong> %</td>
 					<td className="loan-table-small__table-cell"><strong>{row.termLength}</strong> {row.amortizationUnit}</td>
-					<td className="loan-table-small__table-cell"><strong>{repaymentString}</strong> {row.principalTokenSymbol}</td>
+					<td className="loan-table-small__table-cell"><strong>{repaymentString}</strong> {row.principalTokenSymbol}
+					</td>
 				</tr>
 			);
 		});
@@ -70,7 +77,7 @@ function LoanTableSmall(props) {
 	}
 	return (
 		<React.Fragment>
-			<div className="loan-table-small scrollable-table">
+			<div className={`loan-table-small scrollable-table ${props.containerClassName}`}>
 				<div className="loan-table-small__header">
 					{props.header}
 				</div>
@@ -79,13 +86,19 @@ function LoanTableSmall(props) {
 						<tr>
 							<th className="loan-table-small__table-header" title={props.dateColumnHeader}>Date</th>
 							<th className="loan-table-small__table-header" title="Loan amount">Amount</th>
+							{
+								props.repayAvailable &&
+								<th className="loan-table-small__table-header" title="Loan amount">
+									Repay
+              					</th>
+							}
 							<th className="loan-table-small__table-header" title="Interest rate per loan term">Interest</th>
 							<th className="loan-table-small__table-header" title="Loan term">Term</th>
 							<th className="loan-table-small__table-header" title="Total Repayment">Total Repayment</th>
 						</tr>
 					</thead>
 					<tbody className="loan-table-small__table-body scrollable-table__table-body scrollable">
-						{renderRows(props.rows)}
+						{renderRows(props)}
 					</tbody>
 				</table>
 			</div>

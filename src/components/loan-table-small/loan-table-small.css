@@ -30,6 +30,11 @@
   text-align:right;
 }
 
+.loan-table-small-with-repay .loan-table-small__table-cell,
+.loan-table-small-with-repay .loan-table-small__table-header {
+  width: 14.4%;
+}
+
 .loan-table-small__table-header:first-child, .loan-table-small__table-cell:first-child{
   width: 28%;
   white-space: nowrap;
@@ -44,4 +49,11 @@
   /*position:relative;*/
   /*top:50px;*/
   margin-top:50px;
+}
+
+.table-btn {
+  background-color: #399A08;
+  color: #fff;
+  border-radius: 2px;
+  padding: 0 5px;
 }
