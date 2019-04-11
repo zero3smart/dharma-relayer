@@ -25,8 +25,9 @@ class RepayLoanModal extends React.Component {
         const { selectedCurrency } = this.props
         getRemainingRepaymentValue(this.props.loan.issuanceHash, selectedCurrency)
             .then(res => {
+                const owe = res.isInteger() ? res.toFormat() : res.toFormat(5)
                 this.setState({
-                    owe: res.isInteger() ? res.toFormat() : res.toFormat(5)
+                    owe: `${owe} ${this.props.selectedCurrency}`
                 })
             })
     }
@@ -51,6 +52,11 @@ class RepayLoanModal extends React.Component {
         })
     }
 
+    onClose = () => {
+        this.setState(initialState)
+        this.props.handleClose()
+    }
+
     componentDidMount() {
         this.props.getWalletInfo()
     }
@@ -59,7 +65,7 @@ class RepayLoanModal extends React.Component {
         const { loan, handleClose, isOpen, isLoading } = this.props
 
         return (
-            <Modal show={isOpen} size="md" onModalClosed={handleClose}>
+            <Modal show={isOpen} size="md" onModalClosed={this.onClose}>
                 {
                     loan &&
                     <ModalBody>
