@@ -1,7 +1,8 @@
 import { RELAYER_AMORTIZATION_FREQUENCIES, DHARMA_AMORTIZATION_UNITS } from '../../common/amortizationFrequencies';
 import { LOANSCAN_URL } from '../../common/api/config'
 
-export const calculateRepaymentAmount = (amount, interestRate, numberOfPayments) => amount * interestRate / numberOfPayments;
+export const calculateRepaymentAmount = (amount, interestRate, numberOfPayments) =>
+	calculateTotalPaymentAmount(amount, interestRate) / numberOfPayments;
 
 export const calculateTotalPaymentAmount = (amount, interestRate) => amount * (1 + interestRate);
 
