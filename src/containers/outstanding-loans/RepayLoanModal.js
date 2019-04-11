@@ -5,13 +5,31 @@ import "./repay-modal.css"
 import { connect } from "react-redux";
 import { selectCurrency, getWalletInfo } from '../../actions';
 import Spinner from "../../components/spinner/spinner"
+import { getRemainingRepaymentValue } from "../../common/services/dharmaService";
 
 const initialState = {
     amount: "",
+    owe: "",
 }
 
 class RepayLoanModal extends React.Component {
     state = initialState
+
+    componentWillReceiveProps() {
+        if (this.props.loan && !this.state.owe) {
+            this.updateYourOwe()
+        }
+    }
+
+    updateYourOwe = () => {
+        const { selectedCurrency } = this.props
+        getRemainingRepaymentValue(this.props.loan.issuanceHash, selectedCurrency)
+            .then(res => {
+                this.setState({
+                    owe: res.isInteger() ? res.toFormat() : res.toFormat(5)
+                })
+            })
+    }
 
     getFormattedIssuanceHash = issuanceHash =>
         `${issuanceHash.substr(0, 5)}...${issuanceHash.substr(-5)}`
@@ -31,7 +49,6 @@ class RepayLoanModal extends React.Component {
             token: this.props.loan.principalTokenSymbol,
             ...this.state,
         })
-        this.setState(initialState)
     }
 
     componentDidMount() {
@@ -39,9 +56,7 @@ class RepayLoanModal extends React.Component {
     }
 
     render() {
-        const { loan, handleClose, isOpen, amount, selectedCurrency, isLoading } = this.props
-        const amountString =
-            amount && (amount.isInteger() ? amount.toFormat() : amount.toFormat(5))
+        const { loan, handleClose, isOpen, isLoading } = this.props
 
         return (
             <Modal show={isOpen} size="md" onModalClosed={handleClose}>
@@ -60,7 +75,7 @@ class RepayLoanModal extends React.Component {
                   <strong> {loan.issuanceHash && this.getFormattedIssuanceHash(loan.issuanceHash)}</strong>.
                 </p>
                                 <p>
-                                    You owe: <strong>{amountString} {selectedCurrency}</strong>
+                                    You owe: <strong>{this.state.owe}</strong>
                                 </p>
                                 <p>
                                     How large of repayment would you like to make?
@@ -88,7 +103,7 @@ class RepayLoanModal extends React.Component {
                                         onClick={handleClose}
                                     >
                                         CANCEL
-                                    </button>
+                  </button>
                                     <button
                                         className={`confirm__btn confirm__btn_confirm ${!this.state.amount ? "disabled" : ""}`}
                                         onClick={this.handleRepay}
@@ -101,7 +116,7 @@ class RepayLoanModal extends React.Component {
                                                     </div>)
                                                 : <span>
                                                     MAKE REPAYMENT
-                                                </span>
+                      </span>
                                         }
                                     </button>
                                 </div>
