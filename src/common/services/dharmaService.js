@@ -14,9 +14,9 @@ export async function createDebtOrder(debtOrderInfo) {
 	} else {
 		dharmaDebtOrder = await createSimpleInterestLoan(debtOrderInfo);
 	}
-	
+
 	dharmaDebtOrder.debtorSignature = await dharma.sign.asDebtor(dharmaDebtOrder, true);
-	
+
 	console.log(`Dharma debt order: ${JSON.stringify(dharmaDebtOrder)}`);
 	const result = {
 		kernelAddress: (await dharma.contracts.loadDebtKernelAsync()).address,
@@ -39,7 +39,7 @@ export async function createDebtOrder(debtOrderInfo) {
 		relayerAddress: dharmaDebtOrder.relayer,
 		relayerFee: dharmaDebtOrder.relayerFee
 	};
-	
+
 	return result;
 }
 
@@ -49,7 +49,7 @@ export async function fromDebtOrder(debtOrder) {
 	if (debtOrder.id in debtOrdersCache) {
 		return debtOrdersCache[debtOrder.id];
 	}
-	
+
 	try {
 		var t0 = performance.now();
 		const dharmaDebtOrder = {
@@ -72,7 +72,7 @@ export async function fromDebtOrder(debtOrder) {
 			underwriterSignature: debtOrder.underwriterSignature ? JSON.parse(debtOrder.underwriterSignature) : defaultDebtOrderParams.underwriterSignature,
 			creditorFee: new BigNumber(debtOrder.creditorFee || 0),
 		};
-		
+
 		dharmaDebtOrder.originalDebtOrder = Object.assign({}, dharmaDebtOrder)
 		var t1 = performance.now();
 		const adapter = await getAdapterByTermsContractAddress(dharmaDebtOrder.termsContract);
@@ -84,13 +84,13 @@ export async function fromDebtOrder(debtOrder) {
 		if (false && process.env.NODE_ENV !== "production") {
 			console.log(`fromDebtOrder timing: ${Math.ceil(t1 - t0)} ${Math.ceil(t2 - t1)} ${Math.ceil(t3 - t2)} ${Math.ceil(t4 - t3)}`)
 		}
-		
+
 		if (convertedDebtOrder.collateralAmount) {
 			convertedDebtOrder.collateralAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol);
 		}
-		
+
 		debtOrdersCache[debtOrder.id] = convertedDebtOrder;
-		
+
 		return convertedDebtOrder;
 	} catch (e) {
 		console.error(e)
@@ -101,17 +101,17 @@ export async function fromDebtOrder(debtOrder) {
 export async function fillDebtOrder(debtOrder) {
 	const creditor = getDefaultAccount();
 	const originalDebtOrder = debtOrder.dharmaDebtOrder.originalDebtOrder;
-	
+
 	originalDebtOrder.creditor = creditor;
-	
+
 	console.log("fillDebtOrder: " + JSON.stringify(originalDebtOrder));
 	const txHash = await dharma.order.fillAsync(originalDebtOrder, { from: creditor });
 	const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
-	
+
 	debtOrder.txHash = txHash;
-	
+
 	console.log(receipt);
-	
+
 	return debtOrder;
 }
 
@@ -129,7 +129,7 @@ export async function setProxyAllowanceAsync(tokenAddress, allowance) {
 		allowance,
 		{ from: getDefaultAccount() }
 	);
-	
+
 	await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
 }
 
@@ -155,11 +155,22 @@ export async function repayLoan(issuanceHash, amount, token) {
 	return await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
 }
 
+export async function getRemainingRepaymentValue(issuanceHash, token) {
+	const expected = await dharma.servicing.getExpectedValueRepaid(issuanceHash, Date.now() / 1000);
+	const repaid = await dharma.servicing.getValueRepaid(issuanceHash);
+	const res = await tokenService.convertToHumanReadable(expected.sub(repaid), token);
+
+	if (res.isNegative())
+		return new BigNumber(0);
+
+	return res;
+}
+
 async function createSimpleInterestLoan(debtOrderInfo) {
 	const tokenRegistry = await dharma.contracts.loadTokenRegistry();
 	const principalToken = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
 	const amount = await tokenService.convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
-	
+
 	const simpleInterestLoan = {
 		...defaultDebtOrderParams,
 		principalToken,
@@ -173,9 +184,9 @@ async function createSimpleInterestLoan(debtOrderInfo) {
 		creditorFee: new BigNumber(0),
 		salt: BigNumber.random().mul('1e9').floor()
 	};
-	
+
 	const dharmaDebtOrder = await dharma.adapters.simpleInterestLoan.toDebtOrder(simpleInterestLoan);
-	
+
 	return dharmaDebtOrder;
 }
 
@@ -184,7 +195,7 @@ async function createCollateralizedSimpleInterestLoan(debtOrderInfo) {
 	const principalToken = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
 	const amount = await tokenService.convertFromHumanReadable(debtOrderInfo.principalAmount, debtOrderInfo.principalTokenSymbol);
 	const collateralAmount = await tokenService.convertFromHumanReadable(debtOrderInfo.collateralAmount, debtOrderInfo.collateralTokenSymbol);
-	
+
 	const collateralizedSimpleInterestLoan = {
 		...defaultDebtOrderParams,
 		principalToken,
@@ -201,9 +212,9 @@ async function createCollateralizedSimpleInterestLoan(debtOrderInfo) {
 		creditorFee: new BigNumber(0),
 		salt: BigNumber.random().mul('1e9').floor()
 	};
-	
+
 	const dharmaDebtOrder = await dharma.adapters.collateralizedSimpleInterestLoan.toDebtOrder(collateralizedSimpleInterestLoan);
-	
+
 	return dharmaDebtOrder;
 }
 
@@ -212,10 +223,10 @@ async function getAdapterByTermsContractAddress(termsContractAddress) {
 	if (termsContractAddress in adaptersCache) {
 		return adaptersCache[termsContractAddress];
 	}
-	
+
 	const adapter = await dharma.adapters.getAdapterByTermsContractAddress(termsContractAddress);
 	adaptersCache[termsContractAddress] = adapter;
-	
+
 	return adapter;
 }
 

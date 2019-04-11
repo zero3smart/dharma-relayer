@@ -60,7 +60,8 @@ class OutstandingLoans extends Component {
 	handleCloseModal = () =>
 		this.setState(prevState => ({
 			isRepayModalOpened: false
-		}))
+		})
+		)
 
 	handleRepayModal = loan => {
 		this.setState(prevState => ({ loan }))
@@ -75,6 +76,7 @@ class OutstandingLoans extends Component {
 				this.props.repayLoanSuccess(loan)
 			})
 			.catch(err => {
+				console.error(err)
 				alert(err)
 				this.props.repayLoanFail(err)
 			})
