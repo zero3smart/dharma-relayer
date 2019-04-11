@@ -12,22 +12,31 @@ const initialState = {
     owe: "",
 }
 
+let timer = null;
+
+let startTimer = (func) => {
+    timer = setTimeout(() => {
+        func();
+        startTimer(func);
+    }, 5000)
+};
+
 class RepayLoanModal extends React.Component {
     state = initialState
 
     componentWillReceiveProps() {
         if (this.props.loan && !this.state.owe) {
             this.updateYourOwe()
+            startTimer(this.updateYourOwe)
         }
     }
 
     updateYourOwe = () => {
-        const { selectedCurrency } = this.props
-        getRemainingRepaymentValue(this.props.loan.issuanceHash, selectedCurrency)
+        getRemainingRepaymentValue(this.props.loan)
             .then(res => {
                 const owe = res.isInteger() ? res.toFormat() : res.toFormat(5)
                 this.setState({
-                    owe: `${owe} ${this.props.selectedCurrency}`
+                    owe: `${owe} ${this.props.loan.principalTokenSymbol}`
                 })
             })
     }
@@ -53,6 +62,7 @@ class RepayLoanModal extends React.Component {
     }
 
     onClose = () => {
+        timer && clearTimeout(timer);
         this.setState(initialState)
         this.props.handleClose()
     }
