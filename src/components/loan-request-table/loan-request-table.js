@@ -37,9 +37,9 @@ function renderRows(rows, fundFunction) {
 						<strong>{termLength}</strong> {row.dharmaDebtOrder.amortizationUnit}
 					</td>
 					<td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{repaymentString}</strong> {row.dharmaDebtOrder.principalTokenSymbol}</td>
-					<td className="loan-table__table-cell loan-table__primary-cell text-right loan-table__large-cell"><strong>{interestRate * 100}</strong> %</td>
+					<td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{interestRate * 100}</strong> %</td>
 					{renderCollateral(row.dharmaDebtOrder)}
-					<td className="loan-table__table-cell loan-table__large-cell">{paymentPeriodFrequency}</td>
+					<td className="loan-table__table-cell">{paymentPeriodFrequency}</td>
 					<td className="loan-table__table-cell loan-table__small-cell">
 						<button className={"loan-request-fund " + (row.isLoading && "loan-request-fund_disabled")} disabled={row.isLoading} onClick={fundFunction.bind(this, row)}>FUND</button>
 					</td>
@@ -61,9 +61,9 @@ function LoanRequestsTable(props) {
 						<th className="loan-table__table-header text-right" title="Amount">Amount</th>
 						<th className="loan-table__table-header text-right" title="Loan term">Loan term</th>
 						<th className="loan-table__table-header text-right" title="Total repayment">Total repayment</th>
-						<th className="loan-table__table-header text-right loan-table__large-cell" title="Interest rate per loan term">Interest rate per loan term</th>
+						<th className="loan-table__table-header text-right" title="Interest rate per loan term">Interest rate per loan term</th>
 						<th className="loan-table__table-header text-right loan-table__small-cell">Collateral</th>
-						<th className="loan-table__table-header loan-table__large-cell" title="Repayment frequency">Repayment frequency</th>
+						<th className="loan-table__table-header" title="Repayment frequency">Repayment frequency</th>
 						<th className="loan-table__table-header loan-table__small-cell"></th>
 					</tr>
 				</thead>
