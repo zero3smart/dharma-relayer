@@ -3,28 +3,21 @@ import './issued-loan-table.css';
 import { isFloat, formatLoanscanLink } from '../../common/services/utilities';
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 
-function renderDate(row) {
-
-	if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
-		return (
-			<td className="issued-table__table-cell">
-				<a href={formatLoanscanLink(row.issuanceHash)} target="_blank">{row.date}</a>
-			</td>
-		)
-	}
-
-	return (
-		<td className="issued-table__table-cell">{row.date}</td>
-	)
+function redirectToLoanscan(issuanceHash) {
+	window.open(formatLoanscanLink(issuanceHash), "_blank");
 }
 
 function renderRows(rows) {
 	let i = 0;
+
 	return rows.map(row => {
-		let amountString = isFloat(row.amount) ? row.amount.toFixed(2) : row.amount;
+		const amountString = isFloat(row.amount) ? row.amount.toFixed(2) : row.amount;
+		const rowIsClickable = SHOW_LOANSCAN_LINK && row.issuanceHash;
+		const rowClassName = rowIsClickable ? "issued-table__clickable-row" : "";
+
 		return (
-			<tr key={i++}>
-				{renderDate(row)}
+			<tr key={i++} className={rowClassName} onClick={() => { rowIsClickable && redirectToLoanscan(row.issuanceHash) }}>
+				<td className="issued-table__table-cell">{row.date}</td>
 				<td className="issued-table__table-cell"><strong>{amountString}</strong> {row.token} </td>
 				<td className="issued-table__table-cell"><strong>{row.interest * 100}</strong> %</td>
 				<td className="issued-table__table-cell"><strong>{row.termLength}</strong> {row.amortizationUnit}</td>

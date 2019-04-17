@@ -6,25 +6,8 @@ import Paging from '../../components/paging/paging.js';
 import Spinner from '../../components/spinner/spinner.js';
 
 
-function renderDate(row) {
-
-	if (SHOW_LOANSCAN_LINK && row.issuanceHash) {
-		return (
-			<td className="loan-table-small__table-cell">
-				<a href={formatLoanscanLink(row.issuanceHash)}
-					target="_blank">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</a>
-			</td>
-		)
-	}
-
-	return (
-		<td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
-	)
-}
-
-function redirectToLoanscan(issuanceHash, ev) {
-	const url = formatLoanscanLink(issuanceHash);
-	window.open(url, "_blank");
+function redirectToLoanscan(issuanceHash) {
+	window.open(formatLoanscanLink(issuanceHash), "_blank");
 }
 
 
@@ -49,8 +32,8 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 			const rowClassName = rowIsClickable ? "loan-table-small__clickable-row" : "";
 
 			return (
-				<tr key={i++} className={rowClassName} onClick={(ev) => { rowIsClickable && redirectToLoanscan(row.issuanceHash, ev) }}>
-					{renderDate(row)}
+				<tr key={i++} className={rowClassName} onClick={() => { rowIsClickable && redirectToLoanscan(row.issuanceHash) }}>
+					<td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
 					<td className="loan-table-small__table-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
 					{
 						repayAvailable &&

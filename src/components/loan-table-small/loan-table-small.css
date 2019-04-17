@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.loan-table-small__clickable-row:hover td{
+  text-decoration: underline;
+}
+
 .loan-table-small__table-header, .loan-table-small__table-cell {
   padding: 5px;
   text-align:left;

@@ -12,6 +12,14 @@
     border-bottom: 2px solid #2A364D;
 }
 
+.issued-table__clickable-row{
+    cursor: pointer;
+}
+
+.issued-table__clickable-row:hover td{
+    text-decoration: underline;
+}
+
 .issued-table__table-header, .issued-table__table-cell {
     padding: 5px;
     text-align:left;
