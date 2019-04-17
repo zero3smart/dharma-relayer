@@ -13,8 +13,11 @@ import {
     changeDebtOrderConfirmationStep,
     hideLoanConfirmation,
     resetLoanForm,
-    runGlobalUpdate
+    runGlobalUpdate,
+    PLACE_LOAN_SUCCESS,
+    PLACE_LOAN_FAIL
 } from "../../actions";
+import debtsApi from "../../common/api/debts";
 
 class PlaceLoanModal extends React.Component {
     cancelLoanRequest = () => {
@@ -44,8 +47,28 @@ class PlaceLoanModal extends React.Component {
         />
     )
 
+    shareLoanRequestHandler = () => {
+        debtsApi.post(this.props.relayer)
+            .then(resp => {
+                this.props.placeLoanRequestSuccess(resp)
+                this.props.onRelayerSubmit()
+                this.props.changeStep(2);
+            })
+            .catch(err => {
+                console.error(err)
+                this.props.placeLoanRequestFail(err)
+            });
+    }
+
     render() {
-        const { debtOrderConfirmation, placeLoan, changeStep, unlockCollateralToken, hideLoanConfirmation } = this.props
+        const {
+            debtOrderConfirmation,
+            placeLoan,
+            changeStep,
+            unlockCollateralToken,
+            hideLoanConfirmation,
+            isShareLoanRequest,
+        } = this.props
         const collateralExists = debtOrderConfirmation.collateralAmount > 0;
 
         let renderUnlockStep = false;
@@ -53,7 +76,7 @@ class PlaceLoanModal extends React.Component {
         let renderFinalStep = false;
         if (debtOrderConfirmation.modalVisible) {
             renderUnlockStep = collateralExists && (debtOrderConfirmation.stepNumber === 1);
-            renderReviewStep = (collateralExists && debtOrderConfirmation.stepNumber === 2) || (!collateralExists && debtOrderConfirmation.stepNumber === 1);
+            renderReviewStep = !isShareLoanRequest && ((collateralExists && debtOrderConfirmation.stepNumber === 2) || (!collateralExists && debtOrderConfirmation.stepNumber === 1));
             renderFinalStep = (collateralExists && debtOrderConfirmation.stepNumber === 3) || (!collateralExists && debtOrderConfirmation.stepNumber === 2);
         }
 
@@ -84,6 +107,19 @@ class PlaceLoanModal extends React.Component {
                             }}
                             onConfirm={this.placeLoanRequestHandler}
                             isLoading={placeLoan.isLoading} />
+                    }
+                    {
+                        isShareLoanRequest &&
+                        <ConfirmLoanRequest
+                            title="You are about to post a loan request with the following terms:"
+                            confirmText="POST LOAN REQUEST"
+                            {...debtOrderConfirmation}
+                            onCancel={() => {
+                                collateralExists ? changeStep(1) : this.cancelLoanRequest()
+                            }}
+                            onConfirm={this.shareLoanRequestHandler}
+                            isLoading={placeLoan.isLoading}
+                        />
                     }
                     {
                         renderFinalStep &&
@@ -130,6 +166,16 @@ const mapDispatchToProps = (dispatch) => ({
         else {
             dispatch(lockCollateralToken(token, amount))
         }
+    },
+    placeLoanRequestSuccess() {
+        dispatch({
+            type: PLACE_LOAN_SUCCESS
+        });
+    },
+    placeLoanRequestFail() {
+        dispatch({
+            type: PLACE_LOAN_FAIL
+        });
     }
 });
 

@@ -23,6 +23,12 @@ const percentNormalize = value => floatOnly(value) / 100;
 const percentFormat = value => value * 100;
 const required = value => (value ? false : true);
 
+const initialState = {
+	isShareLoanModalOpen: false,
+	relayer: null,
+	isShareLoanRequest: false,
+}
+
 class PlaceLoanRequest extends Component {
 
 	constructor(props) {
@@ -31,16 +37,12 @@ class PlaceLoanRequest extends Component {
 		this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
 	}
 
-	state = {
-		isShareLoanModalOpen: false,
-	}
+	state = initialState
 
 	getAmortizationPeriod = amortizationFrequency =>
 		PERIODS.find(period => period.value === amortizationFrequency)
 
 	placeLoanRequestClick = (values) => {
-		console.log("values")
-		console.log(values)
 		const amortizationPeriod = this.getAmortizationPeriod(values.amortizationFrequency)
 		this.props.showLoanConfirmation({
 			...values,
@@ -75,12 +77,15 @@ class PlaceLoanRequest extends Component {
 			if (requestJson) {
 				const relayer = convertToRelayer(JSON.parse(requestJson.value))
 				this.closeShareModal()
+				this.setState({ relayer, isShareLoanRequest: true })
 				this.placeLoanRequestClick(DEFAULT_LOAN_REQUEST)
 			}
 		} catch (err) {
 			alert(err)
 		}
 	}
+
+	clearState = () => this.setState(initialState)
 
 	render() {
 		const { handleSubmit, valid, amortizationFrequency } = this.props;
@@ -188,11 +193,15 @@ class PlaceLoanRequest extends Component {
 				<div className="loan-request-form__place-btn-wrapper">
 					<button
 						className={"loan-request-form__place-btn " + (valid ? "" : "loan-request-form_disabled")}
-						onClick={handleSubmit(this.placeLoanRequestClick.bind(this))}>
+						onClick={handleSubmit(this.placeLoanRequestClick)}>
 						PLACE LOAN REQUEST
           </button>
 				</div>
-				<PlaceLoanModal />
+				<PlaceLoanModal
+					relayer={this.state.relayer}
+					isShareLoanRequest={this.state.isShareLoanRequest}
+					onRelayerSubmit={this.clearState}
+				/>
 				<ShareLoanModal
 					isOpen={this.state.isShareLoanModalOpen}
 					handleClose={this.closeShareModal}
