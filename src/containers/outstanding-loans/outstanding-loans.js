@@ -99,7 +99,7 @@ class OutstandingLoans extends Component {
 			<Fragment>
 				<LoanTableSmall
 					header="My outstanding loans"
-					containerClassName="loan-table-small-with-repay"
+					containerClassName="loan-table-small_with-button"
 					dateColumnHeader="Date loan issued"
 					repayAvailable={true}
 					handleRepay={this.handleRepayModal}

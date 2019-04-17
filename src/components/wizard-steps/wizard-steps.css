@@ -38,6 +38,9 @@
 .wizard__step_current .wizard__step-info{
   color:#ffffff;
 }
-.wizard__step-icon{
+.wizard__step_current .wizard__step-icon{
+  padding: 2px;
+}
+.wizard__step_done .wizard__step-icon{
   padding: 5px;
 }

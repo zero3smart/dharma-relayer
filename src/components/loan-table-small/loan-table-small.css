@@ -14,6 +14,10 @@
   border-bottom: 2px solid #2A364D;
 }
 
+.loan-table-small__clickable-row{
+  cursor: pointer;
+}
+
 .loan-table-small__table-header, .loan-table-small__table-cell {
   padding: 5px;
   text-align:left;
@@ -30,8 +34,8 @@
   text-align:right;
 }
 
-.loan-table-small-with-repay .loan-table-small__table-cell,
-.loan-table-small-with-repay .loan-table-small__table-header {
+.loan-table-small_with-button .loan-table-small__table-cell,
+.loan-table-small_with-button .loan-table-small__table-header {
   width: 14.4%;
 }
 
@@ -51,9 +55,16 @@
   margin-top:50px;
 }
 
-.table-btn {
+.loan-table-small__btn {
   background-color: #399A08;
   color: #fff;
   border-radius: 2px;
-  padding: 0 5px;
+  padding: 3px 5px;
+  line-height:12px;
+}
+
+.loan-table-small__btn_disabled{
+  background-color:#3D4966;
+  color: #7F879A;
+  cursor: not-allowed;
 }
