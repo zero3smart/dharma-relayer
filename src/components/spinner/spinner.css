@@ -4,7 +4,14 @@
   text-align: center;
 }
 
-.spinner>div {
+.spinner.inline {
+  margin: 0 5px;
+  height: auto;
+  text-align: left;
+  display: inline-block;
+}
+
+.spinner > div {
   width: 18px;
   height: 18px;
   background-color: #fff;
@@ -26,29 +33,16 @@
 }
 
 @-webkit-keyframes sk-bouncedelay {
-
-  0%,
-  80%,
-  100% {
-    -webkit-transform: scale(0)
-  }
-
-  40% {
-    -webkit-transform: scale(1.0)
-  }
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
 }
 
 @keyframes sk-bouncedelay {
-
-  0%,
-  80%,
-  100% {
+  0%, 80%, 100% {
     -webkit-transform: scale(0);
     transform: scale(0);
-  }
-
-  40% {
-    -webkit-transform: scale(1.0);
-    transform: scale(1.0);
-  }
+  } 40% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+    }
 }

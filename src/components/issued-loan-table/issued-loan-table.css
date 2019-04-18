@@ -20,6 +20,10 @@
     text-decoration: underline;
 }
 
+.issued-table__table-header {
+    font-weight: normal;
+}
+
 .issued-table__table-header, .issued-table__table-cell {
     padding: 5px;
     text-align:left;

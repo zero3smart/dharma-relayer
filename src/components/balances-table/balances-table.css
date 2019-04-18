@@ -18,6 +18,10 @@
   color: #B3B7BF;
 }
 
+.balances-table__table-header {
+  font-weight: normal;
+}
+
 .balances-table__table-header, .balances-table__table-cell {
   padding: 5px;
   text-align:center;
@@ -44,14 +48,14 @@
 }
 
 .balances-table__asset-id{
-  font-size:14px;
-  font-weight: 600;
-  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .balances-table__balance-value{
-  font-weight: 600;
-  color: #ffffff;
+  font-weight: bold;
+  color: #fff;
 }
 
 .balances-table__info-icon-container{

@@ -35,19 +35,19 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 				<tr key={i++} className={rowClassName} onClick={() => { rowIsClickable && redirectToLoanscan(row.issuanceHash) }}>
 					<td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} {row.date.toLocaleTimeString()}</td>
 					<td className="loan-table-small__table-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
-					{
-						repayAvailable &&
-						<td className="loan-table-small__table-cell">
-							<button onClick={(event) => handleRepayInternal(handleRepay, row, event)} className="loan-table-small__btn">Repay</button>
-						</td>
-					}
 					<td className="loan-table-small__table-cell"><strong>{interestRate * 100}</strong> %</td>
 					<td className="loan-table-small__table-cell"><strong>{row.termLength}</strong> {row.amortizationUnit}</td>
 					<td className="loan-table-small__table-cell"><strong>{repaymentString}</strong> {row.principalTokenSymbol}</td>
 					{
 						sellLoanAvailable &&
 						<td className="loan-table-small__table-cell">
-							<button disabled className="loan-table-small__btn loan-table-small__btn_disabled">Sell Loan</button>
+							<button disabled className="loan-table-small__btn loan-table-small__btn_disabled">Sell</button>
+						</td>
+					}
+					{
+						repayAvailable &&
+						<td className="loan-table-small__table-cell">
+							<button onClick={(event) => handleRepayInternal(handleRepay, row, event)} className="loan-table-small__btn">Repay</button>
 						</td>
 					}
 				</tr>
@@ -87,20 +87,16 @@ function LoanTableSmall(props) {
 						<tr>
 							<th className="loan-table-small__table-header" title={props.dateColumnHeader}>Date</th>
 							<th className="loan-table-small__table-header" title="Loan amount">Amount</th>
-							{
-								props.repayAvailable &&
-								<th className="loan-table-small__table-header" title="Repay">
-									Repay
-                				</th>
-							}
 							<th className="loan-table-small__table-header" title="Interest rate per loan term">Interest</th>
 							<th className="loan-table-small__table-header" title="Loan term">Term</th>
 							<th className="loan-table-small__table-header" title="Total Repayment">Total Repayment</th>
 							{
 								props.sellLoanAvailable &&
-								<th className="loan-table-small__table-header" title="Sell Loan">
-									Sell Loan
-                				</th>
+								<th className="loan-table-small__table-header" title=""> </th>
+							}
+							{
+								props.repayAvailable &&
+								<th className="loan-table-small__table-header" title=""> </th>
 							}
 						</tr>
 					</thead>

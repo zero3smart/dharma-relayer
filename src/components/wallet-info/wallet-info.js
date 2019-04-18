@@ -46,8 +46,7 @@ class WalletInfo extends Component {
 
     let amountString;
     if (amount) {
-      amount = amount.toNumber();
-      amountString = isFloat(amount) ? amount.toFixed(2) : amount;
+      amountString = amount.toFormat(3);
     }
 
     return (
@@ -73,6 +72,7 @@ class WalletInfo extends Component {
             </div>
           </div>
         </div>
+
       </div>
     );
   }

@@ -38,7 +38,7 @@ function IssuedLoanTable(props) {
 						<th className="issued-table__table-header" title="Date loan issued">Date</th>
 						<th className="issued-table__table-header" title="Loan amount">Amount</th>
 						<th className="issued-table__table-header" title="Interest rate per loan term">Interest</th>
-						<th className="issued-table__table-header" title="Loan term">Term</th>
+						<th className="issued-table__table-header" title="Loan term">Loan term</th>
 					</tr>
 				</thead>
 				<tbody className="issued-table__table-body scrollable-table__table-body scrollable">

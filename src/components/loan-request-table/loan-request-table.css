@@ -20,6 +20,7 @@
 .loan-table__table-header {
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: normal;
 }
 
 .loan-table__table-cel {
