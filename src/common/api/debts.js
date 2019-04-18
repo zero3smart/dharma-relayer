@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { API_URL } from './config';
+import { getKernelVersion } from '../services/dharmaService';
 
 const DEBTS_URL = `${API_URL}/Debts`;
+const kernelVersionPromise = getKernelVersion();
 
 function mapGetResponse(response) {
   //console.log('getResponse headers:', response.headers);
@@ -15,13 +17,19 @@ function mapGetResponse(response) {
 
 export default {
   getAll(status, offset, limit) {
-    return axios.get(DEBTS_URL, { params: { status, offset, limit } }).then(mapGetResponse);
+    return kernelVersionPromise
+      .then(kernelAddress => axios.get(DEBTS_URL, { params: { status, offset, limit, kernelAddress } }))
+      .then(mapGetResponse);
   },
   getForDebtor(status, debtorAddress, offset, limit) {
-    return axios.get(DEBTS_URL, { params: { status, debtorAddress, offset, limit } }).then(mapGetResponse);
+    return kernelVersionPromise
+      .then(kernelAddress => axios.get(DEBTS_URL, { params: { status, debtorAddress, offset, limit, kernelAddress } }))
+      .then(mapGetResponse);
   },
   getForCreditor(status, creditorAddress, offset, limit) {
-    return axios.get(DEBTS_URL, { params: { status, creditorAddress, offset, limit } }).then(mapGetResponse);
+    return kernelVersionPromise
+      .then(kernelAddress => axios.get(DEBTS_URL, { params: { status, creditorAddress, offset, limit, kernelAddress } }))
+      .then(mapGetResponse);
   },
   post(debtOrder) {
     return axios.post(DEBTS_URL, debtOrder);

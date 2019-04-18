@@ -6,6 +6,11 @@ import * as tokenService from './tokenService.js';
 
 const dharma = new Dharma(web3Provider);
 
+export async function getKernelVersion() {
+	const kernel = await dharma.contracts.loadDebtKernelAsync();
+	return kernel.address;
+}
+
 export async function createDebtOrder(debtOrderInfo) {
 	let dharmaDebtOrder;
 	const collateral = debtOrderInfo.collateralAmount;
