@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dharmaprotocol/dharma.js": "0.0.34",
+    "@dharmaprotocol/contracts": "0.0.32",
+    "@dharmaprotocol/dharma.js": "0.0.44",
     "axios": "^0.18.0",
     "bignumber.js": "^5.0.0",
     "bootstrap": "^4.0.0",
