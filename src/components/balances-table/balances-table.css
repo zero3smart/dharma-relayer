@@ -25,17 +25,18 @@
 .balances-table__table-header, .balances-table__table-cell {
   padding: 5px;
   text-align:center;
-  width: 29%;
+  width: 28%;
+  vertical-align: middle;
 }
 
 .balances-table__table-header:first-child, .balances-table__table-cell:first-child{
   text-align:left;
-  width: 34%;
+  width: 32%;
 }
 
 .balances-table__table-header:nth-child(2), .balances-table__table-cell:nth-child(2){
   text-align:right;
-  width: 37%;
+  width: 40%;
 }
 
 .balances-table__table-body{

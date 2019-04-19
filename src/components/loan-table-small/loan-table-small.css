@@ -18,8 +18,8 @@
   cursor: pointer;
 }
 
-.loan-table-small__clickable-row:hover td{
-  text-decoration: underline;
+.loan-table-small__clickable-row:hover {
+  background: #1A2337;
 }
 
 .loan-table-small__table-header {
@@ -38,23 +38,27 @@
 
 
 .loan-table-small__table-header, .loan-table-small__table-cell{
-  width: 18%;
+  width: 15%;
   text-align:right;
+  vertical-align: middle;
 }
 
-.loan-table-small_with-button .loan-table-small__table-cell,
-.loan-table-small_with-button .loan-table-small__table-header {
-  width: 14.4%;
-}
-
-.loan-table-small__table-header:first-child, .loan-table-small__table-cell:first-child{
-  width: 28%;
-  white-space: nowrap;
+.loan-table-small__table-header:first-child, .loan-table-small__table-cell:first-child {
   text-align:left;
+  line-height: 1.25;
 }
 
-.loan-table-small__table-body{
-  max-height:220px;
+.loan-table-small__button-cell {
+  width: 13%;
+}
+
+.loan-table-small__wide-cell {
+  width: 21%;
+  white-space: nowrap;
+}
+
+.loan-table-small__table-body {
+  max-height: 220px;
 }
 
 .loan-table-small__spinner-container{
@@ -69,6 +73,7 @@
   border-radius: 2px;
   padding: 3px 5px;
   line-height:12px;
+  min-width: 42px;
 }
 
 .loan-table-small__btn_disabled{

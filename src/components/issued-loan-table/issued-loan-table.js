@@ -1,6 +1,7 @@
 import React from 'react';
 import './issued-loan-table.css';
 import { isFloat, formatLoanscanLink } from '../../common/services/utilities';
+import BigNumber from 'bignumber.js';
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 
 function redirectToLoanscan(issuanceHash) {
@@ -11,7 +12,7 @@ function renderRows(rows) {
 	let i = 0;
 
 	return rows.map(row => {
-		const amountString = isFloat(row.amount) ? row.amount.toFixed(2) : row.amount;
+		const amountString = new BigNumber(row.amount).toFormat(3);
 		const rowIsClickable = SHOW_LOANSCAN_LINK && row.issuanceHash;
 		const rowClassName = rowIsClickable ? "issued-table__clickable-row" : "";
 
@@ -20,7 +21,7 @@ function renderRows(rows) {
 				<td className="issued-table__table-cell">{row.date}</td>
 				<td className="issued-table__table-cell"><strong>{amountString}</strong> {row.token} </td>
 				<td className="issued-table__table-cell"><strong>{row.interest * 100}</strong> %</td>
-				<td className="issued-table__table-cell"><strong>{row.termLength}</strong> {row.amortizationUnit}</td>
+				<td className="issued-table__table-cell"><strong>{row.termLength}</strong> {row.amortizationUnit.slice(0, 1)}</td>
 			</tr>
 		);
 	});

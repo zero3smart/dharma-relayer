@@ -1,12 +1,12 @@
 @import './common/styles/optimize.css';
 @import './common/styles/default.css';
-@import './common/styles/scrollable.css';
-@import './common/styles/tables.css';
+/*@import './common/styles/scrollable.css';*/
+/*@import './common/styles/tables.css';*/
 
 .wrapper {
   height: 100%;
 }
 
-.modal-content {
+.modal-content{
   background-color: #18253E;
 }

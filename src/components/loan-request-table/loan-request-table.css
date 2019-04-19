@@ -21,16 +21,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: normal;
-}
-
-.loan-table__table-cel {
-
+  line-height: 1.1;
 }
 
 .loan-table__table-header, .loan-table__table-cell {
   padding: 6px;
   text-align: left;
-  width: 12%;
+  width: 13%;
+  vertical-align: middle;
 }
 
 .loan-table__table-cell strong {
@@ -42,20 +40,25 @@
   font-size: 13px;
 }
 
-.loan-table__large-cell {
-  width: 18%;
-}
-
 .loan-table__small-cell {
-  width: 8%;
+  width: 9%;
 }
 
 .loan-table__table-header:last-child, .loan-table__table-cell:last-child {
   padding: 6px 0;
 }
 
+.loan-table__date-cell {
+  width: 10%;
+  padding: 5px 6px;
+}
+
 .scrollable-table__table-body .loan-table__table-cell {
   line-height: 24px;
+}
+
+.scrollable-table__table-body .loan-table__date-cell {
+  line-height: 1.25;
 }
 
 .loan-table__table-body {

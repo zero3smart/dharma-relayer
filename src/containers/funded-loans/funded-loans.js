@@ -54,7 +54,6 @@ class FundedLoans extends Component {
       <LoanTableSmall
         header="My funded loans"
         dateColumnHeader="Date loan issued"
-        containerClassName="loan-table-small_with-button"
         sellLoanAvailable={true}
         rows={rows}
         isLoading={isLoading}

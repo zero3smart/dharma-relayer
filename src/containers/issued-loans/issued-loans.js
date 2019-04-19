@@ -7,7 +7,7 @@ import Spinner from '../../components/spinner/spinner.js';
 import '../../common/styles/pagination.css';
 import './issued-loans.css';
 
-const pageSize = 15;
+const pageSize = 17;
 
 let destroyTimer = null;
 let startTimer = (func) => {
