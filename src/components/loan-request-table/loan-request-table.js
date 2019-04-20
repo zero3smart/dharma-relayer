@@ -1,7 +1,6 @@
 import React from 'react';
 import './loan-request-table.css';
-import BigNumber from 'bignumber.js';
-import { calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency } from '../../common/services/utilities';
+import { calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency, isFloat } from '../../common/services/utilities';
 
 function renderCollateral(dharmaDebtOrder) {
 	if (dharmaDebtOrder.collateralAmount) {
@@ -23,7 +22,7 @@ function renderRows(rows, fundFunction) {
 		.sort((a, b) => a.creationTimeParsed < b.creationTimeParsed ? 1 : (-1))
 		.map(row => {
 			let termLength = row.dharmaDebtOrder.termLength.toNumber();
-			let interestRate = row.dharmaDebtOrder.interestRate.toNumber();
+			let interestRate = row.dharmaDebtOrder.interestRate.times(100).toFixed(2);
 			let amount = row.dharmaDebtOrder.principalAmount;
 			let totalRepayment = calculateTotalPaymentAmount(row.dharmaDebtOrder.principalAmount, row.dharmaDebtOrder.interestRate);
 			let paymentPeriodFrequency = convertToRelayerAmortizationFrequency(row.dharmaDebtOrder.amortizationUnit);
@@ -38,7 +37,7 @@ function renderRows(rows, fundFunction) {
 						<strong>{termLength}</strong> {row.dharmaDebtOrder.amortizationUnit}
 					</td>
 					<td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{repaymentString}</strong> {row.dharmaDebtOrder.principalTokenSymbol}</td>
-					<td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{interestRate * 100}</strong> %</td>
+					<td className="loan-table__table-cell loan-table__primary-cell text-right"><strong>{interestRate}</strong> %</td>
 					{renderCollateral(row.dharmaDebtOrder)}
 					<td className="loan-table__table-cell loan-table__small-cell">{paymentPeriodFrequency}</td>
 					<td className="loan-table__table-cell loan-table__small-cell">

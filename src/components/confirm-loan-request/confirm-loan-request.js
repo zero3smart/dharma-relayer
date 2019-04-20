@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { calculateRepaymentAmount, calculateTotalPaymentAmount } from '../../common/services/utilities';
+import { calculateRepaymentAmount, calculateTotalPaymentAmount, isFloat } from '../../common/services/utilities';
 import Confirm from '../confirm/confirm';
 import BigNumber from 'bignumber.js';
 
@@ -9,8 +9,10 @@ class ConfirmLoanRequest extends Component {
     let { amount, currency, term, interestRate, amortizationFrequency, amortizationUnit, collateralAmount, collateralType } = values;
 
     let numberOfPayments = term;
-    let repaymentAmount = calculateRepaymentAmount(amount, interestRate, term);
-    let totalPaymentAmount = calculateTotalPaymentAmount(amount, interestRate);
+    let interestRateInPercent = new BigNumber(interestRate).div(100);
+    console.log(interestRateInPercent.toFormat(5));
+    let repaymentAmount = calculateRepaymentAmount(amount, interestRateInPercent, term);
+    let totalPaymentAmount = calculateTotalPaymentAmount(amount, interestRateInPercent);
 
     return (
       <div>
@@ -29,7 +31,7 @@ class ConfirmLoanRequest extends Component {
             Loan term: <strong>{term}</strong> {amortizationUnit}
           </div>
           <div className="confirm__row">
-            Interest rate: <strong>{interestRate * 100}</strong> %
+            Interest rate: <strong>{new BigNumber(interestRate).toFixed(2)}</strong> %
           </div>
           {
             collateralAmount && (

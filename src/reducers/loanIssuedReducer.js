@@ -23,7 +23,7 @@ export default function (state = {
 						date: loan.issuanceBlockTimeParsed.toLocaleDateString() + " " + loan.issuanceBlockTimeParsed.toLocaleTimeString(),
 						termLength: loan.dharmaDebtOrder.termLength.toNumber(),
 						amortizationUnit: loan.dharmaDebtOrder.amortizationUnit,
-						interest: loan.dharmaDebtOrder.interestRate.toNumber(),
+						interest: loan.dharmaDebtOrder.interestRate,
 						issuanceHash: loan.issuanceHash
 					}))
 			};

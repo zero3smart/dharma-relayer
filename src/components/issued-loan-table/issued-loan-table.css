@@ -46,6 +46,7 @@
 
 .issued-table__table-header:nth-child(3), .issued-table__table-cell:nth-child(3),
 .issued-table__table-header:nth-child(4), .issued-table__table-cell:nth-child(4){
+    white-space: nowrap;
     text-align: right;
 }
 
