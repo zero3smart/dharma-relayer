@@ -4,7 +4,11 @@ FROM node:8.10.0
 
 # Override the base log level (info).
 ENV NPM_CONFIG_LOGLEVEL warn
-ENV PORT 80
+
+# Install and configure `serve`.
+RUN npm install -g serve
+CMD serve -s build -p 80
+EXPOSE 80
 
 # Install all dependencies of the current project with yarn.
 COPY package*.json ./
@@ -15,4 +19,4 @@ RUN yarn
 COPY . .
 
 # Build for production.
-CMD yarn start
+RUN yarn build --production
