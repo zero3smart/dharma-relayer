@@ -14,6 +14,7 @@ import { HOST_URL } from '../../common/api/config';
 
 export const store = createStore(
   rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(
     thunkMiddleware
   ));
@@ -46,9 +47,10 @@ class App extends Component {
                 <FundedLoans />
               </div>
             </div>
-          </div>
-          <div className="app__demo-link">
-            <a href={`${HOST_URL}/swagger/`} target="_blank">API Documentation</a>
+            <div className="app__demo-link">
+              Contact us: <a href="mailto:contact@confirmationlabs.io">contact@confirmationlabs.io</a>
+              <a href={`${HOST_URL}/swagger/`} target="_blank">API Documentation</a>
+            </div>
           </div>
         </div>
       </Provider>

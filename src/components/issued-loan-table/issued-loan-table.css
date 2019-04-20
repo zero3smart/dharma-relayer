@@ -37,19 +37,16 @@
 }
 
 .issued-table__table-header:first-child, .issued-table__table-cell:first-child{
-    width: 28%;
     line-height: 1.25;
 }
 
 .issued-table__table-header:nth-child(2), .issued-table__table-cell:nth-child(2){
-    width: 36%;
     white-space: nowrap;
 }
 
 .issued-table__table-header:nth-child(3), .issued-table__table-cell:nth-child(3),
 .issued-table__table-header:nth-child(4), .issued-table__table-cell:nth-child(4){
     text-align: right;
-    width: 18%;
 }
 
 .issued-table__table-body{

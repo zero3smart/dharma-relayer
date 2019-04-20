@@ -6,7 +6,7 @@ export const SHOW_LOANSCAN_LINK = true;
 
 export const HOST_URL = process.env.NODE_ENV === "production" ?
     "" :
-    "http://dharma-relayer-prod-993135204.us-east-1.elb.amazonaws.com";
+    "http://bloqboard.com";
 
 export const API_URL = HOST_URL + "/api/v0";
 export const LOANSCAN_URL = "http://loanscan.io/loan";

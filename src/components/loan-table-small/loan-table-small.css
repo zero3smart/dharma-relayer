@@ -38,7 +38,6 @@
 
 
 .loan-table-small__table-header, .loan-table-small__table-cell{
-  width: 15%;
   text-align:right;
   vertical-align: middle;
 }
@@ -53,7 +52,6 @@
 }
 
 .loan-table-small__wide-cell {
-  width: 21%;
   white-space: nowrap;
 }
 
