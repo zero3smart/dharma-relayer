@@ -4,10 +4,10 @@ import Spinner from '../spinner/spinner';
 import { SUPPORTED_TOKENS } from '../../common/api/config';
 import { isFloat } from '../../common/services/utilities';
 
-let destroyTimer = null;
+let timer = null;
 
 let startTimer = (func) => {
-  destroyTimer = setTimeout(() => {
+  timer = setTimeout(() => {
     func();
     startTimer(func);
   }, 5000)
@@ -27,7 +27,7 @@ class WalletInfo extends Component {
   }
 
   componentWillUnmount() {
-    destroyTimer && destroyTimer();
+    timer && clearTimeout(timer);
   }
 
   renderCurrencyItems(selectedCurrency) {

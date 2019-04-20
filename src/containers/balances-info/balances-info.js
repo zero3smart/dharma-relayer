@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { getTokenBalance, lockToken, unlockToken, getTokenLock, getTokenName } from '../../actions';
 import BalancesTable from '../../components/balances-table/balances-table.js';
 
-let destroyTimer = null;
+let timer = null;
 
 let startTimer = (func) => {
-    destroyTimer = setTimeout(() => {
+    timer = setTimeout(() => {
         func();
         startTimer(func);
     }, 10000)
@@ -29,7 +29,7 @@ class BalancesInfo extends Component {
     }
 
     componentWillUnmount() {
-        destroyTimer && destroyTimer();
+        timer && clearTimeout(timer);
     }
 
     updateTokens() {

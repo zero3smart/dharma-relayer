@@ -14,9 +14,9 @@ import { } from "../../actions/repayLoan";
 
 const pageSize = 5;
 
-let destroyTimer = null;
+let timer = null;
 let startTimer = (func) => {
-	destroyTimer = setTimeout(() => {
+	timer = setTimeout(() => {
 		func();
 		startTimer(func);
 	}, 10000)
@@ -41,7 +41,7 @@ class OutstandingLoans extends Component {
 	}
 
 	componentWillUnmount() {
-		destroyTimer && destroyTimer();
+		timer && clearTimeout(timer);
 	}
 
 	getOutstandingLoansForCurrentPage() {

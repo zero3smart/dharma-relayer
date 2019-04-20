@@ -5,9 +5,9 @@ import LoanTableSmall from '../../components/loan-table-small/loan-table-small.j
 
 const pageSize = 5;
 
-let destroyTimer = null;
+let timer = null;
 let startTimer = (func) => {
-  destroyTimer = setTimeout(() => {
+  timer = setTimeout(() => {
     func();
     startTimer(func);
   }, 10000)
@@ -34,7 +34,7 @@ class FundedLoans extends Component {
   }
 
   componentWillUnmount() {
-    destroyTimer && destroyTimer();
+    timer && clearTimeout(timer);
   }
 
   render() {

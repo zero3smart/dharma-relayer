@@ -11,9 +11,9 @@ import '../../common/styles/pagination.css';
 
 const pageSize = 18;
 
-let destroyTimer = null;
+let timer = null;
 let startTimer = (func) => {
-    destroyTimer = setTimeout(() => {
+    timer = setTimeout(() => {
         func();
         startTimer(func);
     }, 5000)
@@ -42,7 +42,7 @@ class LoanRequests extends Component {
     }
 
     componentWillUnmount() {
-        destroyTimer && destroyTimer();
+        timer && clearTimeout(timer);
     }
 
     confirmFillLoanRequest(debtOrder) {

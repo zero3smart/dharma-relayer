@@ -5,9 +5,9 @@ import LoanTableSmall from '../../components/loan-table-small/loan-table-small.j
 
 const pageSize = 5;
 
-let destroyTimer = null;
+let timer = null;
 let startTimer = (func) => {
-	destroyTimer = setTimeout(() => {
+	timer = setTimeout(() => {
 		func();
 		startTimer(func);
 	}, 10000)
@@ -16,30 +16,30 @@ let startTimer = (func) => {
 class OpenLoanRequests extends Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.getOpenLoansForCurrentPage = this.getOpenLoansForCurrentPage.bind(this);
 	}
-	
+
 	componentDidMount() {
 		let { getOpenLoansForCurrentPage } = this;
 		getOpenLoansForCurrentPage();
 		startTimer(getOpenLoansForCurrentPage);
 	}
-	
+
 	componentWillUnmount() {
-		destroyTimer && destroyTimer();
+		timer && clearTimeout(timer);
 	}
-	
+
 	getOpenLoansForCurrentPage() {
 		let { offset, fetchMyOpenedLoanRequests } = this.props;
 		let currentPageNum = Math.floor(offset / pageSize);
-		
+
 		fetchMyOpenedLoanRequests(pageSize * currentPageNum, pageSize);
 	}
-	
+
 	render() {
 		let { myOpenLoanRequests, showPaging, isLoading, offset, totalItemsCount, setMyOpenedLoanRequestsOffset, fetchMyOpenedLoanRequests } = this.props;
-		
+
 		let rows = myOpenLoanRequests.map(loan => ({
 			date: new Date(loan.creationTime),
 			principalAmount: loan.principalAmount.toNumber(),
@@ -48,7 +48,7 @@ class OpenLoanRequests extends Component {
 			amortizationUnit: loan.amortizationUnit,
 			interestRate: loan.interestRate
 		}));
-		
+
 		return (
 			<LoanTableSmall
 				header="My open loan requests"
@@ -62,12 +62,12 @@ class OpenLoanRequests extends Component {
 				onPageClick={(pageNum) => {
 					setMyOpenedLoanRequestsOffset(pageSize * pageNum);
 					fetchMyOpenedLoanRequests(pageSize * pageNum, pageSize);
-				}}/>
+				}} />
 		);
 	}
 }
 
-let mapStateToProps = ({ myOpenLoanRequests:{ values, isLoading, offset, showPaging, totalItemsCount } }) => ({
+let mapStateToProps = ({ myOpenLoanRequests: { values, isLoading, offset, showPaging, totalItemsCount } }) => ({
 	myOpenLoanRequests: values,
 	isLoading,
 	offset,
