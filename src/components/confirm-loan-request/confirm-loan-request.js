@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { calculateRepaymentAmount, calculateTotalPaymentAmount, isFloat } from '../../common/services/utilities';
+import { calculateRepaymentAmount, calculateTotalPaymentAmount } from '../../common/services/utilities';
 import Confirm from '../confirm/confirm';
 import BigNumber from 'bignumber.js';
 

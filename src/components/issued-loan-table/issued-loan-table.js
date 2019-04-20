@@ -1,6 +1,7 @@
 import React from 'react';
 import './issued-loan-table.css';
-import { isFloat, formatLoanscanLink } from '../../common/services/utilities';
+import { formatLoanscanLink } from '../../common/services/utilities';
+import BigNumber from 'bignumber.js';
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 
 function redirectToLoanscan(issuanceHash) {

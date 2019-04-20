@@ -1,6 +1,6 @@
 import React from 'react';
 import './loan-table-small.css';
-import { isFloat, formatLoanscanLink, calculateTotalPaymentAmount } from '../../common/services/utilities';
+import { formatLoanscanLink, calculateTotalPaymentAmount } from '../../common/services/utilities';
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 import Paging from '../../components/paging/paging.js';
 import Spinner from '../../components/spinner/spinner.js';

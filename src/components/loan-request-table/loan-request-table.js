@@ -1,6 +1,7 @@
 import React from 'react';
 import './loan-request-table.css';
-import { calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency, isFloat } from '../../common/services/utilities';
+import BigNumber from 'bignumber.js';
+import { calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency } from '../../common/services/utilities';
 
 function renderCollateral(dharmaDebtOrder) {
 	if (dharmaDebtOrder.collateralAmount) {

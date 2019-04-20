@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './wallet-info.css';
 import Spinner from '../spinner/spinner';
 import { SUPPORTED_TOKENS } from '../../common/api/config';
-import { isFloat } from '../../common/services/utilities';
 
 let timer = null;
 

@@ -27,8 +27,4 @@ export const convertToRelayerAmortizationFrequency = (dharmaAmortizationUnits) =
 	return null;
 };
 
-export const isFloat = (n) => {
-	return Number(n) === n && n % 1 !== 0;
-};
-
 export const formatLoanscanLink = (issuanceHash) => `${LOANSCAN_URL}/${issuanceHash}`;
