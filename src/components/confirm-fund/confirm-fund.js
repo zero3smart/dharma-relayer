@@ -40,7 +40,7 @@ class ConfirmFund extends Component {
          </div>
         */}
                 <div className="confirm__row">
-                    Total loan repayment amount: <strong>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount}</strong> {token}
+                    Total loan repayment amount: <strong>{totalPaymentAmount.toFormat(3)}</strong> {token}
                 </div>
                 <div className="confirm__row">
                     Number of payments: <strong>{numberOfPayments}</strong>

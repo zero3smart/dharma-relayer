@@ -39,7 +39,7 @@ class ConfirmLoanRequest extends Component {
           }
           <div className="confirm__row">
             Total loan repayment amount:
-            <strong>{isFloat(totalPaymentAmount) ? totalPaymentAmount.toFixed(5) : totalPaymentAmount}</strong> {currency}
+            <strong>{totalPaymentAmount.toFormat(3)}</strong> {currency}
           </div>
           <div className="confirm__row">
             Number of payments: <strong>{numberOfPayments}</strong>
