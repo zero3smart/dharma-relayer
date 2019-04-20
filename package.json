@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dharmaprotocol/contracts": "0.0.32",
     "@dharmaprotocol/dharma.js": "0.0.44",
     "axios": "^0.18.0",
     "bignumber.js": "^5.0.0",
@@ -20,8 +19,7 @@
     "truffle-contract": "^3.0.4"
   },
   "resolutions": {
-    "@dharmaprotocol/dharma.js/web3": "git+https://github.com/confirmationlabs/web3.js.git",
-    "@dharmaprotocol/contracts": "0.0.32"
+    "@dharmaprotocol/dharma.js/web3": "git+https://github.com/confirmationlabs/web3.js.git"
   },
   "scripts": {
     "start": "react-scripts start",
