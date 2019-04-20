@@ -42,9 +42,9 @@ class OpenLoanRequests extends Component {
 
 		let rows = myOpenLoanRequests.map(loan => ({
 			date: new Date(loan.creationTime),
-			principalAmount: loan.principalAmount.toNumber(),
+			principalAmount: loan.principalAmount,
 			principalTokenSymbol: loan.principalTokenSymbol,
-			termLength: loan.termLength.toNumber(),
+			termLength: loan.termLength,
 			amortizationUnit: loan.amortizationUnit,
 			interestRate: loan.interestRate
 		}));

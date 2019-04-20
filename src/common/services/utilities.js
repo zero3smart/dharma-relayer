@@ -4,7 +4,7 @@ import { LOANSCAN_URL } from '../../common/api/config'
 export const calculateRepaymentAmount = (amount, interestRate, numberOfPayments) =>
 	calculateTotalPaymentAmount(amount, interestRate) / numberOfPayments;
 
-export const calculateTotalPaymentAmount = (amount, interestRate) => amount * (1 + interestRate);
+export const calculateTotalPaymentAmount = (amount, interestRate) => amount.times(interestRate.add(1));
 
 export const convertToRelayerAmortizationFrequency = (dharmaAmortizationUnits) => {
 	if (dharmaAmortizationUnits === DHARMA_AMORTIZATION_UNITS.DAYS) {

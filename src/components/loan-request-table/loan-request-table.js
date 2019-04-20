@@ -25,7 +25,7 @@ function renderRows(rows, fundFunction) {
 			let termLength = row.dharmaDebtOrder.termLength.toNumber();
 			let interestRate = row.dharmaDebtOrder.interestRate.toNumber();
 			let amount = row.dharmaDebtOrder.principalAmount.toNumber();
-			let totalRepayment = calculateTotalPaymentAmount(amount, interestRate);
+			let totalRepayment = calculateTotalPaymentAmount(row.dharmaDebtOrder.principalAmount, row.dharmaDebtOrder.interestRate);
 			let paymentPeriodFrequency = convertToRelayerAmortizationFrequency(row.dharmaDebtOrder.amortizationUnit);
 			let repaymentString = new BigNumber(totalRepayment.toFixed(10)).toFormat(3);
 			let amountString = new BigNumber(amount).toFormat(3);

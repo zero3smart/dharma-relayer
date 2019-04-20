@@ -13,7 +13,7 @@ class ConfirmFund extends Component {
         let interest = loanRequest.dharmaDebtOrder.interestRate.toNumber();
         let numberOfPayments = termLength;
         let repaymentAmount = calculateRepaymentAmount(amount, interest, numberOfPayments);
-        let totalPaymentAmount = calculateTotalPaymentAmount(amount, interest);
+        let totalPaymentAmount = calculateTotalPaymentAmount(loanRequest.dharmaDebtOrder.principalAmount, loanRequest.dharmaDebtOrder.interestRate);
         let amortizationFrequency = convertToRelayerAmortizationFrequency(amortizationUnit);
 
         return (

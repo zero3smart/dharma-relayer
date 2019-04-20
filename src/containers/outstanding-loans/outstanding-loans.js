@@ -87,9 +87,9 @@ class OutstandingLoans extends Component {
 
 		let rows = myOutstandingLoans.map(loan => ({
 			date: new Date(loan.issuanceBlockTime),
-			principalAmount: loan.principalAmount.toNumber(),
+			principalAmount: loan.principalAmount,
 			principalTokenSymbol: loan.principalTokenSymbol,
-			termLength: loan.termLength.toNumber(),
+			termLength: loan.termLength,
 			amortizationUnit: loan.amortizationUnit,
 			interestRate: loan.interestRate,
 			issuanceHash: loan.issuanceHash

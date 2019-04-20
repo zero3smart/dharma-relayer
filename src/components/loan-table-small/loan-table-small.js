@@ -27,7 +27,7 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 			const amount = row.principalAmount;
 			const amountString = new BigNumber(amount).toFormat(3);
 			const interestRate = row.interestRate.toNumber();
-			const totalRepayment = calculateTotalPaymentAmount(amount, interestRate);
+			const totalRepayment = calculateTotalPaymentAmount(amount, row.interestRate);
 			const repaymentString = new BigNumber(totalRepayment).toFormat(3);
 			const rowIsClickable = SHOW_LOANSCAN_LINK && row.issuanceHash;
 			const rowClassName = rowIsClickable ? "loan-table-small__clickable-row" : "";
@@ -37,7 +37,7 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 					<td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} <br /> {row.date.toLocaleTimeString()}</td>
 					<td className="loan-table-small__table-cell loan-table-small__wide-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
 					<td className="loan-table-small__table-cell"><strong>{interestRate * 100}</strong> %</td>
-					<td className="loan-table-small__table-cell"><strong>{row.termLength}</strong> {row.amortizationUnit.slice(0, 1)}</td>
+					<td className="loan-table-small__table-cell"><strong>{row.termLength.toNumber()}</strong> {row.amortizationUnit.slice(0, 1)}</td>
 					<td className="loan-table-small__table-cell loan-table-small__wide-cell"><strong>{repaymentString}</strong> {row.principalTokenSymbol}</td>
 					{
 						sellLoanAvailable &&
