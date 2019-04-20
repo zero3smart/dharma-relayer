@@ -11,7 +11,7 @@ import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 
 const initialState = {
     amount: "",
-    owe: "",
+    owe: ""
 };
 
 let timer = null;
@@ -24,7 +24,10 @@ let startTimer = (func) => {
 };
 
 class RepayLoanModal extends React.Component {
-    state = initialState;
+    constructor(props) {
+        super(props);
+        this.state = initialState;
+    }
 
     componentWillReceiveProps() {
         if (this.props.loan && !this.state.owe) {
@@ -36,7 +39,7 @@ class RepayLoanModal extends React.Component {
     updateYourOwe = () => {
         getRemainingRepaymentValue(this.props.loan)
             .then(res => {
-                const owe = res.isInteger() ? res.toFormat() : res.toFormat(5);
+                const owe = res.toFormat(5);
                 this.setState({
                     owe: `${owe} ${this.props.loan.principalTokenSymbol}`
                 })
@@ -44,7 +47,7 @@ class RepayLoanModal extends React.Component {
     };
 
     getFormattedIssuanceHash = issuanceHash =>
-        `${issuanceHash.substr(0, 5)}...${issuanceHash.substr(-5)}`
+        `${issuanceHash.substr(0, 5)}...${issuanceHash.substr(-5)}`;
 
     onAmountChange = ({ target }) => {
         this.setState({ amount: target.value })
@@ -70,81 +73,101 @@ class RepayLoanModal extends React.Component {
     };
 
     componentDidMount() {
-        this.props.getWalletInfo()
+        this.props.getWalletInfo();
     }
 
     render() {
-        const { loan, handleClose, isOpen, isLoading } = this.props;
+        const { loan, handleClose, isOpen, isLoading, repayLoanComplete } = this.props;
 
         return (
             <Modal show={isOpen} size="md" onModalClosed={this.onClose}>
                 {
                     loan &&
                     <ModalBody>
-                        <div className="confirm">
-                            <div className="confirm__row">
-                                <div className="confirm__header">
-                                    <h1>Make Repayment</h1>
-                                </div>
-                            </div>
-                            <div className="confirm__row">
+                        {
+                            repayLoanComplete && this.state.amount ?
                                 <div>
-                                    You are making a repayment for debt agreement
-                  {
-                                        SHOW_LOANSCAN_LINK ?
-                                            <a href={formatLoanscanLink(loan.issuanceHash)} target="_blank"> {loan.issuanceHash && this.getFormattedIssuanceHash(loan.issuanceHash)}</a> :
-                                            <strong> {loan.issuanceHash && this.getFormattedIssuanceHash(loan.issuanceHash)}</strong>
-                                    }.
-                </div>
-                                <div>
-                                    You owe: {!this.state.owe ? <Spinner size="5px" class="inline" /> : <strong>{this.state.owe}</strong>}
+                                    <div className="confirm">
+                                        <div className="confirm__row">
+                                            <h5 className="confirm__header">Successfully made repayment of {this.state.amount} MKR.</h5>
+                                        </div>
+                                        <div className="confirm__buttons">
+                                            <div className="confirm__btn-wrapper confirm__btn-wrapper_centered">
+                                                <button
+                                                    className="confirm__btn confirm__btn_confirm"
+                                                    onClick={this.onClose}>
+                                                    OK
+                      </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    How large of repayment would you like to make?
-                </div>
-                            </div>
-                            <br />
-                            <div className="confirm__row">
-                                <input
-                                    type="text"
-                                    placeholder="Amount (e.g. 12.32)"
-                                    name="amount"
-                                    value={this.state.amount}
-                                    onChange={this.onAmountChange}
-                                />
-                                <input type="text"
-                                    className="repay-modal-token-symbol"
-                                    disabled
-                                    defaultValue={loan.principalTokenSymbol}
-                                />
-                            </div>
-                            <div className="confirm__buttons">
-                                <div className="confirm__btn-wrapper">
-                                    <button
-                                        className="confirm__btn confirm__btn_cancel"
-                                        onClick={handleClose}
-                                    >
-                                        CANCEL
-                                    </button>
-                                    <button
-                                        className={`confirm__btn confirm__btn_confirm ${!this.state.amount ? "disabled" : ""}`}
-                                        disabled={!this.state.amount}
-                                        onClick={this.handleRepay}
-                                    >
-                                        {
-                                            isLoading
-                                                ? (
-                                                    <div className="confirm-btn-spinner">
-                                                        <Spinner size="13px" />
-                                                    </div>)
-                                                : <span>
-                                                    MAKE REPAYMENT
-                                                </span>
-                                        }
-                                    </button>
+                                :
+                                <div className="confirm">
+                                    <div className="confirm__row">
+                                        <div className="confirm__header">
+                                            <h1>Make Repayment</h1>
+                                        </div>
+                                    </div>
+                                    <div className="confirm__row">
+                                        <div>
+                                            You are making a repayment for debt agreement
+                    {
+                                                SHOW_LOANSCAN_LINK ?
+                                                    <a href={formatLoanscanLink(loan.issuanceHash)} target="_blank"> {loan.issuanceHash && this.getFormattedIssuanceHash(loan.issuanceHash)}</a> :
+                                                    <strong> {loan.issuanceHash && this.getFormattedIssuanceHash(loan.issuanceHash)}</strong>
+                                            }.
+                  </div>
+                                        <div>
+                                            You owe: {!this.state.owe ? <Spinner size="5px" class="inline" /> : <strong>{this.state.owe}</strong>}
+                                        </div>
+                                        <div>
+                                            How large of repayment would you like to make?
+                  </div>
+                                    </div>
+                                    <br />
+                                    <div className="confirm__row">
+                                        <input
+                                            type="text"
+                                            placeholder="Amount (e.g. 12.32)"
+                                            name="amount"
+                                            value={this.state.amount}
+                                            onChange={this.onAmountChange}
+                                        />
+                                        <input type="text"
+                                            className="repay-modal-token-symbol"
+                                            disabled
+                                            defaultValue={loan.principalTokenSymbol}
+                                        />
+                                    </div>
+                                    <div className="confirm__buttons">
+                                        <div className="confirm__btn-wrapper">
+                                            <button
+                                                className="confirm__btn confirm__btn_cancel"
+                                                onClick={this.onClose}
+                                            >
+                                                CANCEL
+                                            </button>
+                                            <button
+                                                className={`confirm__btn confirm__btn_confirm ${!this.state.amount ? "disabled" : ""}`}
+                                                disabled={!this.state.amount}
+                                                onClick={this.handleRepay}
+                                            >
+                                                {
+                                                    isLoading
+                                                        ? (
+                                                            <div className="confirm-btn-spinner">
+                                                                <Spinner size="13px" />
+                                                            </div>)
+                                                        : <span>
+                                                            MAKE REPAYMENT
+                                                        </span>
+                                                }
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                        }
                     </ModalBody>
                 }
             </Modal>

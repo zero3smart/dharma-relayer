@@ -49,13 +49,11 @@
 }
 
 .balances-table__asset-id{
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 13px;
   color: #fff;
 }
 
 .balances-table__balance-value{
-  font-weight: bold;
   color: #fff;
 }
 
