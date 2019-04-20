@@ -4,6 +4,7 @@
 
 .app__container {
   color: #ffffff;
+  padding-bottom: 30px;
   background: linear-gradient(0deg, rgba(10, 18, 34, 0.4), rgba(10, 18, 34, 0.4)), radial-gradient(1235.96px at 91.7% 0%, #18253E 0%, #0A1222 100%);
 }
 

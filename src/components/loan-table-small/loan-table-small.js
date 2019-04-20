@@ -4,7 +4,6 @@ import { isFloat, formatLoanscanLink, calculateTotalPaymentAmount } from '../../
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 import Paging from '../../components/paging/paging.js';
 import Spinner from '../../components/spinner/spinner.js';
-import BigNumber from 'bignumber.js';
 
 
 function redirectToLoanscan(issuanceHash) {
@@ -25,10 +24,10 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 		.map(row => {
 
 			const amount = row.principalAmount;
-			const amountString = new BigNumber(amount).toFormat(3);
+			const amountString = amount.toFormat(3);
 			const interestRate = row.interestRate.toNumber();
 			const totalRepayment = calculateTotalPaymentAmount(amount, row.interestRate);
-			const repaymentString = new BigNumber(totalRepayment).toFormat(3);
+			const repaymentString = totalRepayment.toFormat(3);
 			const rowIsClickable = SHOW_LOANSCAN_LINK && row.issuanceHash;
 			const rowClassName = rowIsClickable ? "loan-table-small__clickable-row" : "";
 

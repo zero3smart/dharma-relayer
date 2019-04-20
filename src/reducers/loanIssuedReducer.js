@@ -15,10 +15,10 @@ export default function (state = {
 				showPaging: action.loans && (action.loans.length > 0) && (action.loans.length !== action.totalItemsCount),
 				totalItemsCount: action.totalItemsCount,
 				values: action.loans
-					.map(loan => ({...loan, issuanceBlockTimeParsed: new Date(loan.issuanceBlockTime)}))
+					.map(loan => ({ ...loan, issuanceBlockTimeParsed: new Date(loan.issuanceBlockTime) }))
 					.sort((a, b) => a.issuanceBlockTimeParsed < b.issuanceBlockTimeParsed ? 1 : (-1))
 					.map(loan => ({
-						amount: loan.dharmaDebtOrder.principalAmount.toNumber(),
+						amount: loan.dharmaDebtOrder.principalAmount,
 						token: loan.dharmaDebtOrder.principalTokenSymbol,
 						date: loan.issuanceBlockTimeParsed.toLocaleDateString() + " " + loan.issuanceBlockTimeParsed.toLocaleTimeString(),
 						termLength: loan.dharmaDebtOrder.termLength.toNumber(),
@@ -31,7 +31,7 @@ export default function (state = {
 			return {
 				...state,
 				offset: action.offset,
-				isLoading:true
+				isLoading: true
 			};
 		default:
 			return state;

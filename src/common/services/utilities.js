@@ -3,7 +3,7 @@ import { LOANSCAN_URL } from '../../common/api/config'
 import BigNumber from 'bignumber.js';
 
 export const calculateRepaymentAmount = (amount, interestRate, numberOfPayments) =>
-	calculateTotalPaymentAmount(amount, interestRate) / numberOfPayments;
+	calculateTotalPaymentAmount(amount, interestRate).div(new BigNumber(numberOfPayments));
 
 export const calculateTotalPaymentAmount = (amount, interestRate) => new BigNumber(amount).times(new BigNumber(interestRate).add(1));
 

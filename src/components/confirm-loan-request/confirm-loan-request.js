@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { calculateRepaymentAmount, calculateTotalPaymentAmount, isFloat } from '../../common/services/utilities';
 import Confirm from '../confirm/confirm';
+import BigNumber from 'bignumber.js';
 
 class ConfirmLoanRequest extends Component {
   render() {
@@ -22,7 +23,7 @@ class ConfirmLoanRequest extends Component {
           isLoading={isLoading}>
 
           <div className="confirm__row">
-            Loan amount: <strong>{isFloat(amount) ? amount.toFixed(5) : amount}</strong> {currency}
+            Loan amount: <strong>{new BigNumber(amount).toFormat(3)}</strong> {currency}
           </div>
           <div className="confirm__row">
             Loan term: <strong>{term}</strong> {amortizationUnit}
@@ -33,13 +34,12 @@ class ConfirmLoanRequest extends Component {
           {
             collateralAmount && (
               <div className="confirm__row">
-                Collateral amount: <strong>{collateralAmount}</strong> {collateralType}
+                Collateral amount: <strong>{new BigNumber(collateralAmount).toFormat(3)}</strong> {collateralType}
               </div>
             )
           }
           <div className="confirm__row">
-            Total loan repayment amount:
-            <strong>{totalPaymentAmount.toFormat(3)}</strong> {currency}
+            Total loan repayment amount: <strong>{totalPaymentAmount.toFormat(5)}</strong> {currency}
           </div>
           <div className="confirm__row">
             Number of payments: <strong>{numberOfPayments}</strong>
@@ -48,12 +48,11 @@ class ConfirmLoanRequest extends Component {
             Payment frequency: <strong>{amortizationFrequency}</strong>
           </div>
           <div className="confirm__row">
-            Payment amount:
-            <strong>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount}</strong> {currency}
+            Payment amount: <strong>{repaymentAmount.toFormat(5)}</strong> {currency}
           </div>
           <br />
           <div className="confirm__row">
-            Relayer fees: <strong>0.00%</strong>
+            Relayer fees: <strong>0.00</strong> %
           </div>
           <hr />
         </Confirm>

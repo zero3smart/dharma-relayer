@@ -1,12 +1,11 @@
 import React from 'react';
 import './loan-request-table.css';
-import BigNumber from 'bignumber.js';
 import { calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency, isFloat } from '../../common/services/utilities';
 
 function renderCollateral(dharmaDebtOrder) {
 	if (dharmaDebtOrder.collateralAmount) {
-		const amount = dharmaDebtOrder.collateralAmount.toNumber();
-		let amountString = new BigNumber(amount).toFormat(3);
+		const amount = dharmaDebtOrder.collateralAmount;
+		let amountString = amount.toFormat(3);
 		return (<td className="loan-table__table-cell loan-table__primary-cell text-right">
 			<strong>{amountString}</strong> {dharmaDebtOrder.collateralTokenSymbol}
 		</td>);
@@ -24,11 +23,11 @@ function renderRows(rows, fundFunction) {
 		.map(row => {
 			let termLength = row.dharmaDebtOrder.termLength.toNumber();
 			let interestRate = row.dharmaDebtOrder.interestRate.toNumber();
-			let amount = row.dharmaDebtOrder.principalAmount.toNumber();
+			let amount = row.dharmaDebtOrder.principalAmount;
 			let totalRepayment = calculateTotalPaymentAmount(row.dharmaDebtOrder.principalAmount, row.dharmaDebtOrder.interestRate);
 			let paymentPeriodFrequency = convertToRelayerAmortizationFrequency(row.dharmaDebtOrder.amortizationUnit);
-			let repaymentString = new BigNumber(totalRepayment.toFixed(10)).toFormat(3);
-			let amountString = new BigNumber(amount).toFormat(3);
+			let repaymentString = totalRepayment.toFormat(3);
+			let amountString = amount.toFormat(3);
 
 			return (
 				<tr key={i++}>

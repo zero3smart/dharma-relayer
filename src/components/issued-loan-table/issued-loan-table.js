@@ -1,7 +1,6 @@
 import React from 'react';
 import './issued-loan-table.css';
 import { isFloat, formatLoanscanLink } from '../../common/services/utilities';
-import BigNumber from 'bignumber.js';
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 
 function redirectToLoanscan(issuanceHash) {
@@ -12,7 +11,7 @@ function renderRows(rows) {
 	let i = 0;
 
 	return rows.map(row => {
-		const amountString = new BigNumber(row.amount).toFormat(3);
+		const amountString = row.amount.toFormat(3);
 		const rowIsClickable = SHOW_LOANSCAN_LINK && row.issuanceHash;
 		const rowClassName = rowIsClickable ? "issued-table__clickable-row" : "";
 

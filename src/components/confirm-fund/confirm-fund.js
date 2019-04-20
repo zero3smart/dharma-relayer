@@ -6,10 +6,12 @@ class ConfirmFund extends Component {
     render() {
         let { onConfirm, onCancel, isLoading, loanRequest } = this.props;
 
-        let amount = loanRequest.dharmaDebtOrder.principalAmount.toNumber();
+        let amount = loanRequest.dharmaDebtOrder.principalAmount;
         let token = loanRequest.dharmaDebtOrder.principalTokenSymbol;
         let termLength = loanRequest.dharmaDebtOrder.termLength.toNumber();
         let amortizationUnit = loanRequest.dharmaDebtOrder.amortizationUnit;
+        let collateralAmount = loanRequest.dharmaDebtOrder.collateralAmount;
+        let collateralType = loanRequest.dharmaDebtOrder.collateralTokenSymbol;
         let interest = loanRequest.dharmaDebtOrder.interestRate.toNumber();
         let numberOfPayments = termLength;
         let repaymentAmount = calculateRepaymentAmount(amount, interest, numberOfPayments);
@@ -26,7 +28,7 @@ class ConfirmFund extends Component {
                 isLoading={isLoading}>
 
                 <div className="confirm__row">
-                    Loan amount: <strong>{isFloat(amount) ? amount.toFixed(5) : amount}</strong> {token}
+                    Loan amount: <strong>{amount.toFormat(3)}</strong> {token}
                 </div>
                 <div className="confirm__row">
                     Loan term: <strong>{termLength}</strong> {amortizationUnit}
@@ -34,13 +36,15 @@ class ConfirmFund extends Component {
                 <div className="confirm__row">
                     Interest rate: <strong>{interest * 100}</strong> %
         </div>
-                {/*
-         <div className="confirm__row">
-         Collateral amount: ?????
-         </div>
-        */}
+                {
+                    collateralAmount && (
+                        <div className="confirm__row">
+                            Collateral amount: <strong>{collateralAmount.toFormat(3)}</strong> {collateralType}
+                        </div>
+                    )
+                }
                 <div className="confirm__row">
-                    Total loan repayment amount: <strong>{totalPaymentAmount.toFormat(3)}</strong> {token}
+                    Total loan repayment amount: <strong>{totalPaymentAmount.toFormat(5)}</strong> {token}
                 </div>
                 <div className="confirm__row">
                     Number of payments: <strong>{numberOfPayments}</strong>
@@ -49,7 +53,7 @@ class ConfirmFund extends Component {
                     Payment frequency: <strong>{amortizationFrequency}</strong>
                 </div>
                 <div className="confirm__row">
-                    Payment amount: <strong>{isFloat(repaymentAmount) ? repaymentAmount.toFixed(5) : repaymentAmount}</strong> {token}
+                    Payment amount: <strong>{repaymentAmount.toFormat(5)}</strong> {token}
                 </div>
             </Confirm>
         );
