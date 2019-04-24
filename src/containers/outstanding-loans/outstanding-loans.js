@@ -8,6 +8,7 @@ import {
 	repayLoanFail,
 } from '../../actions';
 import LoanTableSmall from '../../components/loan-table-small/loan-table-small.js';
+import { Modal, ModalBody } from '../../components/modal/modal';
 import RepayLoanModal from './RepayLoanModal'
 import { repayLoan } from "../../common/services/dharmaService";
 import { } from "../../actions/repayLoan";
@@ -26,7 +27,7 @@ class OutstandingLoans extends Component {
 	state = {
 		loan: null,
 		isRepayModalOpened: false,
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -55,32 +56,31 @@ class OutstandingLoans extends Component {
 		this.setState(prevState => ({
 			isRepayModalOpened: true
 		})
-		)
+		);
 
 	handleCloseModal = () =>
 		this.setState(prevState => ({
 			isRepayModalOpened: false
 		})
-		)
+		);
 
 	handleRepayModal = loan => {
-		this.setState(prevState => ({ loan }))
+		this.setState(prevState => ({ loan }));
 		this.handleOpenModal()
-	}
+	};
 
 	onRepay = ({ issuanceHash, amount, token }) => {
-		this.props.repayLoanInit()
+		this.props.repayLoanInit();
 		repayLoan(issuanceHash, amount, token)
 			.then(loan => {
-				this.handleCloseModal()
 				this.props.repayLoanSuccess(loan)
 			})
 			.catch(err => {
-				console.error(err)
-				alert(err)
+				console.error(err);
+				alert(err);
 				this.props.repayLoanFail(err)
 			})
-	}
+	};
 
 	render() {
 		let { myOutstandingLoans, showPaging, isLoading, offset, totalItemsCount, setMyOutstandingLoansOffset, fetchMyOutstandingLoans } = this.props;
@@ -101,7 +101,7 @@ class OutstandingLoans extends Component {
 					header="My outstanding loans"
 					dateColumnHeader="Date loan issued"
 					repayAvailable={true}
-					onRepay={this.handleRepayModal}
+					handleRepay={this.handleRepayModal}
 					rows={rows}
 					isLoading={isLoading}
 					showPaging={showPaging}
@@ -112,13 +112,21 @@ class OutstandingLoans extends Component {
 						setMyOutstandingLoansOffset(pageSize * pageNum);
 						fetchMyOutstandingLoans(pageSize * pageNum, pageSize);
 					}} />
-				<RepayLoanModal
-					loan={this.state.loan}
-					isOpen={this.state.isRepayModalOpened}
-					isLoading={this.props.repayLoanLoading}
-					handleClose={this.handleCloseModal}
-					onRepay={this.onRepay}
-				/>
+				<Modal show={this.state.isRepayModalOpened} size="md" onModalClosed={this.handleCloseModal}>
+					{
+						this.state.loan &&
+						<ModalBody>
+							<RepayLoanModal
+								loan={this.state.loan}
+								isLoading={this.props.repayLoanLoading}
+								handleClose={this.handleCloseModal}
+								repayLoanComplete={this.props.repayLoanComplete}
+								onRepay={this.onRepay}
+							/>
+						</ModalBody>
+					}
+				</Modal>
+
 			</Fragment>
 		);
 	}
@@ -131,6 +139,7 @@ let mapStateToProps = ({ myOutstandingLoans: { values, isLoading, offset, showPa
 	showPaging,
 	totalItemsCount,
 	repayLoanLoading: repayLoan.isLoading,
+	repayLoanComplete: repayLoan.complete
 });
 
 let mapDispatchToProps = {
