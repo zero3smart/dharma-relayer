@@ -89,7 +89,7 @@ class RepayLoanModal extends React.Component {
                                 <div>
                                     <div className="confirm">
                                         <div className="confirm__row">
-                                            <h5 className="confirm__header">Successfully made repayment of {this.state.amount} MKR.</h5>
+                                            <div className="confirm__header"><h5>Successfully made repayment of {this.state.amount} MKR</h5></div>
                                         </div>
                                         <div className="confirm__buttons">
                                             <div className="confirm__btn-wrapper confirm__btn-wrapper_centered">

@@ -9,7 +9,7 @@ class PlaceLoanSuccess extends Component {
             <div>
                 <div className="confirm">
                     <div className="confirm__row">
-                        <h5 className="confirm__header">Loan request was successfully added to the order book.</h5>
+                        <div className="confirm__header"><h5>Loan request was successfully added to the order book</h5></div>
                     </div>
                     <p>{`Your requested tokens will arrive to your wallet ${withCollateral ? 'and the collateral tokens will be removed from your wallet ' : ''}once the loan is funded.`}</p>
                     <div className="confirm__buttons">
@@ -18,7 +18,7 @@ class PlaceLoanSuccess extends Component {
                                 className="confirm__btn confirm__btn_confirm"
                                 onClick={() => onConfirm && onConfirm()}>
                                 OK
-              </button>
+                            </button>
                         </div>
                     </div>
                 </div>

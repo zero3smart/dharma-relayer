@@ -9,7 +9,7 @@ class Confirm extends Component {
         return (
             <div className="confirm">
                 <div className="confirm__row">
-                    <h5 className="confirm__header">{header}</h5>
+                    <div className="confirm__header"><h5>{header}</h5></div>
                 </div>
                 {this.props.children}
                 <div className="confirm__buttons">
