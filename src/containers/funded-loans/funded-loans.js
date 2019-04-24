@@ -52,7 +52,7 @@ class FundedLoans extends Component {
 
     return (
       <LoanTableSmall
-        header="My funded loans"
+        header="My investments in loans"
         dateColumnHeader="Date loan issued"
         sellLoanAvailable={true}
         rows={rows}
