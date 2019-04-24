@@ -4,12 +4,11 @@
 }
 
 .wallet-info__logo {
-  background-image: url('../../common/assets/UserLogo.png');
-  background-size: 40px 40px;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin-bottom: 10px;
+  background-image: url('../../common/assets/logo.svg');
+  background-size: 148px 23px;
+  width: 148px;
+  height: 23px;
+  margin-bottom: 18px;
 }
 .wallet-info__address {
   margin-bottom: 20px;

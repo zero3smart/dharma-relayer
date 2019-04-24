@@ -20,7 +20,7 @@ export default function (state = {
 					.map(loan => ({
 						amount: loan.dharmaDebtOrder.principalAmount,
 						token: loan.dharmaDebtOrder.principalTokenSymbol,
-						date: loan.issuanceBlockTimeParsed.toLocaleDateString() + " " + loan.issuanceBlockTimeParsed.toLocaleTimeString(),
+						date: loan.issuanceBlockTimeParsed,
 						termLength: loan.dharmaDebtOrder.termLength.toNumber(),
 						amortizationUnit: loan.dharmaDebtOrder.amortizationUnit,
 						interest: loan.dharmaDebtOrder.interestRate,

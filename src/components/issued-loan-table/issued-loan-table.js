@@ -13,14 +13,15 @@ function renderRows(rows) {
 
 	return rows.map(row => {
 		const amountString = row.amount.toFormat(3);
+		const interestRate = row.interest.times(100).toFixed(2);
 		const rowIsClickable = SHOW_LOANSCAN_LINK && row.issuanceHash;
 		const rowClassName = rowIsClickable ? "issued-table__clickable-row" : "";
 
 		return (
 			<tr key={i++} className={rowClassName} onClick={() => { rowIsClickable && redirectToLoanscan(row.issuanceHash) }}>
-				<td className="issued-table__table-cell">{row.date}</td>
+				<td className="issued-table__table-cell">{row.date.toLocaleDateString()} <br /><span className="text-nowrap">{row.date.toLocaleTimeString()}</span></td>
 				<td className="issued-table__table-cell"><strong>{amountString}</strong> {row.token} </td>
-				<td className="issued-table__table-cell"><strong>{row.interest}</strong> %</td>
+				<td className="issued-table__table-cell"><strong>{interestRate}</strong> %</td>
 				<td className="issued-table__table-cell"><strong>{row.termLength}</strong> {row.amortizationUnit.slice(0, 1)}</td>
 			</tr>
 		);
