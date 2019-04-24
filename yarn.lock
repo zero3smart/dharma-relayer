@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@dharmaprotocol/contracts@0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@dharmaprotocol/contracts/-/contracts-0.0.34.tgz#17f9ecb27588f0558dfc554153466a5c3b3f26d5"
+"@dharmaprotocol/contracts@0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@dharmaprotocol/contracts/-/contracts-0.0.35.tgz#0fd334285447363715bdddf6022ac03066d8e3c2"
   dependencies:
     zeppelin-solidity "^1.8.0"
 
-"@dharmaprotocol/dharma.js@0.0.44":
-  version "0.0.44"
-  resolved "https://registry.yarnpkg.com/@dharmaprotocol/dharma.js/-/dharma.js-0.0.44.tgz#e7b13e27a4004be4d26cf9b8d53d43387bf74baf"
+"@dharmaprotocol/dharma.js@0.0.45":
+  version "0.0.45"
+  resolved "https://registry.yarnpkg.com/@dharmaprotocol/dharma.js/-/dharma.js-0.0.45.tgz#09b2680ecb38a1401a63825699793c93679f9b39"
   dependencies:
-    "@dharmaprotocol/contracts" "0.0.34"
+    "@dharmaprotocol/contracts" "0.0.35"
     "@types/lodash" "^4.14.104"
     abi-decoder "https://github.com/dharmaprotocol/abi-decoder"
     bignumber.js "^5.0.0"

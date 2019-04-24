@@ -25,7 +25,7 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 
 			const amount = row.principalAmount;
 			const amountString = amount.toFormat(3);
-			const interestRate = row.interestRate.times(100).toFixed(2);
+			const interestRate = row.interestRate.toFixed(2);
 			const totalRepayment = calculateTotalPaymentAmount(amount, row.interestRate);
 			const repaymentString = totalRepayment.toFormat(3);
 			const rowIsClickable = SHOW_LOANSCAN_LINK && row.issuanceHash;

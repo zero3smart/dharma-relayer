@@ -23,7 +23,7 @@ function renderRows(rows, fundFunction) {
 		.sort((a, b) => a.creationTimeParsed < b.creationTimeParsed ? 1 : (-1))
 		.map(row => {
 			let termLength = row.dharmaDebtOrder.termLength.toNumber();
-			let interestRate = row.dharmaDebtOrder.interestRate.toNumber();
+			let interestRate = row.dharmaDebtOrder.interestRate.toFixed(2);
 			let amount = row.dharmaDebtOrder.principalAmount;
 			let totalRepayment = calculateTotalPaymentAmount(row.dharmaDebtOrder.principalAmount, row.dharmaDebtOrder.interestRate);
 			let paymentPeriodFrequency = convertToRelayerAmortizationFrequency(row.dharmaDebtOrder.amortizationUnit);
