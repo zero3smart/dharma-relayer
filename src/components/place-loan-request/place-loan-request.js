@@ -228,7 +228,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'LoanRequestForm',
 	initialValues: {
-		interestRate: 0.01,
+		interestRate: 1,
 		term: 7,
 		amortizationFrequency: RELAYER_AMORTIZATION_FREQUENCIES["HOURLY"],
 		currency: SUPPORTED_TOKENS[0],
