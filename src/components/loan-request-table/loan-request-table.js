@@ -1,6 +1,7 @@
 import React from 'react';
 import './loan-request-table.css';
-import { calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency, isFloat } from '../../common/services/utilities';
+import BigNumber from 'bignumber.js';
+import { calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency } from '../../common/services/utilities';
 
 function renderCollateral(dharmaDebtOrder) {
 	if (dharmaDebtOrder.collateralAmount) {
@@ -22,7 +23,7 @@ function renderRows(rows, fundFunction) {
 		.sort((a, b) => a.creationTimeParsed < b.creationTimeParsed ? 1 : (-1))
 		.map(row => {
 			let termLength = row.dharmaDebtOrder.termLength.toNumber();
-			let interestRate = row.dharmaDebtOrder.interestRate.times(100).toFixed(2);
+			let interestRate = row.dharmaDebtOrder.interestRate.toNumber();
 			let amount = row.dharmaDebtOrder.principalAmount;
 			let totalRepayment = calculateTotalPaymentAmount(row.dharmaDebtOrder.principalAmount, row.dharmaDebtOrder.interestRate);
 			let paymentPeriodFrequency = convertToRelayerAmortizationFrequency(row.dharmaDebtOrder.amortizationUnit);

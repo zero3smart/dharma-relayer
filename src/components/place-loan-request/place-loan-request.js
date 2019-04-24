@@ -10,20 +10,16 @@ import ShareLoanModal from "./ShareLoanModal"
 import { convertToRelayer } from "../../utils/relayer-adapter";
 import { DEFAULT_LOAN_REQUEST, termValues, DAYS, PERIODS } from "./constants";
 
-let floatOnly = (value, size) => {
+const floatOnly = (value) => {
 	if (value === null || value === '' || value === undefined) {
 		return ''
 	}
-	if (size === undefined) size = 6;
-	let v = value.toString().replace(/[^\d.]/g, '');
-	v = v.slice(0, v.indexOf('.') >= 0 ? v.indexOf('.') + size : undefined);
-	return v;
+	let v = value.toString().replace(/[^\d.]/g, '')
+	v = v.slice(0, v.indexOf('.') >= 0 ? v.indexOf('.') + 6 : undefined)
+	return v
 };
 
-const floatOnlyPct = (value) => floatOnly(value, 3);
-const floatOnlyNum = (value) => floatOnly(value, 6);
-
-const required = value => (!value);
+const required = value => (value ? false : true);
 
 const initialState = {
 	isShareLoanModalOpen: false,
@@ -115,7 +111,7 @@ class PlaceLoanRequest extends Component {
 							placeholder="0"
 							component="input"
 							validate={required}
-							normalize={floatOnlyNum} />
+							normalize={floatOnly} />
 					</div>
 					<div className="loan-request-form__select-wrapper">
 						<Field name="currency" className="loan-request-form__select" component="select">
@@ -162,7 +158,7 @@ class PlaceLoanRequest extends Component {
 							placeholder="per loan term, %"
 							component="input"
 							validate={required}
-							normalize={floatOnlyPct} />
+							format={floatOnly} />
 					</div>
 				</div>
 
@@ -183,7 +179,7 @@ class PlaceLoanRequest extends Component {
 							className="loan-request-form__input"
 							placeholder="0"
 							component="input"
-							normalize={floatOnlyNum} />
+							normalize={floatOnly} />
 					</div>
 					<div className="loan-request-form__select-wrapper">
 						<Field name="collateralType" className="loan-request-form__select" component="select">
@@ -232,7 +228,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
 	form: 'LoanRequestForm',
 	initialValues: {
-		interestRate: 1,
+		interestRate: 0.01,
 		term: 7,
 		amortizationFrequency: RELAYER_AMORTIZATION_FREQUENCIES["HOURLY"],
 		currency: SUPPORTED_TOKENS[0],

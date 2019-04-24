@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Confirm from '../confirm/confirm';
-import { calculateRepaymentAmount, calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency, isFloat } from '../../common/services/utilities';
+import { calculateRepaymentAmount, calculateTotalPaymentAmount, convertToRelayerAmortizationFrequency } from '../../common/services/utilities';
 
 class ConfirmFund extends Component {
     render() {
@@ -12,10 +12,10 @@ class ConfirmFund extends Component {
         let amortizationUnit = loanRequest.dharmaDebtOrder.amortizationUnit;
         let collateralAmount = loanRequest.dharmaDebtOrder.collateralAmount;
         let collateralType = loanRequest.dharmaDebtOrder.collateralTokenSymbol;
-        let interest = loanRequest.dharmaDebtOrder.interestRate.times(100).toFixed(2);
+        let interest = loanRequest.dharmaDebtOrder.interestRate.toNumber();
         let numberOfPayments = termLength;
-        let repaymentAmount = calculateRepaymentAmount(amount, loanRequest.dharmaDebtOrder.interestRate, numberOfPayments);
-        let totalPaymentAmount = calculateTotalPaymentAmount(loanRequest.dharmaDebtOrder.principalAmount, loanRequest.dharmaDebtOrder.interestRate);
+        let repaymentAmount = calculateRepaymentAmount(amount, interest, numberOfPayments);
+        let totalPaymentAmount = calculateTotalPaymentAmount(amount, loanRequest.dharmaDebtOrder.interestRate);
         let amortizationFrequency = convertToRelayerAmortizationFrequency(amortizationUnit);
 
         return (

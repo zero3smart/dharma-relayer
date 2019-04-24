@@ -1,6 +1,6 @@
 import React from 'react';
 import './loan-table-small.css';
-import { isFloat, formatLoanscanLink, calculateTotalPaymentAmount } from '../../common/services/utilities';
+import { formatLoanscanLink, calculateTotalPaymentAmount } from '../../common/services/utilities';
 import { SHOW_LOANSCAN_LINK } from '../../common/api/config';
 import Paging from '../../components/paging/paging.js';
 import Spinner from '../../components/spinner/spinner.js';
@@ -25,7 +25,7 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 
 			const amount = row.principalAmount;
 			const amountString = amount.toFormat(3);
-			const interestRate = row.interestRate.times(100).toFixed(2);
+			const interestRate = row.interestRate.toNumber();
 			const totalRepayment = calculateTotalPaymentAmount(amount, row.interestRate);
 			const repaymentString = totalRepayment.toFormat(3);
 			const rowIsClickable = SHOW_LOANSCAN_LINK && row.issuanceHash;
