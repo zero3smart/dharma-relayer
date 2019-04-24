@@ -26,20 +26,20 @@
   font-weight: normal;
 }
 
-.loan-table-small__table-header, .loan-table-small__table-cell {
-  padding: 5px;
-  text-align:left;
-}
-
 .loan-table-small__table-cell strong {
   color: #fff;
   font-weight: normal;
 }
 
 
-.loan-table-small__table-header, .loan-table-small__table-cell{
-  text-align:right;
+.loan-table-small__table-header, .loan-table-small__table-cell {
   vertical-align: middle;
+  padding: 5px;
+  text-align: right;
+}
+
+.loan-table-small__table-cell {
+  line-height: 18px;
 }
 
 .loan-table-small__table-header:first-child, .loan-table-small__table-cell:first-child {
@@ -78,8 +78,4 @@
   background-color:#3D4966;
   color: #7F879A;
   cursor: not-allowed;
-}
-
-.loan-table-small__btn_cancel{
-  background-color: #B51313;
 }
