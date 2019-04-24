@@ -169,6 +169,11 @@ export async function getRemainingRepaymentValue(debtOrder) {
 	return res;
 }
 
+export async function cancelDebtOrder(issuanceHash) {
+	//todo: implement
+	return;
+}
+
 async function createSimpleInterestLoan(debtOrderInfo) {
 	const tokenRegistry = await dharma.contracts.loadTokenRegistry();
 	const principalToken = await tokenRegistry.getTokenAddressBySymbol.callAsync(debtOrderInfo.principalTokenSymbol);
@@ -179,7 +184,7 @@ async function createSimpleInterestLoan(debtOrderInfo) {
 		principalToken,
 		principalTokenSymbol: debtOrderInfo.principalTokenSymbol,
 		principalAmount: amount,
-		interestRate: new BigNumber(debtOrderInfo.interestRate).div(100),
+		interestRate: new BigNumber(debtOrderInfo.interestRate),
 		amortizationUnit: debtOrderInfo.amortizationUnit,
 		termLength: new BigNumber(debtOrderInfo.termLength),
 		debtor: getDefaultAccount(),

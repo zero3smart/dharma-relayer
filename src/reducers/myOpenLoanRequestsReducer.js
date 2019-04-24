@@ -1,11 +1,12 @@
-import { FETCH_MY_OPEN_LOAN_REQUESTS_SUCCESS, SET_MY_OPENED_LOAN_REQUESTS_OFFSET } from '../actions';
+import { FETCH_MY_OPEN_LOAN_REQUESTS_SUCCESS, SET_MY_OPENED_LOAN_REQUESTS_OFFSET, SHOW_CANCEL_CONFIRMATION, HIDE_CANCEL_CONFIRMATION } from '../actions';
 
 export default function (state = {
   isLoading: true,
   values: [],
   showPaging: false,
   offset: 0,
-  totalItemsCount: 0
+  totalItemsCount: 0,
+  cancelConfirmationVisible: false
 }, action) {
   switch (action.type) {
     case FETCH_MY_OPEN_LOAN_REQUESTS_SUCCESS:
@@ -21,6 +22,10 @@ export default function (state = {
       };
     case SET_MY_OPENED_LOAN_REQUESTS_OFFSET:
       return { ...state, offset: action.offset, isLoading: true };
+    case SHOW_CANCEL_CONFIRMATION:
+      return { ...state, cancelConfirmationVisible: true };
+    case HIDE_CANCEL_CONFIRMATION:
+      return { ...state, cancelConfirmationVisible: false };
     default:
       return state;
   }

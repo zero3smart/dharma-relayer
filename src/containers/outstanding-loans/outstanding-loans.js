@@ -26,7 +26,7 @@ class OutstandingLoans extends Component {
 	state = {
 		loan: null,
 		isRepayModalOpened: false,
-	};
+	}
 
 	constructor(props) {
 		super(props);
@@ -55,31 +55,32 @@ class OutstandingLoans extends Component {
 		this.setState(prevState => ({
 			isRepayModalOpened: true
 		})
-		);
+		)
 
 	handleCloseModal = () =>
 		this.setState(prevState => ({
 			isRepayModalOpened: false
 		})
-		);
+		)
 
 	handleRepayModal = loan => {
-		this.setState(prevState => ({ loan }));
+		this.setState(prevState => ({ loan }))
 		this.handleOpenModal()
-	};
+	}
 
 	onRepay = ({ issuanceHash, amount, token }) => {
-		this.props.repayLoanInit();
+		this.props.repayLoanInit()
 		repayLoan(issuanceHash, amount, token)
 			.then(loan => {
+				this.handleCloseModal()
 				this.props.repayLoanSuccess(loan)
 			})
 			.catch(err => {
-				console.error(err);
-				alert(err);
+				console.error(err)
+				alert(err)
 				this.props.repayLoanFail(err)
 			})
-	};
+	}
 
 	render() {
 		let { myOutstandingLoans, showPaging, isLoading, offset, totalItemsCount, setMyOutstandingLoansOffset, fetchMyOutstandingLoans } = this.props;
@@ -100,7 +101,7 @@ class OutstandingLoans extends Component {
 					header="My outstanding loans"
 					dateColumnHeader="Date loan issued"
 					repayAvailable={true}
-					handleRepay={this.handleRepayModal}
+					onRepay={this.handleRepayModal}
 					rows={rows}
 					isLoading={isLoading}
 					showPaging={showPaging}
@@ -116,7 +117,6 @@ class OutstandingLoans extends Component {
 					isOpen={this.state.isRepayModalOpened}
 					isLoading={this.props.repayLoanLoading}
 					handleClose={this.handleCloseModal}
-					repayLoanComplete={this.props.repayLoanComplete}
 					onRepay={this.onRepay}
 				/>
 			</Fragment>
@@ -131,7 +131,6 @@ let mapStateToProps = ({ myOutstandingLoans: { values, isLoading, offset, showPa
 	showPaging,
 	totalItemsCount,
 	repayLoanLoading: repayLoan.isLoading,
-	repayLoanComplete: repayLoan.complete
 });
 
 let mapDispatchToProps = {

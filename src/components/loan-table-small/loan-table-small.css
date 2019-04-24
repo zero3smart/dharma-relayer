@@ -79,3 +79,7 @@
   color: #7F879A;
   cursor: not-allowed;
 }
+
+.loan-table-small__btn_cancel{
+  background-color: #B51313;
+}

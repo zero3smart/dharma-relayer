@@ -11,12 +11,17 @@ function redirectToLoanscan(issuanceHash) {
 }
 
 
-function handleRepayInternal(handleRepay, row, event) {
-	handleRepay(row);
+function handleRepay(onRepay, row, event) {
+	onRepay(row);
 	event.stopPropagation();
 }
 
-function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
+function handleCancelLoan(onCancelLoan, issuanceHash, event) {
+	onCancelLoan(issuanceHash);
+	event.stopPropagation();
+}
+
+function renderRows({ rows, onRepay, onCancelLoan, repayAvailable, sellLoanAvailable, cancelLoanAvailable }) {
 	let i = 0;
 
 	return rows
@@ -35,7 +40,7 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 				<tr key={i++} className={rowClassName} onClick={() => { rowIsClickable && redirectToLoanscan(row.issuanceHash) }}>
 					<td className="loan-table-small__table-cell">{row.date.toLocaleDateString()} <br /> {row.date.toLocaleTimeString()}</td>
 					<td className="loan-table-small__table-cell loan-table-small__wide-cell"><strong>{amountString}</strong> {row.principalTokenSymbol} </td>
-					<td className="loan-table-small__table-cell"><strong>{interestRate}</strong> %</td>
+					<td className="loan-table-small__table-cell"><strong>{interestRate * 100}</strong> %</td>
 					<td className="loan-table-small__table-cell"><strong>{row.termLength.toNumber()}</strong> {row.amortizationUnit.slice(0, 1)}</td>
 					<td className="loan-table-small__table-cell loan-table-small__wide-cell"><strong>{repaymentString}</strong> {row.principalTokenSymbol}</td>
 					{
@@ -47,7 +52,15 @@ function renderRows({ rows, handleRepay, repayAvailable, sellLoanAvailable }) {
 					{
 						repayAvailable &&
 						<td className="loan-table-small__table-cell loan-table-small__button-cell">
-							<button onClick={(event) => handleRepayInternal(handleRepay, row, event)} className="loan-table-small__btn">Repay</button>
+							<button onClick={(event) => handleRepay(onRepay, row, event)} className="loan-table-small__btn">Repay</button>
+						</td>
+					}
+					{
+						cancelLoanAvailable &&
+						<td className="loan-table-small__table-cell loan-table-small__button-cell">
+							<button onClick={(event) => onCancelLoan && handleCancelLoan(onCancelLoan, row.issuanceHash, event)} className="loan-table-small__btn loan-table-small__btn_cancel">
+								Cancel
+              </button>
 						</td>
 					}
 				</tr>
@@ -96,6 +109,10 @@ function LoanTableSmall(props) {
 							}
 							{
 								props.repayAvailable &&
+								<th className="loan-table-small__table-header loan-table-small__button-cell" title=""> </th>
+							}
+							{
+								props.cancelLoanAvailable &&
 								<th className="loan-table-small__table-header loan-table-small__button-cell" title=""> </th>
 							}
 						</tr>
