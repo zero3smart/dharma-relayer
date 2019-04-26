@@ -54,7 +54,7 @@ export async function convertToRelayerFormat(dharmaDebtOrder){
 
 const debtOrdersCache = {};
 
-export async function fromDebtOrder(debtOrder) {
+export async function convertFromRelayerFormat(debtOrder) {
   if (debtOrder.id in debtOrdersCache) {
     return debtOrdersCache[debtOrder.id];
   }

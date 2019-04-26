@@ -1,6 +1,6 @@
 import debtsApi from '../common/api/debts';
 import * as loanStatuses from '../common/loanStatuses';
-import { fromDebtOrder } from '../common/services/dharmaService';
+import { convertFromRelayerFormat } from '../common/services/dharmaService';
 import { getDefaultAccount } from '../common/services/web3Service'
 
 export const FETCH_MY_FUNDED_LOANS = 'FETCH_MY_FUNDED_LOANS';
@@ -23,11 +23,11 @@ export function fetchMyFundedLoans(offset, limit) {
     dispatch(fetchMyFundedLoansStart());
 
     return debtsApi.getForCreditor(loanStatuses.FILLED, getDefaultAccount(), offset, limit)
-      .then((response) => {
-        let { items: debts, totalItemsCount } = response;
+      .then( (response) => {
+        let {items:debts, totalItemsCount} = response;
         let promises = debts.map(debt => {
-          return fromDebtOrder(debt).then(dharmaDebt => {
-            if (dharmaDebt) {
+          return convertFromRelayerFormat(debt).then(dharmaDebt => {
+            if(dharmaDebt){
               return {
                 ...dharmaDebt,
                 creationTime: debt.creationTime,

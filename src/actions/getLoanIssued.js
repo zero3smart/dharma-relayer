@@ -1,6 +1,6 @@
 import debtsApi from '../common/api/debts';
 import * as loanStatuses from '../common/loanStatuses';
-import { fromDebtOrder } from '../common/services/dharmaService';
+import {convertFromRelayerFormat} from '../common/services/dharmaService';
 
 export const GET_LOAN_ISSUED = 'GET_LOAN_ISSUED';
 export const GET_LOAN_ISSUED_SUCCESS = 'GET_LOAN_ISSUED_SUCCESS';
@@ -22,18 +22,18 @@ const getIssuedLoansFail = (error) => ({
     error
 });
 
-export function getIssuedLoans(offset, limit) {
+export function getIssuedLoans(offset, limit){
     return dispatch => {
         dispatch(getIssuedLoansStart());
 
         return debtsApi.getAll(loanStatuses.FILLED, offset, limit)
             .then((resp) => {
-                let { items: debts, totalItemsCount } = resp;
+                let {items:debts, totalItemsCount} = resp;
 
                 let promises = debts.map(debt => {
-                    return fromDebtOrder(debt).then(debtOrder => {
-                        if (debtOrder) {
-                            return { ...debt, dharmaDebtOrder: debtOrder };
+                    return convertFromRelayerFormat(debt).then(debtOrder => {
+                        if(debtOrder){
+                            return {...debt, dharmaDebtOrder:debtOrder};
                         }
                         return null;
                     })
@@ -44,6 +44,6 @@ export function getIssuedLoans(offset, limit) {
                     dispatch(getIssuedLoansSuccess(filtered, offset, totalItemsCount));
                 });
             })
-            .catch(err => { dispatch(getIssuedLoansFail(err)) });
+            .catch(err => {dispatch(getIssuedLoansFail(err))});
     }
 }

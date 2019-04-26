@@ -1,6 +1,6 @@
 import debtsApi from '../common/api/debts';
 import * as loanStatuses from '../common/loanStatuses';
-import { fromDebtOrder } from '../common/services/dharmaService';
+import {convertFromRelayerFormat} from '../common/services/dharmaService';
 
 export const GET_LOAN_REQUESTS = 'GET_LOAN_REQUESTS';
 export const GET_LOAN_REQUESTS_SUCCESS = 'GET_LOAN_REQUESTS_SUCCESS';
@@ -22,29 +22,29 @@ const getLoanRequestsFail = (error) => ({
     error
 });
 
-export function getLoanRequests(offset, limit) {
-    return (dispatch) => {
+export function getLoanRequests(offset, limit){
+    return (dispatch)=> {
         dispatch(getLoanRequestsStart());
 
         return debtsApi.getAll(loanStatuses.SIGNED_BY_DEBTOR, offset, limit)
             .then((resp) => {
-                let { items: debts, totalItemsCount } = resp;
+                let {items:debts, totalItemsCount} = resp;
 
                 let promises = debts.map(debt => {
-                    return fromDebtOrder(debt).then(debtOrder => {
-                        if (debtOrder) {
-                            return { ...debt, dharmaDebtOrder: debtOrder };
+                    return convertFromRelayerFormat(debt).then(debtOrder => {
+                        if(debtOrder){
+                            return {...debt, dharmaDebtOrder:debtOrder};
                         }
                         return null;
                     })
                 });
 
                 Promise.all(promises).then(mappedDebts => {
-                    let filtered = mappedDebts.filter(d => d !== null);
-                    dispatch(getLoanRequestsSuccess(filtered, offset, totalItemsCount));
+                  let filtered = mappedDebts.filter(d => d !== null);
+                  dispatch(getLoanRequestsSuccess(filtered, offset, totalItemsCount));
                 });
 
             })
-            .catch(err => { dispatch(getLoanRequestsFail(err)) });
+            .catch(err => {dispatch(getLoanRequestsFail(err))});
     }
 }
