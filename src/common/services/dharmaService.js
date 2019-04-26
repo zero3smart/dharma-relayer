@@ -84,9 +84,6 @@ export async function fromDebtOrder(debtOrder) {
     dharmaDebtOrder.originalDebtOrder = Object.assign({}, dharmaDebtOrder)
     let convertedDebtOrder = await convertDharmaDebtOrder(dharmaDebtOrder);
 
-    if (convertedDebtOrder.collateralAmount) {
-      convertedDebtOrder.collateralAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol);
-    }
 
     debtOrdersCache[debtOrder.id] = convertedDebtOrder;
 
@@ -192,6 +189,10 @@ async function convertDharmaDebtOrder(dharmaDebtOrder){
   var t4 = performance.now();
   if (false && process.env.NODE_ENV !== "production") {
     console.log(`convertDharmaDebtOrder timing: ${Math.ceil(t2 - t1)} ${Math.ceil(t3 - t2)} ${Math.ceil(t4 - t3)}`)
+  }
+
+  if (convertedDebtOrder.collateralAmount) {
+    convertedDebtOrder.collateralAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol);
   }
 
   return convertedDebtOrder;
