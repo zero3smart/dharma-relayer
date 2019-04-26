@@ -35,7 +35,7 @@ const getAmortizationPeriodByUnit = amortizationUnit =>
 
 const initialState = {
   isShareLoanModalOpen: false,
-  relayer: null,
+  debtOrder: null,
   isShareLoanRequest: false,
 }
 
@@ -81,8 +81,9 @@ class PlaceLoanRequest extends Component {
     if (json) {
       convertPlexOrder(JSON.parse(json)).then(
         relayerOrder => {
+          console.log(JSON.stringify(relayerOrder))
           this.closeShareModal();
-          this.setState({ relayer: relayerOrder, isShareLoanRequest: true });
+          this.setState({ debtOrder: relayerOrder, isShareLoanRequest: true });
 
           let relayerOrderInfo = {
             amount: relayerOrder.principalAmount.toNumber(),
@@ -214,7 +215,7 @@ class PlaceLoanRequest extends Component {
           </button>
         </div>
         <PlaceLoanModal
-          relayer={this.state.relayer}
+          debtOrder={this.state.debtOrder}
           isShareLoanRequest={this.state.isShareLoanRequest}
           onRelayerSubmit={this.clearState}
         />

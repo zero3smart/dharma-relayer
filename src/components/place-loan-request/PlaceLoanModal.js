@@ -18,7 +18,7 @@ import {
   PLACE_LOAN_FAIL
 } from "../../actions";
 import debtsApi from "../../common/api/debts";
-import {prepareDebtOrderForStorage} from '../../common/services/dharmaService';
+import {convertToRelayerFormat} from '../../common/services/dharmaService';
 
 class PlaceLoanModal extends React.Component {
   constructor(props){
@@ -59,7 +59,7 @@ class PlaceLoanModal extends React.Component {
   )
 
   shareLoanRequestHandler = () => {
-    prepareDebtOrderForStorage(this.props.relayer).then(
+    convertToRelayerFormat(this.props.debtOrder).then(
       debtOrder => debtsApi.post(debtOrder)
     ).then(resp => {
       this.props.placeLoanRequestSuccess(resp);

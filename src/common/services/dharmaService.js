@@ -23,10 +23,10 @@ export async function signDebtOrder(debtOrderInfo) {
   dharmaDebtOrder.debtorSignature = await dharma.sign.asDebtor(dharmaDebtOrder, true);
 
   console.log(`Dharma debt order: ${JSON.stringify(dharmaDebtOrder)}`);
-  return await prepareDebtOrderForStorage(dharmaDebtOrder);
+  return await convertToRelayerFormat(dharmaDebtOrder);
 }
 
-export async function prepareDebtOrderForStorage(dharmaDebtOrder){
+export async function convertToRelayerFormat(dharmaDebtOrder){
   const result = {
     kernelAddress: (await dharma.contracts.loadDebtKernelAsync()).address,
     repaymentRouterAddress: (await dharma.contracts.loadRepaymentRouterAsync()).address,
