@@ -23,6 +23,7 @@
 .issued-table__table-header {
     font-weight: normal;
     line-height: 1.2;
+    height: 37px;
 }
 
 .issued-table__table-header, .issued-table__table-cell {
