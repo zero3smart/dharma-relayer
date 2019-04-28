@@ -94,7 +94,8 @@ export async function convertFromRelayerFormat(debtOrder) {
   }
 }
 
-export async function convertPlexOrder(plexOrder){
+export async function parsePlexOrder(json){
+  const plexOrder = JSON.parse(json)
   const dharmaDebtOrder = {
     ...plexOrder,
     principalAmount: new BigNumber(plexOrder.principalAmount || 0),
@@ -110,7 +111,7 @@ export async function convertPlexOrder(plexOrder){
     expirationTimestampInSec: new BigNumber(plexOrder.expirationTimestampInSec)
   };
 
-  return await convertToDisplayFormat(dharmaDebtOrder)
+  return dharmaDebtOrder;
 }
 
 export async function fillDebtOrder(debtOrder) {
@@ -179,7 +180,7 @@ export async function getRemainingRepaymentValue(debtOrder) {
   return res;
 }
 
-async function convertToDisplayFormat(dharmaDebtOrder){
+export async function convertToDisplayFormat(dharmaDebtOrder){
   const adapter = await getAdapterByTermsContractAddress(dharmaDebtOrder.termsContract);
   const convertedDebtOrder = await adapter.fromDebtOrder(dharmaDebtOrder);
   convertedDebtOrder.principalAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.principalAmount, convertedDebtOrder.principalTokenSymbol);
