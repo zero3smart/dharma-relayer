@@ -82,7 +82,7 @@ export async function convertFromRelayerFormat(debtOrder) {
     };
 
     dharmaDebtOrder.originalDebtOrder = Object.assign({}, dharmaDebtOrder)
-    let convertedDebtOrder = await convertDharmaDebtOrder(dharmaDebtOrder);
+    let convertedDebtOrder = await convertToDisplayFormat(dharmaDebtOrder);
 
 
     debtOrdersCache[debtOrder.id] = convertedDebtOrder;
@@ -110,7 +110,7 @@ export async function convertPlexOrder(plexOrder){
     expirationTimestampInSec: new BigNumber(plexOrder.expirationTimestampInSec)
   };
 
-  return await convertDharmaDebtOrder(dharmaDebtOrder)
+  return await convertToDisplayFormat(dharmaDebtOrder)
 }
 
 export async function fillDebtOrder(debtOrder) {
@@ -179,17 +179,10 @@ export async function getRemainingRepaymentValue(debtOrder) {
   return res;
 }
 
-async function convertDharmaDebtOrder(dharmaDebtOrder){
-  var t1 = performance.now();
+async function convertToDisplayFormat(dharmaDebtOrder){
   const adapter = await getAdapterByTermsContractAddress(dharmaDebtOrder.termsContract);
-  var t2 = performance.now();
   const convertedDebtOrder = await adapter.fromDebtOrder(dharmaDebtOrder);
-  var t3 = performance.now();
   convertedDebtOrder.principalAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.principalAmount, convertedDebtOrder.principalTokenSymbol);
-  var t4 = performance.now();
-  if (false && process.env.NODE_ENV !== "production") {
-    console.log(`convertDharmaDebtOrder timing: ${Math.ceil(t2 - t1)} ${Math.ceil(t3 - t2)} ${Math.ceil(t4 - t3)}`)
-  }
 
   if (convertedDebtOrder.collateralAmount) {
     convertedDebtOrder.collateralAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol);
