@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import {
-	SELECT_CURRENCY,
-	SELECT_CURRENCY_SUCCESS,
-	GET_WALLET_INFO_SUCCESS,
-	GET_TOKEN_BALANCE_SUCCESS,
+  SELECT_CURRENCY,
+  SELECT_CURRENCY_SUCCESS,
+  GET_WALLET_INFO_SUCCESS,
+  GET_TOKEN_BALANCE_SUCCESS,
 } from '../actions';
 import { getDefaultAccount } from '../common/services/web3Service';
 import loanRequestReducer from './loanRequestReducer';
@@ -21,42 +21,42 @@ import { SUPPORTED_TOKENS } from '../common/api/config';
 import repayLoanReducer from "./repayLoanReducer";
 
 function walletInfoReducer(state = {
-	address: getDefaultAccount(),
-	amount: null,
-	selectedCurrency: SUPPORTED_TOKENS[0],
-	isProcessing:false
+  address: getDefaultAccount(),
+  amount: null,
+  selectedCurrency: 'ETH',
+  isProcessing:false
 }, action) {
-	switch (action.type) {
-		case SELECT_CURRENCY:
-			return { ...state, selectedCurrency: action.currency, isProcessing:true };
-		case SELECT_CURRENCY_SUCCESS:
-			return { ...state, amount: action.balance, isProcessing:false };
-		case GET_WALLET_INFO_SUCCESS:
-			return { ...state, amount: action.balance, address: action.address };
-		case GET_TOKEN_BALANCE_SUCCESS:
-			if(state.selectedCurrency === action.token){
-				return {...state, amount: action.amount}
-			}
-			return state;
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case SELECT_CURRENCY:
+      return { ...state, selectedCurrency: action.currency, isProcessing:true };
+    case SELECT_CURRENCY_SUCCESS:
+      return { ...state, amount: action.balance, isProcessing:false };
+    case GET_WALLET_INFO_SUCCESS:
+      return { ...state, amount: action.balance, address: action.address };
+    case GET_TOKEN_BALANCE_SUCCESS:
+      if(state.selectedCurrency === action.token){
+        return {...state, amount: action.amount}
+      }
+      return state;
+    default:
+      return state;
+  }
 }
 
 const rootReducer = combineReducers({
-	walletInfo: walletInfoReducer,
-	myOpenLoanRequests: myOpenLoanRequestsReducer,
-	myFundedLoans: myFundedLoansReducer,
-	loanRequests: loanRequestReducer,
-	loanIssued: loanIssuedReducer,
-	myOutstandingLoans: myOutstandingLoansReducer,
-	debtOrderConfirmation: debtOrderConfirmationReducer,
-	fundConfirmation: fundConfirmationReducer,
-	placeLoan: placeLoanReducer,
-	fillLoan: fillLoanReducer,
-	repayLoan: repayLoanReducer,
-	tokenBalances: tokenBalancesReducer,
-	form: formReducer
+  walletInfo: walletInfoReducer,
+  myOpenLoanRequests: myOpenLoanRequestsReducer,
+  myFundedLoans: myFundedLoansReducer,
+  loanRequests: loanRequestReducer,
+  loanIssued: loanIssuedReducer,
+  myOutstandingLoans: myOutstandingLoansReducer,
+  debtOrderConfirmation: debtOrderConfirmationReducer,
+  fundConfirmation: fundConfirmationReducer,
+  placeLoan: placeLoanReducer,
+  fillLoan: fillLoanReducer,
+  repayLoan: repayLoanReducer,
+  tokenBalances: tokenBalancesReducer,
+  form: formReducer
 });
 
 export default rootReducer;
