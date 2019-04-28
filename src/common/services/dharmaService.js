@@ -89,7 +89,7 @@ export async function repayLoan(issuanceHash, amount, token) {
 export async function getRemainingRepaymentValue(debtOrder) {
   const repaid = await dharma.servicing.getValueRepaid(debtOrder.issuanceHash);
   const principal = await tokenService.convertFromHumanReadable(debtOrder.principalAmount, debtOrder.principalTokenSymbol);
-  const totalRepayments = principal.times(debtOrder.interestRate.plus(1));
+  const totalRepayments = principal.times(debtOrder.interestRate.div(100).plus(1));
   const res = await tokenService.convertToHumanReadable(totalRepayments.sub(repaid), debtOrder.principalTokenSymbol);
 
   return res;
