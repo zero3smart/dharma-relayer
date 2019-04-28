@@ -79,11 +79,10 @@ class PlaceLoanRequest extends Component {
 
   submitShareLoan = (json) => {
     if (json) {
-      parsePlexOrder(json).then(relayerOrder => {
-        console.log(JSON.stringify(relayerOrder))
+      parsePlexOrder(json).then(debtOrder => {
         this.closeShareModal();
-        this.setState({ debtOrder: relayerOrder, isShareLoanRequest: true });
-        return relayerOrder;
+        this.setState({ debtOrder: debtOrder, isShareLoanRequest: true });
+        return debtOrder;
       }).then(convertToDisplayFormat)
         .then(displayDebtOrder => {
           let relayerOrderInfo = {
