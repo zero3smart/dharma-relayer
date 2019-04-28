@@ -26,6 +26,72 @@ export async function signDebtOrder(debtOrderInfo) {
   return await convertToRelayerFormat(dharmaDebtOrder);
 }
 
+export async function fillDebtOrder(debtOrder) {
+  const creditor = getDefaultAccount();
+  const originalDebtOrder = debtOrder.dharmaDebtOrder.originalDebtOrder;
+
+  originalDebtOrder.creditor = creditor;
+
+  console.log("fillDebtOrder: " + JSON.stringify(originalDebtOrder));
+  const txHash = await dharma.order.fillAsync(originalDebtOrder, { from: creditor });
+  const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
+
+  debtOrder.txHash = txHash;
+
+  console.log(receipt);
+
+  return debtOrder;
+}
+
+export async function setUnlimitedProxyAllowanceAsync(tokenAddress) {
+  const tx = await dharma.token.setUnlimitedProxyAllowanceAsync(
+    tokenAddress,
+    { from: getDefaultAccount() }
+  );
+  await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
+}
+
+export async function setProxyAllowanceAsync(tokenAddress, allowance) {
+  const tx = await dharma.token.setProxyAllowanceAsync(
+    tokenAddress,
+    allowance,
+    { from: getDefaultAccount() }
+  );
+
+  await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
+}
+
+export function getProxyAllowanceAsync(tokenAddress) {
+  return dharma.token.getProxyAllowanceAsync(tokenAddress, getDefaultAccount());
+}
+
+export async function getSupportedTokens() {
+  const res = {};
+  for (const i in SUPPORTED_TOKENS) {
+    const symbol = SUPPORTED_TOKENS[i];
+    const address = await dharma.contracts.getTokenAddressBySymbolAsync(symbol);
+    res[symbol] = address;
+  }
+  console.log('Supported tokens: ' + JSON.stringify(res))
+  return res;
+}
+
+export async function repayLoan(issuanceHash, amount, token) {
+  const tokenAddress = await tokenService.getTokenAddressBySymbolAsync(token);
+  const rawAmount = await tokenService.convertFromHumanReadable(amount, token);
+  const txHash = await dharma.servicing.makeRepayment(issuanceHash, rawAmount, tokenAddress);
+  return await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
+}
+
+export async function getRemainingRepaymentValue(debtOrder) {
+  const repaid = await dharma.servicing.getValueRepaid(debtOrder.issuanceHash);
+  const principal = await tokenService.convertFromHumanReadable(debtOrder.principalAmount, debtOrder.principalTokenSymbol);
+  const totalRepayments = principal.times(debtOrder.interestRate.plus(1));
+  const res = await tokenService.convertToHumanReadable(totalRepayments.sub(repaid), debtOrder.principalTokenSymbol);
+
+  return res;
+}
+
 export async function convertToRelayerFormat(dharmaDebtOrder){
   const result = {
     kernelAddress: (await dharma.contracts.loadDebtKernelAsync()).address,
@@ -94,7 +160,19 @@ export async function convertFromRelayerFormat(debtOrder) {
   }
 }
 
-export async function parsePlexOrder(json){
+export async function convertToDisplayFormat(dharmaDebtOrder){
+  const adapter = await getAdapterByTermsContractAddress(dharmaDebtOrder.termsContract);
+  const convertedDebtOrder = await adapter.fromDebtOrder(dharmaDebtOrder);
+  convertedDebtOrder.principalAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.principalAmount, convertedDebtOrder.principalTokenSymbol);
+
+  if (convertedDebtOrder.collateralAmount) {
+    convertedDebtOrder.collateralAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol);
+  }
+
+  return convertedDebtOrder;
+}
+
+export function parsePlexOrder(json){
   const plexOrder = JSON.parse(json)
   const dharmaDebtOrder = {
     ...plexOrder,
@@ -112,84 +190,6 @@ export async function parsePlexOrder(json){
   };
 
   return dharmaDebtOrder;
-}
-
-export async function fillDebtOrder(debtOrder) {
-  const creditor = getDefaultAccount();
-  const originalDebtOrder = debtOrder.dharmaDebtOrder.originalDebtOrder;
-
-  originalDebtOrder.creditor = creditor;
-
-  console.log("fillDebtOrder: " + JSON.stringify(originalDebtOrder));
-  const txHash = await dharma.order.fillAsync(originalDebtOrder, { from: creditor });
-  const receipt = await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
-
-  debtOrder.txHash = txHash;
-
-  console.log(receipt);
-
-  return debtOrder;
-}
-
-export async function setUnlimitedProxyAllowanceAsync(tokenAddress) {
-  const tx = await dharma.token.setUnlimitedProxyAllowanceAsync(
-    tokenAddress,
-    { from: getDefaultAccount() }
-  );
-  await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
-}
-
-export async function setProxyAllowanceAsync(tokenAddress, allowance) {
-  const tx = await dharma.token.setProxyAllowanceAsync(
-    tokenAddress,
-    allowance,
-    { from: getDefaultAccount() }
-  );
-
-  await dharma.blockchain.awaitTransactionMinedAsync(tx, 1000, 60000);
-}
-
-export function getProxyAllowanceAsync(tokenAddress) {
-  return dharma.token.getProxyAllowanceAsync(tokenAddress, getDefaultAccount());
-}
-
-export async function getSupportedTokens() {
-  const res = {};
-  for (const i in SUPPORTED_TOKENS) {
-    const symbol = SUPPORTED_TOKENS[i];
-    const address = await dharma.contracts.getTokenAddressBySymbolAsync(symbol);
-    res[symbol] = address;
-  }
-  console.log('Supported tokens: ' + JSON.stringify(res))
-  return res;
-}
-
-export async function repayLoan(issuanceHash, amount, token) {
-  const tokenAddress = await tokenService.getTokenAddressBySymbolAsync(token);
-  const rawAmount = await tokenService.convertFromHumanReadable(amount, token);
-  const txHash = await dharma.servicing.makeRepayment(issuanceHash, rawAmount, tokenAddress);
-  return await dharma.blockchain.awaitTransactionMinedAsync(txHash, 1000, 60000);
-}
-
-export async function getRemainingRepaymentValue(debtOrder) {
-  const repaid = await dharma.servicing.getValueRepaid(debtOrder.issuanceHash);
-  const principal = await tokenService.convertFromHumanReadable(debtOrder.principalAmount, debtOrder.principalTokenSymbol);
-  const totalRepayments = principal.times(debtOrder.interestRate.plus(1));
-  const res = await tokenService.convertToHumanReadable(totalRepayments.sub(repaid), debtOrder.principalTokenSymbol);
-
-  return res;
-}
-
-export async function convertToDisplayFormat(dharmaDebtOrder){
-  const adapter = await getAdapterByTermsContractAddress(dharmaDebtOrder.termsContract);
-  const convertedDebtOrder = await adapter.fromDebtOrder(dharmaDebtOrder);
-  convertedDebtOrder.principalAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.principalAmount, convertedDebtOrder.principalTokenSymbol);
-
-  if (convertedDebtOrder.collateralAmount) {
-    convertedDebtOrder.collateralAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.collateralAmount, convertedDebtOrder.collateralTokenSymbol);
-  }
-
-  return convertedDebtOrder;
 }
 
 async function createSimpleInterestLoan(debtOrderInfo) {
