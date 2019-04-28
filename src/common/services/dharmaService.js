@@ -11,6 +11,9 @@ export async function getKernelVersion() {
   return kernel.address;
 }
 
+// print kernel version durning app initialization
+getKernelVersion().then(version => console.log(`Dharma kernel version: ${version}`));
+
 export async function signDebtOrder(debtOrderInfo) {
   let dharmaDebtOrder;
   const collateral = debtOrderInfo.collateralAmount;
