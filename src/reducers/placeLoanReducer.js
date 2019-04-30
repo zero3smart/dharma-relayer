@@ -5,7 +5,6 @@ export default function (state = {
 }, action) {
   switch(action.type){
     case PLACE_LOAN:
-      console.log(action);
       return { isLoading: true};
     case PLACE_LOAN_SUCCESS:
       return {...state, isLoading: false};

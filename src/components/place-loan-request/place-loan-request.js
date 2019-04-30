@@ -102,7 +102,7 @@ class PlaceLoanRequest extends Component {
     }
   };
 
-  clearState = () => this.setState(initialState)
+  clearState = () => this.setState(initialState);
 
   render() {
     const { handleSubmit, valid, amortizationFrequency } = this.props;
@@ -143,7 +143,12 @@ class PlaceLoanRequest extends Component {
             <label className="loan-request-form__label">Term</label>
           </div>
           <div className="loan-request-form__row loan-request-amount loan-request-input-wrapper">
-            <Field name="term" className="loan-request-form__select loan-request-select-wrapper" component="select">
+            <Field
+              name="term"
+              className="loan-request-form__select loan-request-select-wrapper"
+              component="select"
+              validate={required}>
+              <option value="">Select</option>
               {
                 DAYS.map(day => <option key={day} value={day}>{day}</option>)
               }
@@ -151,7 +156,9 @@ class PlaceLoanRequest extends Component {
             <Field name="term_period"
               className="loan-request-form__select"
               component="select"
-              onChange={this.termChange.bind(this)}>
+              onChange={this.termChange.bind(this)}
+              validate={required}>
+              <option value="">Select</option>
               {
                 PERIODS.map(({ title, value }) => <option key={title} value={value}>{title}</option>)
               }
@@ -209,6 +216,7 @@ class PlaceLoanRequest extends Component {
         <div className="loan-request-form__place-btn-wrapper">
           <button
             className={"loan-request-form__place-btn " + (valid ? "" : "loan-request-form_disabled")}
+            disabled={!valid}
             onClick={handleSubmit(this.placeLoanRequestClick)}>
             PLACE LOAN REQUEST
           </button>
@@ -249,9 +257,6 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'LoanRequestForm',
   initialValues: {
-    interestRate: 1,
-    term: 7,
-    amortizationFrequency: RELAYER_AMORTIZATION_FREQUENCIES["HOURLY"],
     currency: SUPPORTED_TOKENS[0],
     collateralType: SUPPORTED_TOKENS[0]
   }
