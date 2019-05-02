@@ -15,7 +15,7 @@ if (typeof window.web3 !== 'undefined') {
   alert('Please, install metamask.io extension in your browser.');
 }
 
-export default window.web3.currentProvider;
+export default window.web3 && window.web3.currentProvider;
 
 export function getWalletBalanceAsync() {
   return new Promise((resolve, reject) => {
@@ -52,5 +52,5 @@ export function getNetworkAsync() {
 }
 
 export function getDefaultAccount() {
-  return window.web3.eth.accounts[0];
+  return window.web3 && window.web3.eth.accounts[0];
 }

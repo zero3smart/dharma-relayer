@@ -7,8 +7,13 @@ import * as tokenService from './tokenService.js';
 const dharma = new Dharma(web3Provider);
 
 export async function getKernelVersion() {
-  const kernel = await dharma.contracts.loadDebtKernelAsync();
-  return kernel.address;
+  try {
+    const kernel = await dharma.contracts.loadDebtKernelAsync();
+    return kernel.address;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 }
 
 // print kernel version durning app initialization
@@ -72,7 +77,14 @@ export async function getSupportedTokens() {
   const res = {};
   for (const i in SUPPORTED_TOKENS) {
     const symbol = SUPPORTED_TOKENS[i];
-    const address = await dharma.contracts.getTokenAddressBySymbolAsync(symbol);
+    let address;
+    try {
+      address = await dharma.contracts.getTokenAddressBySymbolAsync(symbol);
+    } catch (e) {
+      console.error(e);
+      address = '0x0000000000000000000000000000000000000000';
+    }
+
     res[symbol] = address;
   }
   console.log('Supported tokens: ' + JSON.stringify(res))
@@ -95,7 +107,7 @@ export async function getRemainingRepaymentValue(debtOrder) {
   return res;
 }
 
-export async function convertToRelayerFormat(dharmaDebtOrder){
+export async function convertToRelayerFormat(dharmaDebtOrder) {
   const result = {
     kernelAddress: (await dharma.contracts.loadDebtKernelAsync()).address,
     repaymentRouterAddress: (await dharma.contracts.loadRepaymentRouterAsync()).address,
@@ -163,7 +175,7 @@ export async function convertFromRelayerFormat(debtOrder) {
   }
 }
 
-export async function convertToDisplayFormat(dharmaDebtOrder){
+export async function convertToDisplayFormat(dharmaDebtOrder) {
   const adapter = await getAdapterByTermsContractAddress(dharmaDebtOrder.termsContract);
   const convertedDebtOrder = await adapter.fromDebtOrder(dharmaDebtOrder);
   convertedDebtOrder.principalAmount = await tokenService.convertToHumanReadable(convertedDebtOrder.principalAmount, convertedDebtOrder.principalTokenSymbol);
@@ -175,12 +187,12 @@ export async function convertToDisplayFormat(dharmaDebtOrder){
   return convertedDebtOrder;
 }
 
-export function parsePlexOrder(json){
+export function parsePlexOrder(json) {
   const plexOrder = JSON.parse(json)
   const dharmaDebtOrder = {
     ...plexOrder,
     principalAmount: new BigNumber(plexOrder.principalAmount || 0),
-    debtorFee:new BigNumber(plexOrder.debtorFee || 0),
+    debtorFee: new BigNumber(plexOrder.debtorFee || 0),
     creditorFee: new BigNumber(plexOrder.creditorFee || 0),
     relayerFee: new BigNumber(plexOrder.relayerFee || 0),
     underwriterFee: new BigNumber(plexOrder.underwriterFee || 0),
