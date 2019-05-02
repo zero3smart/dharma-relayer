@@ -79,3 +79,8 @@
   color: #7F879A;
   cursor: not-allowed;
 }
+
+.loan-table-small__btn_cancel{
+  display: none;
+  background-color: #B51313;
+}
