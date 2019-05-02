@@ -47,16 +47,16 @@ class PlaceLoanRequest extends Component {
     this.renderCurrencyOptions = this.renderCurrencyOptions.bind(this);
   }
 
-  state = initialState
+  state = initialState;
 
   placeLoanRequestClick = (values) => {
-    const amortizationPeriod = getAmortizationPeriodByFrequency(values.amortizationFrequency)
+    const amortizationPeriod = getAmortizationPeriodByFrequency(values.amortizationFrequency);
     this.props.showLoanConfirmation({
       ...values,
       amortizationFrequency: values.amortizationFrequency || termValues[values.term].amortizationFrequencies[0],
       amortizationUnit: amortizationPeriod && amortizationPeriod.dharmaUnit
     });
-  }
+  };
 
   renderCurrencyOptions() {
     return SUPPORTED_TOKENS.map(symbol => {
@@ -69,13 +69,13 @@ class PlaceLoanRequest extends Component {
   }
 
   openShareModal = () =>
-    this.setState({ isShareLoanModalOpen: true })
+    this.setState({ isShareLoanModalOpen: true });
 
   closeShareModal = () =>
-    this.setState({ isShareLoanModalOpen: false })
+    this.setState({ isShareLoanModalOpen: false });
 
   handleSignedLoanRequest = () =>
-    this.openShareModal()
+    this.openShareModal();
 
   submitShareLoan = (json) => {
     if (json) {
