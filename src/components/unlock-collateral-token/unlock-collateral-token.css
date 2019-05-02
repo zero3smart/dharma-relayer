@@ -1,6 +1,10 @@
 .unlock-tokens__list{
   list-style-type: disc;
-  list-style-position: inside;
+  list-style-position: outside;
+  margin-left: 15px;
+}
+.unlock-tokens__list li {
+  margin-bottom: 10px;
 }
 
 .unlock-tokens__toggle-row{

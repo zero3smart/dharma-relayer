@@ -9,9 +9,8 @@ class ConfirmLoanRequest extends Component {
     let { amount, currency, term, interestRate, amortizationFrequency, amortizationUnit, collateralAmount, collateralType } = values;
 
     let numberOfPayments = term;
-    let interestRateInPercent = new BigNumber(interestRate).div(100);
-    let repaymentAmount = calculateRepaymentAmount(amount, interestRateInPercent, term);
-    let totalPaymentAmount = calculateTotalPaymentAmount(amount, interestRateInPercent);
+    let repaymentAmount = calculateRepaymentAmount(amount, interestRate, term);
+    let totalPaymentAmount = calculateTotalPaymentAmount(amount, interestRate);
 
     return (
       <div>
@@ -24,7 +23,7 @@ class ConfirmLoanRequest extends Component {
           isLoading={isLoading}>
 
           <div className="confirm__row">
-            Loan amount: <strong>{new BigNumber(amount).toFormat(3)}</strong> {currency}
+            Loan amount: <strong>{new BigNumber(amount).toFormat(5)}</strong> {currency}
           </div>
           <div className="confirm__row">
             Loan term: <strong>{term}</strong> {amortizationUnit}
@@ -35,7 +34,7 @@ class ConfirmLoanRequest extends Component {
           {
             collateralAmount && (
               <div className="confirm__row">
-                Collateral amount: <strong>{new BigNumber(collateralAmount).toFormat(3)}</strong> {collateralType}
+                Collateral amount: <strong>{new BigNumber(collateralAmount).toFormat(5)}</strong> {collateralType}
               </div>
             )
           }

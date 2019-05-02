@@ -105,7 +105,7 @@ class PlaceLoanRequest extends Component {
   clearState = () => this.setState(initialState);
 
   render() {
-    const { handleSubmit, valid, amortizationFrequency } = this.props;
+    const { handleSubmit, valid, pristine, amortizationFrequency } = this.props;
 
     return (
       <div className="loan-request-form">
@@ -215,8 +215,8 @@ class PlaceLoanRequest extends Component {
         </div>
         <div className="loan-request-form__place-btn-wrapper">
           <button
-            className={"loan-request-form__place-btn " + (valid ? "" : "loan-request-form_disabled")}
-            disabled={!valid}
+            className="loan-request-form__place-btn"
+            disabled={!valid || pristine}
             onClick={handleSubmit(this.placeLoanRequestClick)}>
             PLACE LOAN REQUEST
           </button>
