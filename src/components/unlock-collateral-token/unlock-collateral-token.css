@@ -1,7 +1,8 @@
 .unlock-tokens__list{
   list-style-type: disc;
   list-style-position: outside;
-  margin-left: 15px;
+  margin: 10px 0 0 15px;
+  min-height: 38px;
 }
 .unlock-tokens__list li {
   margin-bottom: 10px;

@@ -1,6 +1,5 @@
 import React from "react"
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import { Modal, ModalBody } from '../modal/modal';
 import ConfirmFund from '../confirm-fund/confirm-fund';
 import UnlockLendingToken from '../unlock-lending-token/unlock-lending-token.js';
@@ -10,13 +9,10 @@ import {
   fillLoanRequest,
   lockToken,
   unlockToken,
-  getTokenLock,
+  getTokenBalance,
   changeFundConfirmationStep,
-  showFundConfirmation,
   hideFundConfirmation,
-  runGlobalUpdate,
-  FILL_LOAN_SUCCESS,
-  FILL_LOAN_FAIL
+  runGlobalUpdate
 } from "../../actions";
 
 class FundLoanModal extends React.Component {
@@ -35,11 +31,12 @@ class FundLoanModal extends React.Component {
     />
   );
 
-  fillLoanRequestHandler = (values) => {
-    const { fillLoanRequest, runGlobalUpdate, changeStep, fundConfirmation:{ stepNumber } } = this.props;
-    fillLoanRequest(values, () => {
+  fillLoanRequestHandler = (debtOrder) => {
+    let { fillLoanRequest, runGlobalUpdate, changeStep, fundConfirmation:{ stepNumber }, getTokenBalance } = this.props;
+    fillLoanRequest(debtOrder, () => {
       changeStep(stepNumber + 1);
       runGlobalUpdate();
+      getTokenBalance(debtOrder.dharmaDebtOrder.principalTokenSymbol);
     });
   };
 
@@ -52,12 +49,8 @@ class FundLoanModal extends React.Component {
       fundConfirmation,
       fillLoan,
       changeStep,
-      unlockToken,
-      getTokenLock,
-      hideFundConfirmation
+      unlockToken
     } = this.props;
-
-    console.log(fundConfirmation);
 
     let renderUnlockStep = false;
     let renderReviewStep = false;
@@ -67,8 +60,6 @@ class FundLoanModal extends React.Component {
       renderReviewStep = fundConfirmation.stepNumber === 2;
       renderFinalStep = fundConfirmation.stepNumber === 3;
     }
-
-    // fundConfirmation.loanRequest && getTokenLock(fundConfirmation.loanRequest.dharmaDebtOrder.principalTokenSymbol);
 
     return (
       <Modal show={fundConfirmation.modalVisible} size="md" onModalClosed={this.modalClosed.bind(this)}>
@@ -101,6 +92,7 @@ class FundLoanModal extends React.Component {
           {
             renderFinalStep &&
             <FillLoanSuccess
+              loanRequest = {fundConfirmation.loanRequest}
               onConfirm={this.cancelLoanRequest}/>
           }
         </ModalBody>
@@ -118,9 +110,6 @@ const mapDispatchToProps = (dispatch) => ({
   fillLoanRequest(order, callback) {
     dispatch(fillLoanRequest(order, callback))
   },
-  // showFundConfirmation() {
-  //   dispatch(showFundConfirmation());
-  // },
   hideFundConfirmation() {
     dispatch(hideFundConfirmation());
   },
@@ -130,6 +119,9 @@ const mapDispatchToProps = (dispatch) => ({
   runGlobalUpdate() {
     dispatch(runGlobalUpdate());
   },
+  getTokenBalance(token) {
+    dispatch(getTokenBalance(token));
+  },
   unlockToken(token, unlock){
     if (unlock) {
       dispatch(unlockToken(token))
@@ -137,19 +129,6 @@ const mapDispatchToProps = (dispatch) => ({
     else {
       dispatch(lockToken(token))
     }
-  },
-  getTokenLock(token){
-    dispatch(getTokenLock(token))
-  },
-  fillLoanRequestSuccess() {
-    dispatch({
-      type: FILL_LOAN_SUCCESS
-    });
-  },
-  fillLoanRequestFail() {
-    dispatch({
-      type: FILL_LOAN_FAIL
-    });
   }
 });
 
