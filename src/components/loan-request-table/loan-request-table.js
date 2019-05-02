@@ -58,7 +58,7 @@ function LoanRequestsTable(props) {
             <a className="nav-link active" href="#">{props.header}</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link disabled" href="#" title="Coming soon">Secondary loan trading</a>
+            <a className="nav-link disabled" href="#" title="Coming soon">Secondary trading</a>
           </li>
         </ul>
       </div>

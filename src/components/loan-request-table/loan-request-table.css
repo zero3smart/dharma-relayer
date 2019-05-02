@@ -40,6 +40,7 @@
 
 .loan-table__primary-cell {
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .loan-table__small-cell {
