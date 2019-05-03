@@ -10,6 +10,9 @@ import ShareLoanModal from "./ShareLoanModal"
 import { convertToRelayer } from "../../utils/relayer-adapter";
 import { parsePlexOrder, convertToDisplayFormat } from '../../common/services/dharmaService';
 import { DEFAULT_LOAN_REQUEST, termValues, DAYS, PERIODS } from "./constants";
+import { getDefaultAccount } from '../../common/services/web3Service';
+import { getTokenBalanceAsync } from '../../common/services/tokenService';
+import BigNumber from 'bignumber.js';
 
 let floatOnly = (value, size) => {
   if (value === null || value === '' || value === undefined) {
@@ -24,6 +27,15 @@ let floatOnly = (value, size) => {
 const floatOnlyPct = (value) => floatOnly(value, 3);
 const floatOnlyNum = (value) => floatOnly(value, 6);
 
+const lessThan = (otherField, balance) =>
+    (value, previousValue, allValues) => {
+        let collateralAmount = new BigNumber(parseInt(allValues['collateralAmount']));
+        if (balance.greaterThan(collateralAmount))
+            return value;
+
+        return previousValue;
+    }
+
 const required = value => (!value);
 
 
@@ -37,6 +49,7 @@ const initialState = {
   isShareLoanModalOpen: false,
   debtOrder: null,
   isShareLoanRequest: false,
+  currentBalance: new BigNumber(0)
 }
 
 class PlaceLoanRequest extends Component {
@@ -103,6 +116,17 @@ class PlaceLoanRequest extends Component {
   };
 
   clearState = () => this.setState(initialState);
+
+  componentWillReceiveProps = (nextProps) => {
+      let token = nextProps.collateralType;
+      getTokenBalanceAsync(token, getDefaultAccount()).then(res => {
+          let balance = new BigNumber(res.c[0]);
+          this.setState({ currentBalance: balance });
+      })
+          .catch(err => {
+              alert(err);
+          });
+  };
 
   render() {
     const { handleSubmit, valid, pristine, amortizationFrequency } = this.props;
@@ -205,7 +229,9 @@ class PlaceLoanRequest extends Component {
               className="loan-request-form__input"
               placeholder="0"
               component="input"
-              normalize={floatOnlyNum} />
+              normalize = {
+                  lessThan('collateralType', this.state.currentBalance)
+              } />
           </div>
           <div className="loan-request-form__select-wrapper">
             <Field name="collateralType" className="loan-request-form__select" component="select">
@@ -240,6 +266,8 @@ const selector = formValueSelector('LoanRequestForm');
 
 const mapStateToProps = state => ({
   amortizationFrequency: selector(state, 'amortizationFrequency'),
+  collateralAmount: selector(state, 'collateralAmount'),
+  collateralType: selector(state, 'collateralType')
 });
 
 const mapDispatchToProps = (dispatch) => ({
