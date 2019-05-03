@@ -54,6 +54,7 @@
 .loan-table__date-cell {
   width: 10%;
   padding: 5px 6px;
+  white-space: nowrap;
 }
 
 .scrollable-table__table-body .loan-table__table-cell {
