@@ -51,3 +51,17 @@
   color: #7F879A;
   cursor: not-allowed;
 }
+
+.confirm__disclosure p {
+  margin-bottom: 10px;
+}
+
+.confirm__disclosure label {
+  cursor: pointer;
+  color: #fff;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.confirm__disclosure input[type=checkbox] {
+  margin-right: 5px;
+}

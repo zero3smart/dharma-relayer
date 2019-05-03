@@ -1,6 +1,4 @@
 import React from "react"
-import { Modal, ModalBody } from "../../components/modal/modal"
-import { SUPPORTED_TOKENS } from "../../common/api/config";
 import "./repay-modal.css"
 import { connect } from "react-redux";
 import { selectCurrency, getWalletInfo } from '../../actions';

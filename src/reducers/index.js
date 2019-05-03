@@ -17,8 +17,8 @@ import placeLoanReducer from './placeLoanReducer';
 import fillLoanReducer from './fillLoanReducer';
 import tokenBalancesReducer from './tokenBalancesReducer';
 import debtOrderConfirmationReducer from './debtOrderConfirmationReducer';
-import { SUPPORTED_TOKENS } from '../common/api/config';
-import repayLoanReducer from "./repayLoanReducer";
+import repayLoanReducer from './repayLoanReducer';
+import disclosureConfirmationReducer from './disclosureConfirmationReducer';
 
 function walletInfoReducer(state = {
   address: getDefaultAccount(),
@@ -52,6 +52,7 @@ const rootReducer = combineReducers({
   myOutstandingLoans: myOutstandingLoansReducer,
   debtOrderConfirmation: debtOrderConfirmationReducer,
   fundConfirmation: fundConfirmationReducer,
+  disclosureConfirmation: disclosureConfirmationReducer,
   placeLoan: placeLoanReducer,
   fillLoan: fillLoanReducer,
   repayLoan: repayLoanReducer,
