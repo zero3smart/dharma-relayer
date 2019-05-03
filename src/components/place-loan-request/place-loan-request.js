@@ -27,13 +27,18 @@ let floatOnly = (value, size) => {
 const floatOnlyPct = (value) => floatOnly(value, 3);
 const floatOnlyNum = (value) => floatOnly(value, 6);
 
-const lessThan = (otherField, balance) =>
+const greaterThan = (otherField, balance) =>
     (value, previousValue, allValues) => {
-        let collateralAmount = new BigNumber(parseInt(allValues['collateralAmount']));
-        if (balance.greaterThan(collateralAmount))
-            return value;
+      let collateralAmount;
+      if (value === "")
+        collateralAmount = new BigNumber(0);
+      else
+        collateralAmount = new BigNumber(parseInt(value));
 
-        return previousValue;
+      if (balance.greaterThan(collateralAmount))
+          return value;
+
+      return previousValue;
     }
 
 const required = value => (!value);
@@ -230,7 +235,7 @@ class PlaceLoanRequest extends Component {
               placeholder="0"
               component="input"
               normalize = {
-                  lessThan('collateralType', this.state.currentBalance)
+                  greaterThan('collateralType', this.state.currentBalance)
               } />
           </div>
           <div className="loan-request-form__select-wrapper">
